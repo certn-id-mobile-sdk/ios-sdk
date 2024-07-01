@@ -1,0 +1,54 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/yuri/Library/Developer/Xcode/DerivedData/CertnIDMobileSDK-coeddxkbwakpgrdbqbztrewejxmh/Build/Intermediates.noindex/ArchiveIntermediates/CertnIDMobileSDK/InstallationBuildProductsLocation/Library/Frameworks/CertnIDMobileSDK.framework/CertnIDMobileSDK'
+relocations:
+  - { offsetInCU: 0x34, offset: 0x74378, size: 0x8, addend: 0x0, symName: _CertnIDMobileSDKVersionString, symObjAddr: 0x0, symBinAddr: 0x4570, symSize: 0x0 }
+  - { offsetInCU: 0x69, offset: 0x743AD, size: 0x8, addend: 0x0, symName: _CertnIDMobileSDKVersionNumber, symObjAddr: 0x40, symBinAddr: 0x45B0, symSize: 0x0 }
+  - { offsetInCU: 0xA6, offset: 0x74469, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOSQAASQ2eeoiySbx_xtFZTW', symObjAddr: 0x70, symBinAddr: 0x1DF0, symSize: 0x10 }
+  - { offsetInCU: 0xE2, offset: 0x744A5, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOSHAASH9hashValueSivgTW', symObjAddr: 0x80, symBinAddr: 0x1E00, symSize: 0x40 }
+  - { offsetInCU: 0x1C6, offset: 0x74589, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOSHAASH4hash4intoys6HasherVz_tFTW', symObjAddr: 0xC0, symBinAddr: 0x1E40, symSize: 0x20 }
+  - { offsetInCU: 0x314, offset: 0x746D7, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOWOy', symObjAddr: 0x150, symBinAddr: 0x1ED0, symSize: 0x40 }
+  - { offsetInCU: 0x546, offset: 0x74909, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOWOe', symObjAddr: 0x4F0, symBinAddr: 0x2270, symSize: 0x40 }
+  - { offsetInCU: 0x55A, offset: 0x7491D, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOSHAASQWb', symObjAddr: 0x560, symBinAddr: 0x22E0, symSize: 0x10 }
+  - { offsetInCU: 0x56E, offset: 0x74931, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOACSQAAWl', symObjAddr: 0x570, symBinAddr: 0x22F0, symSize: 0x30 }
+  - { offsetInCU: 0x582, offset: 0x74945, size: 0x8, addend: 0x0, symName: ___swift_memcpy1_1, symObjAddr: 0x5A0, symBinAddr: 0x2320, symSize: 0x10 }
+  - { offsetInCU: 0x596, offset: 0x74959, size: 0x8, addend: 0x0, symName: ___swift_noop_void_return, symObjAddr: 0x5B0, symBinAddr: 0x2330, symSize: 0x10 }
+  - { offsetInCU: 0x5AA, offset: 0x7496D, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOwet', symObjAddr: 0x5C0, symBinAddr: 0x2340, symSize: 0x80 }
+  - { offsetInCU: 0x5BE, offset: 0x74981, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOwst', symObjAddr: 0x640, symBinAddr: 0x23C0, symSize: 0xD0 }
+  - { offsetInCU: 0x5D2, offset: 0x74995, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOwug', symObjAddr: 0x710, symBinAddr: 0x2490, symSize: 0x10 }
+  - { offsetInCU: 0x5E6, offset: 0x749A9, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOwup', symObjAddr: 0x720, symBinAddr: 0x24A0, symSize: 0x10 }
+  - { offsetInCU: 0x5FA, offset: 0x749BD, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOwui', symObjAddr: 0x730, symBinAddr: 0x24B0, symSize: 0x10 }
+  - { offsetInCU: 0x60E, offset: 0x749D1, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOMa', symObjAddr: 0x740, symBinAddr: 0x24C0, symSize: 0x10 }
+  - { offsetInCU: 0x622, offset: 0x749E5, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A18IDSDKConfigurationCMa', symObjAddr: 0x750, symBinAddr: 0x24D0, symSize: 0x20 }
+  - { offsetInCU: 0x636, offset: 0x749F9, size: 0x8, addend: 0x0, symName: '_$ss29getContiguousArrayStorageType3fors01_bcD0CyxGmxm_tlF11DotFaceCore0gH6Module_p_Tgm5', symObjAddr: 0x7A0, symBinAddr: 0x2520, symSize: 0x20 }
+  - { offsetInCU: 0x64E, offset: 0x74A11, size: 0x8, addend: 0x0, symName: '_$ss29getContiguousArrayStorageType3fors01_bcD0CyxGmxm_tlF7DotCore0G7Library_p_Tgm5', symObjAddr: 0x7C0, symBinAddr: 0x2540, symSize: 0x20 }
+  - { offsetInCU: 0x6FF, offset: 0x74AC2, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledName, symObjAddr: 0x940, symBinAddr: 0x26C0, symSize: 0x40 }
+  - { offsetInCU: 0x738, offset: 0x74AFB, size: 0x8, addend: 0x0, symName: '_$ss22_ContiguousArrayBufferV19_uninitializedCount15minimumCapacityAByxGSi_SitcfC7DotCore0H7Library_p_Tgm5', symObjAddr: 0x980, symBinAddr: 0x2700, symSize: 0x90 }
+  - { offsetInCU: 0x896, offset: 0x74C59, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryOSHAASH13_rawHashValue4seedS2i_tFTW', symObjAddr: 0xE0, symBinAddr: 0x1E60, symSize: 0x40 }
+  - { offsetInCU: 0xBBD, offset: 0x74F80, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryO2eeoiySbAC_ACtFZ', symObjAddr: 0x0, symBinAddr: 0x1D80, symSize: 0x10 }
+  - { offsetInCU: 0xC00, offset: 0x74FC3, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryO4hash4intoys6HasherVz_tF', symObjAddr: 0x10, symBinAddr: 0x1D90, symSize: 0x20 }
+  - { offsetInCU: 0xC8B, offset: 0x7504E, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A9IDLibraryO9hashValueSivg', symObjAddr: 0x30, symBinAddr: 0x1DB0, symSize: 0x40 }
+  - { offsetInCU: 0xD95, offset: 0x75158, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A18IDSDKConfigurationC11licenseData10Foundation0F0Vvg', symObjAddr: 0x120, symBinAddr: 0x1EA0, symSize: 0x30 }
+  - { offsetInCU: 0xDB8, offset: 0x7517B, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A18IDSDKConfigurationC9librariesSayAA0A9IDLibraryOGvg', symObjAddr: 0x190, symBinAddr: 0x1F10, symSize: 0x10 }
+  - { offsetInCU: 0xE1C, offset: 0x751DF, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A18IDSDKConfigurationC11licenseData9librariesAC10Foundation0F0V_SayAA0A9IDLibraryOGtcfC', symObjAddr: 0x1A0, symBinAddr: 0x1F20, symSize: 0x40 }
+  - { offsetInCU: 0xE61, offset: 0x75224, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A18IDSDKConfigurationC11licenseData9librariesAC10Foundation0F0V_SayAA0A9IDLibraryOGtcfc', symObjAddr: 0x1E0, symBinAddr: 0x1F60, symSize: 0x20 }
+  - { offsetInCU: 0xF36, offset: 0x752F9, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A18IDSDKConfigurationC19dotSdkConfiguration7DotCore0hfG0Cvg', symObjAddr: 0x200, symBinAddr: 0x1F80, symSize: 0x2D0 }
+  - { offsetInCU: 0x12FA, offset: 0x756BD, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A18IDSDKConfigurationCfd', symObjAddr: 0x4D0, symBinAddr: 0x2250, symSize: 0x20 }
+  - { offsetInCU: 0x132B, offset: 0x756EE, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0A18IDSDKConfigurationCfD', symObjAddr: 0x530, symBinAddr: 0x22B0, symSize: 0x30 }
+  - { offsetInCU: 0x13A3, offset: 0x75766, size: 0x8, addend: 0x0, symName: '_$ss12_ArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF7DotCore0O7Library_p_Tg5', symObjAddr: 0x7E0, symBinAddr: 0x2560, symSize: 0x160 }
+  - { offsetInCU: 0x14FF, offset: 0x758C2, size: 0x8, addend: 0x0, symName: '_$ss12_ArrayBufferV13_copyContents8subRange12initializingSpyxGSnySiG_AFtF7DotCore0H7Library_p_Tg5', symObjAddr: 0xA10, symBinAddr: 0x2790, symSize: 0x122 }
+  - { offsetInCU: 0x4B, offset: 0x75A4D, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkC6sharedACvpZ', symObjAddr: 0x540, symBinAddr: 0x59F8, symSize: 0x0 }
+  - { offsetInCU: 0x129, offset: 0x75B2B, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkC6shared_WZ', symObjAddr: 0x0, symBinAddr: 0x28C0, symSize: 0x30 }
+  - { offsetInCU: 0x16A, offset: 0x75B6C, size: 0x8, addend: 0x0, symName: '_$sypSgWOh', symObjAddr: 0x210, symBinAddr: 0x2AD0, symSize: 0x30 }
+  - { offsetInCU: 0x1B3, offset: 0x75BB5, size: 0x8, addend: 0x0, symName: '_$sypWOc', symObjAddr: 0x3B0, symBinAddr: 0x2C30, symSize: 0x30 }
+  - { offsetInCU: 0x1C7, offset: 0x75BC9, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkCMa', symObjAddr: 0x3E0, symBinAddr: 0x2C60, symSize: 0x20 }
+  - { offsetInCU: 0x3B7, offset: 0x75DB9, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkC6sharedACvgZ', symObjAddr: 0x30, symBinAddr: 0x28F0, symSize: 0x30 }
+  - { offsetInCU: 0x3E4, offset: 0x75DE6, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkC13isInitializedSbvg', symObjAddr: 0x60, symBinAddr: 0x2920, symSize: 0x30 }
+  - { offsetInCU: 0x40C, offset: 0x75E0E, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkC7versionSSvg', symObjAddr: 0x90, symBinAddr: 0x2950, symSize: 0x180 }
+  - { offsetInCU: 0x440, offset: 0x75E42, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkC10initializeyyAA0A18IDSDKConfigurationCKF', symObjAddr: 0x280, symBinAddr: 0x2B00, symSize: 0x60 }
+  - { offsetInCU: 0x471, offset: 0x75E73, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkC12deinitializeyyKF', symObjAddr: 0x2E0, symBinAddr: 0x2B60, symSize: 0x40 }
+  - { offsetInCU: 0x498, offset: 0x75E9A, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkCfd', symObjAddr: 0x320, symBinAddr: 0x2BA0, symSize: 0x10 }
+  - { offsetInCU: 0x4BB, offset: 0x75EBD, size: 0x8, addend: 0x0, symName: '_$s16CertnIDMobileSDK0aB3SdkCfD', symObjAddr: 0x330, symBinAddr: 0x2BB0, symSize: 0x20 }
+  - { offsetInCU: 0x4EB, offset: 0x75EED, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSS_Tg5', symObjAddr: 0x350, symBinAddr: 0x2BD0, symSize: 0x60 }
+  - { offsetInCU: 0x536, offset: 0x75F38, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFSS_Tg5', symObjAddr: 0x460, symBinAddr: 0x2CE0, symSize: 0xD9 }
+...

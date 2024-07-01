@@ -1,0 +1,40 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name CertnIDMobileSDK
+@_exported import CertnIDMobileSDK
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public enum CertnIDLibrary {
+  case face
+  case document
+  @available(iOS 13, *)
+  case nfc
+  public static func == (a: CertnIDMobileSDK.CertnIDLibrary, b: CertnIDMobileSDK.CertnIDLibrary) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+final public class CertnIDSDKConfiguration {
+  final public let licenseData: Foundation.Data
+  final public let libraries: [CertnIDMobileSDK.CertnIDLibrary]
+  public init(licenseData: Foundation.Data, libraries: [CertnIDMobileSDK.CertnIDLibrary])
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class CertnIDMobileSdk {
+  public static let shared: CertnIDMobileSDK.CertnIDMobileSdk
+  public var isInitialized: Swift.Bool {
+    get
+  }
+  public var version: Swift.String {
+    get
+  }
+  public func initialize(_ configuration: CertnIDMobileSDK.CertnIDSDKConfiguration) throws
+  public func deinitialize() throws
+  @objc deinit
+}
+extension CertnIDMobileSDK.CertnIDLibrary : Swift.Equatable {}
+extension CertnIDMobileSDK.CertnIDLibrary : Swift.Hashable {}

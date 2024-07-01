@@ -1,0 +1,655 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DotDocument
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import CommonCrypto
+import DotCamera
+import DotCapture
+import DotCore
+@_exported import DotDocument
+import DotProtocolBuffers
+import Foundation
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import sam
+@objc(DOTDMrzRecognitionResult) final public class MrzRecognitionResult : ObjectiveC.NSObject {
+  @objc final public let rawLines: [Swift.String]
+  @objc final public let machineReadableZone: DotDocument.MachineReadableZone?
+  @objc public init(rawLines: [Swift.String], machineReadableZone: DotDocument.MachineReadableZone?)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDMrzNotValidValidator) final public class MrzNotValidValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc override convenience dynamic public init()
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDDocumentDetector) final public class DocumentDetector : ObjectiveC.NSObject {
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDDocumentDetectorResult) final public class Result : ObjectiveC.NSObject {
+    @objc final public let confidence: Swift.Double
+    @objc final public let widthToHeightRatio: DotCore.WrappedDouble
+    @objc final public let corners: DotCore.Corners
+    @objc public init(confidence: Swift.Double, widthToHeightRatio: DotCore.WrappedDouble, corners: DotCore.Corners)
+    @objc override final public var description: Swift.String {
+      @objc get
+    }
+    @objc deinit
+  }
+  @objc final public func detect(bgraRawImage: DotCore.BgraRawImage) throws -> DotDocument.DocumentDetector.Result
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDImageParameters) final public class ImageParameters : ObjectiveC.NSObject {
+  @objc public init(sharpness: Swift.Double, brightness: Swift.Double, hotspotsScore: Swift.Double)
+  @objc final public let brightness: Swift.Double
+  @objc final public let sharpness: Swift.Double
+  @objc final public let hotspotsScore: Swift.Double
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDSharpnessTooLowValidator) final public class SharpnessTooLowValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc public static let defaultThreshold: Swift.Double
+  @objc final public let threshold: Swift.Double
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc public init(threshold: Swift.Double)
+  @objc override convenience dynamic public init()
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDDocumentOutOfBoundsValidator) final public class DocumentOutOfBoundsValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc public static let defaultMinCornerDistanceToImageShorterSideRatioThreshold: Swift.Double
+  @objc final public let minCornerDistanceToImageShorterSideRatioThreshold: Swift.Double
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc public init(minCornerDistanceToImageShorterSideRatioThreshold: Swift.Double)
+  @objc override convenience dynamic public init()
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDDocumentNotDetectedValidator) final public class DocumentNotDetectedValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc public static let defaultMinConfidenceThreshold: Swift.Double
+  @objc final public let minConfidenceThreshold: Swift.Double
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc public init(minConfidenceThreshold: Swift.Double)
+  @objc override convenience dynamic public init()
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDBrightnessTooHighValidator) final public class BrightnessTooHighValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc public static let defaultThreshold: Swift.Double
+  @objc final public let threshold: Swift.Double
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc public init(threshold: Swift.Double)
+  @objc override convenience dynamic public init()
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+@objc(DOTDPlaceholderType) public enum PlaceholderType : Swift.Int, Swift.CustomStringConvertible {
+  case cornersOnly
+  case cornersAndMrzFillers
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc(DOTDDocumentAutoCaptureConfiguration) final public class DocumentAutoCaptureConfiguration : ObjectiveC.NSObject, DotCamera._CameraConfiguration {
+  public struct Defaults {
+    public static let validationMode: DotDocument.ValidationMode
+    public static let mrzValidation: DotDocument.MrzValidation
+    public static let isDetectionLayerVisible: Swift.Bool
+    public static let isTorchEnabled: Swift.Bool
+    public static let cameraFacing: DotCamera.CameraFacing
+    public static let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+    public static let placeholderType: DotDocument.PlaceholderType
+  }
+  @objc final public let qualityAttributeThresholds: DotDocument.DocumentAutoCaptureConfiguration.QualityAttributeThresholds
+  @objc final public let validationMode: DotDocument.ValidationMode
+  @objc final public let mrzValidation: DotDocument.MrzValidation
+  @objc final public let isDetectionLayerVisible: Swift.Bool
+  @objc final public let isTorchEnabled: Swift.Bool
+  @objc final public let cameraFacing: DotCamera.CameraFacing
+  @objc final public let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+  @objc final public let placeholderType: DotDocument.PlaceholderType
+  @objc final public let sessionToken: Swift.String?
+  @objc override convenience dynamic public init()
+  @objc public init(sessionToken: Swift.String? = nil, qualityAttributeThresholds: DotDocument.DocumentAutoCaptureConfiguration.QualityAttributeThresholds = QualityAttributeThresholdPresets.standard.build(), validationMode: DotDocument.ValidationMode = Defaults.validationMode, mrzValidation: DotDocument.MrzValidation = Defaults.mrzValidation, isDetectionLayerVisible: Swift.Bool = Defaults.isDetectionLayerVisible, isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType = Defaults.cameraPreviewScaleType, placeholderType: DotDocument.PlaceholderType = Defaults.placeholderType)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+extension DotDocument.DocumentAutoCaptureConfiguration {
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDQualityAttributeThresholds) final public class QualityAttributeThresholds : ObjectiveC.NSObject {
+    @_inheritsConvenienceInitializers @objc(DOTDQualityAttributeThresholdsBuilder) final public class Builder : ObjectiveC.NSObject {
+      @objc override dynamic public init()
+      @discardableResult
+      @objc final public func minConfidence(_ minConfidence: DotCore.WrappedDouble?) throws -> DotDocument.DocumentAutoCaptureConfiguration.QualityAttributeThresholds.Builder
+      @discardableResult
+      @objc final public func minSize(_ minSize: DotCore.WrappedDouble?) throws -> DotDocument.DocumentAutoCaptureConfiguration.QualityAttributeThresholds.Builder
+      @discardableResult
+      @objc final public func minSharpness(_ minSharpness: DotCore.WrappedDouble?) throws -> DotDocument.DocumentAutoCaptureConfiguration.QualityAttributeThresholds.Builder
+      @discardableResult
+      @objc final public func brightnessInterval(_ brightnessInterval: DotCore.IntervalDouble?) throws -> DotDocument.DocumentAutoCaptureConfiguration.QualityAttributeThresholds.Builder
+      @discardableResult
+      @objc final public func maxHotspotsScore(_ maxHotspotsScore: DotCore.WrappedDouble?) throws -> DotDocument.DocumentAutoCaptureConfiguration.QualityAttributeThresholds.Builder
+      @objc final public func build() -> DotDocument.DocumentAutoCaptureConfiguration.QualityAttributeThresholds
+      @objc deinit
+    }
+    @objc final public let minConfidence: DotCore.WrappedDouble?
+    @objc final public let minSize: DotCore.WrappedDouble?
+    @objc final public let minSharpness: DotCore.WrappedDouble?
+    @objc final public let brightnessInterval: DotCore.IntervalDouble?
+    @objc final public let maxHotspotsScore: DotCore.WrappedDouble?
+    @objc override final public var description: Swift.String {
+      @objc get
+    }
+    @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+    @objc override final public var hash: Swift.Int {
+      @objc get
+    }
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDQualityAttributeThresholdPresets) final public class QualityAttributeThresholdPresets : ObjectiveC.NSObject {
+    @objc public static var standard: DotDocument.DocumentAutoCaptureConfiguration.QualityAttributeThresholds.Builder {
+      @objc get
+    }
+    @objc deinit
+  }
+}
+@objc(DOTDValidationMode) public enum ValidationMode : Swift.Int, Swift.CustomStringConvertible {
+  case standard
+  case strict
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc(DOTDDocumentAutoCaptureStyle) final public class DocumentAutoCaptureStyle : ObjectiveC.NSObject {
+  public struct Defaults {
+    public static let backgroundColor: UIKit.UIColor
+    public static let instructionFont: UIKit.UIFont
+    public static let instructionTextColor: UIKit.UIColor
+    public static let instructionCandidateSelectionTextColor: UIKit.UIColor
+    public static let instructionBackgroundColor: UIKit.UIColor
+    public static let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
+    public static let placeholderColor: UIKit.UIColor
+    public static let placeholderCandidateSelectionColor: UIKit.UIColor
+    public static let detectionLayerColor: UIKit.UIColor
+    public static let overlayColor: UIKit.UIColor
+  }
+  @objc final public let backgroundColor: UIKit.UIColor
+  @objc final public let instructionFont: UIKit.UIFont
+  @objc final public let instructionTextColor: UIKit.UIColor
+  @objc final public let instructionCandidateSelectionTextColor: UIKit.UIColor
+  @objc final public let instructionBackgroundColor: UIKit.UIColor
+  @objc final public let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
+  @objc final public let placeholderColor: UIKit.UIColor
+  @objc final public let placeholderCandidateSelectionColor: UIKit.UIColor
+  @objc final public let detectionLayerColor: UIKit.UIColor
+  @objc final public let overlayColor: UIKit.UIColor
+  @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, instructionFont: UIKit.UIFont = Defaults.instructionFont, instructionTextColor: UIKit.UIColor = Defaults.instructionTextColor, instructionCandidateSelectionTextColor: UIKit.UIColor = Defaults.instructionCandidateSelectionTextColor, instructionBackgroundColor: UIKit.UIColor = Defaults.instructionBackgroundColor, instructionCandidateSelectionBackgroundColor: UIKit.UIColor = Defaults.instructionCandidateSelectionBackgroundColor, placeholderColor: UIKit.UIColor = Defaults.placeholderColor, placeholderCandidateSelectionColor: UIKit.UIColor = Defaults.placeholderCandidateSelectionColor, detectionLayerColor: UIKit.UIColor = Defaults.detectionLayerColor, overlayColor: UIKit.UIColor = Defaults.overlayColor)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDTd3MachineReadableZone) final public class Td3MachineReadableZone : ObjectiveC.NSObject {
+  @objc final public let documentCode: DotDocument.MrzElement
+  @objc final public let issuingStateOrOrganization: DotDocument.MrzElement
+  @objc final public let name: DotDocument.MrzNameElement
+  @objc final public let passportNumber: DotDocument.MrzElementWithChecksum
+  @objc final public let nationality: DotDocument.MrzElement
+  @objc final public let dateOfBirth: DotDocument.MrzDateElementWithChecksum
+  @objc final public let sex: DotDocument.MrzElement
+  @objc final public let dateOfExpiry: DotDocument.MrzDateElementWithChecksum
+  @objc final public let personalNumberOrOtherOptionalData: DotDocument.MrzElementWithChecksum
+  @objc final public let hasValidChecksum: Swift.Bool
+  @objc public init(documentCode: DotDocument.MrzElement, issuingStateOrOrganization: DotDocument.MrzElement, name: DotDocument.MrzNameElement, passportNumber: DotDocument.MrzElementWithChecksum, nationality: DotDocument.MrzElement, dateOfBirth: DotDocument.MrzDateElementWithChecksum, sex: DotDocument.MrzElement, dateOfExpiry: DotDocument.MrzDateElementWithChecksum, personalNumberOrOtherOptionalData: DotDocument.MrzElementWithChecksum, hasValidChecksum: Swift.Bool)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDMrzStringPosition) final public class MrzStringPosition : ObjectiveC.NSObject {
+  @objc final public let lineIndex: Swift.Int
+  @objc final public let startIndex: Swift.Int
+  @objc final public let endIndex: Swift.Int
+  @objc public init(lineIndex: Swift.Int, startIndex: Swift.Int, endIndex: Swift.Int)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDMrzElement) public class MrzElement : ObjectiveC.NSObject {
+  @objc final public let value: Swift.String
+  @objc final public let positions: [DotDocument.MrzStringPosition]
+  @objc public init(value: Swift.String, positions: [DotDocument.MrzStringPosition])
+  @objc convenience public init(value: Swift.String, position: DotDocument.MrzStringPosition)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@objc(DOTDMrzElementWithChecksum) public class MrzElementWithChecksum : DotDocument.MrzElement {
+  @objc final public let hasValidChecksum: Swift.Bool
+  @objc public init(value: Swift.String, positions: [DotDocument.MrzStringPosition], hasValidChecksum: Swift.Bool)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@objc(DOTDMrzDateElementWithChecksum) final public class MrzDateElementWithChecksum : DotDocument.MrzElementWithChecksum {
+  @objc final public let date: DotDocument.MrzDate
+  @objc public init(value: Swift.String, positions: [DotDocument.MrzStringPosition], hasValidChecksum: Swift.Bool, date: DotDocument.MrzDate)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDMrzNameElement) final public class MrzNameElement : ObjectiveC.NSObject {
+  @objc final public let primaryElement: DotDocument.MrzElement?
+  @objc final public let secondaryElement: DotDocument.MrzElement?
+  @objc public init(primaryElement: DotDocument.MrzElement?, secondaryElement: DotDocument.MrzElement?)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDMachineReadableZone) final public class MachineReadableZone : ObjectiveC.NSObject {
+  @objc final public let lines: [Swift.String]
+  @objc final public let td1: DotDocument.Td1MachineReadableZone?
+  @objc final public let td2: DotDocument.Td2MachineReadableZone?
+  @objc final public let td3: DotDocument.Td3MachineReadableZone?
+  @objc convenience public init(lines: [Swift.String], td1: DotDocument.Td1MachineReadableZone)
+  @objc convenience public init(lines: [Swift.String], td2: DotDocument.Td2MachineReadableZone)
+  @objc convenience public init(lines: [Swift.String], td3: DotDocument.Td3MachineReadableZone)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDImageParametersAnalyzer) final public class ImageParametersAnalyzer : ObjectiveC.NSObject {
+  @objc final public func analyze(bgraRawImage: DotCore.BgraRawImage) throws -> DotDocument.ImageParameters
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc(DOTDMrzDate) final public class MrzDate : ObjectiveC.NSObject {
+  @objc final public let year: Swift.Int
+  @objc final public let month: Swift.Int
+  @objc final public let day: Swift.Int
+  @objc public init(year: Swift.Int, month: Swift.Int, day: Swift.Int)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(DOTDDocumentAutoCaptureViewController) @_Concurrency.MainActor(unsafe) final public class DocumentAutoCaptureViewController : UIKit.UIViewController {
+  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: DotDocument.DocumentAutoCaptureViewControllerDelegate?
+  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotDocument.DocumentAutoCaptureConfiguration
+  @objc @_Concurrency.MainActor(unsafe) final public let style: DotDocument.DocumentAutoCaptureStyle
+  @objc @_Concurrency.MainActor(unsafe) public static func create(configuration: DotDocument.DocumentAutoCaptureConfiguration = .init(), style: DotDocument.DocumentAutoCaptureStyle = .init()) -> DotDocument.DocumentAutoCaptureViewController
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
+  @objc @_Concurrency.MainActor(unsafe) final public func start()
+  @objc @_Concurrency.MainActor(unsafe) final public func stopAsync(onStopped: @escaping () -> Swift.Void)
+  @objc @_Concurrency.MainActor(unsafe) final public func requestCapture()
+  @objc deinit
+}
+extension DotDocument.DocumentAutoCaptureViewController {
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLayoutSubviews()
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
+}
+@_inheritsConvenienceInitializers @objc(DOTDSizeTooSmallValidator) final public class SizeTooSmallValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc public static let defaultMinEdgeLengthToImageShorterSideRatioThreshold: Swift.Double
+  @objc final public let minEdgeLengthToImageShorterSideRatioThreshold: Swift.Double
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc public init(minEdgeLengthToImageShorterSideRatioThreshold: Swift.Double)
+  @objc override convenience dynamic public init()
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDMrzReader) final public class MrzReader : ObjectiveC.NSObject {
+  @objc(DOTDMrzReaderResult) final public class Result : ObjectiveC.NSObject {
+    @objc final public let rawLines: [Swift.String]
+    @objc final public let travelDocumentType: DotDocument.TravelDocumentTypeWrapper?
+    @objc final public let machineReadableZone: DotDocument.MachineReadableZone?
+    @objc final public let error: Swift.Error?
+    @objc public init(rawLines: [Swift.String], travelDocumentType: DotDocument.TravelDocumentTypeWrapper?, machineReadableZone: DotDocument.MachineReadableZone?, error: Swift.Error?)
+    @objc override final public var description: Swift.String {
+      @objc get
+    }
+    @objc deinit
+  }
+  @objc final public func read(bgraRawImage: DotCore.BgraRawImage, documentDetectorResult: DotDocument.DocumentDetector.Result, travelDocumentType: DotDocument.TravelDocumentTypeWrapper? = nil) -> DotDocument.MrzReader.Result
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDImagePerspectiveWarper) final public class ImagePerspectiveWarper : ObjectiveC.NSObject {
+  @objc final public func warp(bgraRawImage: DotCore.BgraRawImage, corners: DotCore.Corners, targetImageSize: DotCore.ImageSize) throws -> DotCore.BgraRawImage
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc final public class DotDocumentLibrary : ObjectiveC.NSObject, DotCore.DotLibrary {
+  @objc final public var id: DotCore.DotLibraryId {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc final public func initialize(license: DotCore.DotSdkLicenseProxyProtocol) throws
+  @objc final public func deinitialize() throws
+  @objc final public func verifyIsActive() throws
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDDocumentDoesNotFitPlaceholderValidator) final public class DocumentDoesNotFitPlaceholderValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc public static let defaultMaxPenaltyThreshold: Swift.Double
+  @objc final public let maxPenaltyThreshold: Swift.Double
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc final public var placeholderNormalizedRectangle: DotCore.RectangleDouble {
+    @objc get
+  }
+  @objc public init(placeholderNormalizedRectangle: DotCore.RectangleDouble, maxPenaltyThreshold: Swift.Double = DocumentDoesNotFitPlaceholderValidator.defaultMaxPenaltyThreshold)
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDLogger) final public class Logger : ObjectiveC.NSObject {
+  @objc public static var logLevel: DotCore.LoggerLogLevel {
+    @objc get
+    @objc set
+  }
+  @objc public static func info(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  @objc public static func debug(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  @objc public static func warning(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  @objc public static func error(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDBrightnessTooLowValidator) final public class BrightnessTooLowValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc public static let defaultThreshold: Swift.Double
+  @objc final public let threshold: Swift.Double
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc public init(threshold: Swift.Double)
+  @objc override convenience dynamic public init()
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDDocumentAutoCaptureDetection) final public class DocumentAutoCaptureDetection : ObjectiveC.NSObject {
+  @objc final public let bgraRawImage: DotCore.BgraRawImage
+  @objc final public let documentDetectorResult: DotDocument.DocumentDetector.Result
+  @objc final public let imageParameters: DotDocument.ImageParameters
+  @objc final public let travelDocumentType: DotDocument.TravelDocumentTypeWrapper?
+  @objc final public let machineReadableZone: DotDocument.MachineReadableZone?
+  @objc final public let validatorIdentifiers: [Swift.String]
+  @objc public init(bgraRawImage: DotCore.BgraRawImage, documentDetectorResult: DotDocument.DocumentDetector.Result, imageParameters: DotDocument.ImageParameters, travelDocumentType: DotDocument.TravelDocumentTypeWrapper?, machineReadableZone: DotDocument.MachineReadableZone?, validatorIdentifiers: [Swift.String])
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDTd1MachineReadableZone) final public class Td1MachineReadableZone : ObjectiveC.NSObject {
+  @objc final public let documentCode: DotDocument.MrzElement
+  @objc final public let issuingStateOrOrganization: DotDocument.MrzElement
+  @objc final public let documentNumber: DotDocument.MrzElementWithChecksum
+  @objc final public let dateOfBirth: DotDocument.MrzDateElementWithChecksum
+  @objc final public let sex: DotDocument.MrzElement
+  @objc final public let dateOfExpiry: DotDocument.MrzDateElementWithChecksum
+  @objc final public let nationality: DotDocument.MrzElement
+  @objc final public let name: DotDocument.MrzNameElement
+  @objc final public let optionalData: [DotDocument.MrzElement]
+  @objc final public let hasValidChecksum: Swift.Bool
+  @objc public init(documentCode: DotDocument.MrzElement, issuingStateOrOrganization: DotDocument.MrzElement, documentNumber: DotDocument.MrzElementWithChecksum, dateOfBirth: DotDocument.MrzDateElementWithChecksum, sex: DotDocument.MrzElement, dateOfExpiry: DotDocument.MrzDateElementWithChecksum, nationality: DotDocument.MrzElement, name: DotDocument.MrzNameElement, optionalData: [DotDocument.MrzElement], hasValidChecksum: Swift.Bool)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDDocumentAutoCaptureResult) final public class DocumentAutoCaptureResult : ObjectiveC.NSObject {
+  @objc final public let bgraRawImage: DotCore.BgraRawImage
+  @objc final public let documentDetectorResult: DotDocument.DocumentDetector.Result
+  @objc final public let imageParameters: DotDocument.ImageParameters
+  @objc final public let content: Foundation.Data
+  @objc final public let travelDocumentType: DotDocument.TravelDocumentTypeWrapper?
+  @objc final public let machineReadableZone: DotDocument.MachineReadableZone?
+  @objc public init(bgraRawImage: DotCore.BgraRawImage, documentDetectorResult: DotDocument.DocumentDetector.Result, imageParameters: DotDocument.ImageParameters, content: Foundation.Data, travelDocumentType: DotDocument.TravelDocumentTypeWrapper? = nil, machineReadableZone: DotDocument.MachineReadableZone? = nil)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+@objc(DOTDDocumentAutoCaptureViewControllerDelegate) public protocol DocumentAutoCaptureViewControllerDelegate {
+  @objc func documentAutoCaptureViewController(_ viewController: DotDocument.DocumentAutoCaptureViewController, captured result: DotDocument.DocumentAutoCaptureResult)
+  @objc optional func documentAutoCaptureViewController(_ viewController: DotDocument.DocumentAutoCaptureViewController, processed detection: DotDocument.DocumentAutoCaptureDetection)
+  @objc optional func documentAutoCaptureViewControllerCandidateSelectionStarted(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+  @objc optional func documentAutoCaptureViewControllerNoCameraPermission(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+  @objc optional func documentAutoCaptureViewControllerViewDidLoad(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+  @objc optional func documentAutoCaptureViewControllerViewDidLayoutSubviews(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+  @objc optional func documentAutoCaptureViewControllerViewWillAppear(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+  @objc optional func documentAutoCaptureViewControllerViewDidAppear(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+  @objc optional func documentAutoCaptureViewControllerViewWillDisappear(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+  @objc optional func documentAutoCaptureViewControllerViewDidDisappear(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+  @objc optional func documentAutoCaptureViewControllerViewWillTransition(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+}
+@objc(DOTDDocumentAutoCaptureDetectionValidator) public protocol DocumentAutoCaptureDetectionValidator {
+  @objc var identifier: Swift.String { get }
+  @objc var dependencyIdentifiers: Swift.Set<Swift.String> { get }
+  @objc func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+}
+@objc(DOTDTravelDocumentType) public enum TravelDocumentType : Swift.Int, Swift.CaseIterable, Swift.CustomStringConvertible {
+  case td1
+  case td2
+  case td3
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [DotDocument.TravelDocumentType]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [DotDocument.TravelDocumentType] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDTravelDocumentTypeWrapper) final public class TravelDocumentTypeWrapper : ObjectiveC.NSObject {
+  @objc final public let travelDocumentType: DotDocument.TravelDocumentType
+  @objc public init(travelDocumentType: DotDocument.TravelDocumentType)
+  @objc deinit
+}
+@objc(DOTDMrzValidation) public enum MrzValidation : Swift.Int, Swift.CustomStringConvertible {
+  case none
+  case validateIfPresent
+  case validateAlways
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc(DOTDHotspotsScoreTooHighValidator) final public class HotspotsScoreTooHighValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc public static let defaultThreshold: Swift.Double
+  @objc final public let threshold: Swift.Double
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc public init(threshold: Swift.Double)
+  @objc override convenience dynamic public init()
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+extension DotCamera._CameraPreset {
+  public static func from(configuration: DotCamera._CameraConfiguration) -> DotCamera._CameraPreset
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDMrzNotPresentValidator) final public class MrzNotPresentValidator : ObjectiveC.NSObject, DotDocument.DocumentAutoCaptureDetectionValidator {
+  @objc final public let identifier: Swift.String
+  @objc final public let dependencyIdentifiers: Swift.Set<Swift.String>
+  @objc override convenience dynamic public init()
+  @objc final public func validate(documentAutoCaptureFrameParameters: DotDocument.DocumentAutoCaptureFrameParameters) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(DOTDLocalization) final public class Localization : ObjectiveC.NSObject {
+  @objc public static var localizationDictionary: [Swift.String : Swift.String]?
+  @objc public static var useLocalizationDictionary: Swift.Bool
+  @objc public static var bundle: Foundation.Bundle
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDDocumentAutoCaptureControllerConfiguration) final public class DocumentAutoCaptureControllerConfiguration : ObjectiveC.NSObject {
+  public enum Error : Foundation.LocalizedError {
+    case missingValidatorDependencies(currentValidator: Swift.String, missingValidators: Swift.Set<Swift.String>)
+    public var errorDescription: Swift.String? {
+      get
+    }
+  }
+  public struct Defaults {
+    public static let isMrzReadingEnabled: Swift.Bool
+    public static let minValidFramesInRowToStartCandidateSelection: Swift.Int
+    public static let candidateSelectionDurationMillis: Swift.Int
+  }
+  @objc final public let validators: [DotDocument.DocumentAutoCaptureDetectionValidator]
+  @objc final public let minValidFramesInRowToStartCandidateSelection: Swift.Int
+  @objc final public let candidateSelectionDurationMillis: Swift.Int
+  @objc final public let detectionNormalizedRectangle: DotCore.RectangleDouble?
+  @objc final public let imageParametersNormalizedRectangle: DotCore.RectangleDouble?
+  @objc final public let sessionToken: Swift.String?
+  @objc public init(sessionToken: Swift.String? = nil, validators: [DotDocument.DocumentAutoCaptureDetectionValidator], minValidFramesInRowToStartCandidateSelection: Swift.Int = Defaults.minValidFramesInRowToStartCandidateSelection, candidateSelectionDurationMillis: Swift.Int = Defaults.candidateSelectionDurationMillis, detectionNormalizedRectangle: DotCore.RectangleDouble? = nil, imageParametersNormalizedRectangle: DotCore.RectangleDouble? = nil) throws
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDDocumentAutoCaptureController) final public class DocumentAutoCaptureController : ObjectiveC.NSObject {
+  @objc(DOTDDocumentAutoCaptureControllerPhase) public enum Phase : Swift.Int {
+    case preCandidateSelection
+    case candidateSelection
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDDocumentAutoCaptureControllerSample) final public class Sample : ObjectiveC.NSObject {
+    @objc final public let bgraRawImage: DotCore.BgraRawImage
+    @objc final public let timestampMillis: Swift.Int
+    @objc public init(bgraRawImage: DotCore.BgraRawImage, timestampMillis: Swift.Int)
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDDocumentAutoCaptureControllerProcessingResult) final public class ProcessingResult : ObjectiveC.NSObject {
+    @objc final public let detection: DotDocument.DocumentAutoCaptureDetection
+    @objc final public let result: DotDocument.DocumentAutoCaptureResult?
+    @objc final public let phase: DotDocument.DocumentAutoCaptureController.Phase
+    @objc public init(detection: DotDocument.DocumentAutoCaptureDetection, result: DotDocument.DocumentAutoCaptureResult?, phase: DotDocument.DocumentAutoCaptureController.Phase)
+    @objc deinit
+  }
+  @objc final public let configuration: DotDocument.DocumentAutoCaptureControllerConfiguration
+  @objc convenience public init(configuration: DotDocument.DocumentAutoCaptureControllerConfiguration)
+  @available(*, deprecated, message: "Use process(sample:) instead.")
+  @objc final public func process(bgraRawImage: DotCore.BgraRawImage, timestampMillis: Swift.Int) throws -> DotDocument.DocumentAutoCaptureController.ProcessingResult
+  @objc final public func process(sample: DotDocument.DocumentAutoCaptureController.Sample) throws -> DotDocument.DocumentAutoCaptureController.ProcessingResult
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDDocumentAutoCaptureFrameParameters) final public class DocumentAutoCaptureFrameParameters : ObjectiveC.NSObject {
+  @objc final public let documentDetectorResult: DotDocument.DocumentDetector.Result
+  @objc final public let imageParameters: DotDocument.ImageParameters
+  @objc final public let travelDocumentType: DotDocument.TravelDocumentTypeWrapper?
+  @objc final public let mrzRecognitionResult: DotDocument.MrzRecognitionResult?
+  @objc public init(documentDetectorResult: DotDocument.DocumentDetector.Result, imageParameters: DotDocument.ImageParameters, travelDocumentType: DotDocument.TravelDocumentTypeWrapper? = nil, mrzRecognitionResult: DotDocument.MrzRecognitionResult? = nil)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTDTd2MachineReadableZone) final public class Td2MachineReadableZone : ObjectiveC.NSObject {
+  @objc final public let documentCode: DotDocument.MrzElement
+  @objc final public let issuingStateOrOrganization: DotDocument.MrzElement
+  @objc final public let name: DotDocument.MrzNameElement
+  @objc final public let documentNumber: DotDocument.MrzElementWithChecksum
+  @objc final public let nationality: DotDocument.MrzElement
+  @objc final public let dateOfBirth: DotDocument.MrzDateElementWithChecksum
+  @objc final public let sex: DotDocument.MrzElement
+  @objc final public let dateOfExpiry: DotDocument.MrzDateElementWithChecksum
+  @objc final public let optionalData: DotDocument.MrzElement?
+  @objc final public let hasValidChecksum: Swift.Bool
+  @objc public init(documentCode: DotDocument.MrzElement, issuingStateOrOrganization: DotDocument.MrzElement, name: DotDocument.MrzNameElement, documentNumber: DotDocument.MrzElementWithChecksum, nationality: DotDocument.MrzElement, dateOfBirth: DotDocument.MrzDateElementWithChecksum, sex: DotDocument.MrzElement, dateOfExpiry: DotDocument.MrzDateElementWithChecksum, optionalData: DotDocument.MrzElement?, hasValidChecksum: Swift.Bool)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+extension DotDocument.PlaceholderType : Swift.Equatable {}
+extension DotDocument.PlaceholderType : Swift.Hashable {}
+extension DotDocument.PlaceholderType : Swift.RawRepresentable {}
+extension DotDocument.ValidationMode : Swift.Equatable {}
+extension DotDocument.ValidationMode : Swift.Hashable {}
+extension DotDocument.ValidationMode : Swift.RawRepresentable {}
+extension DotDocument.TravelDocumentType : Swift.Equatable {}
+extension DotDocument.TravelDocumentType : Swift.Hashable {}
+extension DotDocument.TravelDocumentType : Swift.RawRepresentable {}
+extension DotDocument.MrzValidation : Swift.Equatable {}
+extension DotDocument.MrzValidation : Swift.Hashable {}
+extension DotDocument.MrzValidation : Swift.RawRepresentable {}
+extension DotDocument.DocumentAutoCaptureController.Phase : Swift.Equatable {}
+extension DotDocument.DocumentAutoCaptureController.Phase : Swift.Hashable {}
+extension DotDocument.DocumentAutoCaptureController.Phase : Swift.RawRepresentable {}

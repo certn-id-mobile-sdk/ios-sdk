@@ -1,0 +1,563 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DotCore
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import Accelerate
+import CommonCrypto
+import CoreGraphics
+@_exported import DotCore
+import Foundation
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTWrappedDouble) final public class WrappedDouble : ObjectiveC.NSObject {
+  @objc final public let value: Swift.Double
+  @objc public init(value: Swift.Double)
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class DotSdkConfiguration : ObjectiveC.NSObject {
+  @objc final public let licenseBytes: Foundation.Data
+  @objc final public let libraries: [DotCore.DotLibrary]
+  @objc public init(licenseBytes: Foundation.Data, libraries: [DotCore.DotLibrary])
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class DotSdk : ObjectiveC.NSObject {
+  @objc public static let shared: DotCore.DotSdk
+  final public var licenseCustomer: Swift.String? {
+    get
+  }
+  final public var isEvaluation: Swift.Bool {
+    get
+  }
+  final public var isRealTimeTransactionReportingEnabled: Swift.Bool {
+    get
+  }
+  @objc final public let versionName: Swift.String
+  @objc final public let bundleId: Swift.String
+  @objc final public var isInitialized: Swift.Bool {
+    @objc get
+  }
+  @objc final public func initialize(configuration: DotCore.DotSdkConfiguration) throws
+  @objc final public func _initialize(licenseBytes: Foundation.Data) throws
+  @objc final public func _initialize(library: DotCore.DotLibrary) throws
+  @objc final public func deinitialize() throws
+  @objc final public func isLibraryActive(libraryId: DotCore.DotLibraryId) -> Swift.Bool
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTCGImageFactory) final public class CGImageFactory : ObjectiveC.NSObject {
+  @objc public static func create(bgraRawImage: DotCore.BgraRawImage) -> CoreGraphics.CGImage
+  @objc public static func create(bgrRawImage: DotCore.BgrRawImage) -> CoreGraphics.CGImage
+  @objc deinit
+}
+public protocol _State : AnyObject {
+  var id: Swift.String { get }
+  var isFinal: Swift.Bool { get }
+  var stateMachine: (DotCore._StateMachine)? { get set }
+}
+open class _StateBox : DotCore._State {
+  public var id: Swift.String {
+    get
+  }
+  public var isFinal: Swift.Bool {
+    get
+  }
+  public var stateMachine: (DotCore._StateMachine)? {
+    get
+    set
+  }
+  final public let state: DotCore._State
+  public init(state: DotCore._State)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class _OverlayView : UIKit.UIView {
+  public enum PlaceholderType {
+    case oval
+    case roundedRectangle
+    public static func == (a: DotCore._OverlayView.PlaceholderType, b: DotCore._OverlayView.PlaceholderType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public struct _UIState {
+    public init(fillColor: UIKit.UIColor? = nil, isHidden: Swift.Bool? = nil)
+  }
+  @_Concurrency.MainActor(unsafe) @objc override final public class var layerClass: Swift.AnyClass {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) final public func updatePlaceholder(center: CoreFoundation.CGPoint, size: CoreFoundation.CGSize, type: DotCore._OverlayView.PlaceholderType)
+  @_Concurrency.MainActor(unsafe) final public func update(with uiState: DotCore._OverlayView._UIState)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTImageSize) final public class ImageSize : ObjectiveC.NSObject {
+  @objc final public let width: Swift.Int
+  @objc final public let height: Swift.Int
+  @objc public init(width: Swift.Int, height: Swift.Int)
+  @objc final public func calculatePixelCount() -> Swift.Int
+  @objc final public func calculateWidthToHeightRatio() -> Swift.Double
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+extension DotCore.ImageSize {
+  @objc final public var cgSize: CoreFoundation.CGSize {
+    @objc get
+  }
+  @objc final public var shorterSide: Swift.Int {
+    @objc get
+  }
+  @objc public static func from(cgSize: CoreFoundation.CGSize) -> DotCore.ImageSize
+}
+public struct _CircularBuffer<T> {
+  public let capacity: Swift.Int
+  public var count: Swift.Int {
+    get
+  }
+  public var isFilled: Swift.Bool {
+    get
+  }
+  public var isEmpty: Swift.Bool {
+    get
+  }
+  public init(capacity: Swift.Int)
+  public mutating func append(_ element: T)
+  public mutating func reset()
+}
+extension DotCore._CircularBuffer : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension DotCore._CircularBuffer : Swift.Sequence {
+  public typealias Element = T
+  public func makeIterator() -> Swift.Array<T>.Iterator
+  public typealias Iterator = Swift.Array<T>.Iterator
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTValidationDouble) final public class ValidationDouble : ObjectiveC.NSObject {
+  @objc public static func validate(value: Swift.Double, interval: DotCore.IntervalDouble) throws
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTBgrRawImageFactory) final public class BgrRawImageFactory : ObjectiveC.NSObject {
+  @objc public static func create(cgImage: CoreGraphics.CGImage) -> DotCore.BgrRawImage
+  @objc public static func create(ciImage: CoreImage.CIImage, ciContext: CoreImage.CIContext) -> DotCore.BgrRawImage
+  @objc deinit
+}
+@objc(DOTLoggerLogLevel) public enum LoggerLogLevel : Swift.Int, Swift.CustomStringConvertible {
+  case info
+  case debug
+  case warning
+  case error
+  case none
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+final public class _Logger {
+  public init(libraryName: Swift.String)
+  final public var logLevel: DotCore.LoggerLogLevel
+  final public func info(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  final public func debug(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  final public func warning(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  final public func error(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  final public func createLogEntry(level: DotCore.LoggerLogLevel, message: Swift.String? = nil, file: Swift.String, function: Swift.String) -> Swift.String
+  @objc deinit
+}
+final public class _StateHolder<S> {
+  public init()
+  final public func setIfNotAlready(_ closure: () -> S) -> S
+  final public func restart()
+  @objc deinit
+}
+public struct _AutoCaptureRectangles : Swift.Equatable {
+  public let detectionRectangleNormalizedInSourceImage: DotCore.RectangleDouble
+  public let detectionRectangleNormalizedInPreview: DotCore.RectangleDouble
+  public let placeholderRectangleNormalizedInPreview: DotCore.RectangleDouble
+  public init(detectionRectangleNormalizedInSourceImage: DotCore.RectangleDouble, detectionRectangleNormalizedInPreview: DotCore.RectangleDouble, placeholderRectangleNormalizedInPreview: DotCore.RectangleDouble)
+  public static func == (a: DotCore._AutoCaptureRectangles, b: DotCore._AutoCaptureRectangles) -> Swift.Bool
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTValidationFloat) final public class ValidationFloat : ObjectiveC.NSObject {
+  @objc public static func validate(value: Swift.Float, interval: DotCore.IntervalFloat) throws
+  @objc deinit
+}
+public protocol _AutoCaptureDetectionValidator {
+  associatedtype FRAME_PARAMETERS
+  var identifier: Swift.String { get }
+  func validate(autoCaptureFrameParameters: Self.FRAME_PARAMETERS) -> Swift.Bool
+}
+open class _AutoCaptureFrameParametersEvaluator<VALIDATOR> where VALIDATOR : DotCore._AutoCaptureDetectionValidator {
+  public init(validators: [VALIDATOR])
+  public func evaluate(frameParameters: VALIDATOR.FRAME_PARAMETERS) -> [Swift.String]
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTBgrRawImage) final public class BgrRawImage : ObjectiveC.NSObject, DotCore._RawImage {
+  @objc final public let bytesPointer: Swift.UnsafeMutablePointer<Swift.UInt8>
+  @objc final public let size: DotCore.ImageSize
+  @objc final public var bytes: Foundation.Data {
+    @objc get
+    @objc set
+  }
+  @objc public init(bytesPointer: Swift.UnsafeMutablePointer<Swift.UInt8>, size: DotCore.ImageSize)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTIntervalFloat) final public class IntervalFloat : ObjectiveC.NSObject {
+  public enum Error : Foundation.LocalizedError {
+    case invalidBounds
+    public var errorDescription: Swift.String? {
+      get
+    }
+    public static func == (a: DotCore.IntervalFloat.Error, b: DotCore.IntervalFloat.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @objc final public let min: Swift.Float
+  @objc final public let max: Swift.Float
+  @objc public init(min: Swift.Float, max: Swift.Float) throws
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+final public class _ObservableVariable<T> {
+  public typealias Listener = (T) -> Swift.Void
+  final public var value: T {
+    get
+    set
+  }
+  public init(_ value: T)
+  final public func notifyListeners(enabled: Swift.Bool)
+  final public func bind(_ listener: DotCore._ObservableVariable<T>.Listener?)
+  final public func bindAndFire(_ listener: DotCore._ObservableVariable<T>.Listener?)
+  @objc deinit
+}
+final public class _OptionalObservableVariable<T> {
+  public typealias Listener = (T?) -> Swift.Void
+  final public var value: T? {
+    get
+    set
+  }
+  public init(_ value: T? = nil)
+  final public func notifyListeners(enabled: Swift.Bool)
+  final public func bind(_ listener: DotCore._OptionalObservableVariable<T>.Listener?)
+  final public func bindAndFire(_ listener: DotCore._OptionalObservableVariable<T>.Listener?)
+  @objc deinit
+}
+public protocol _Telemetry {
+  func record(event: DotCore._TelemetryEvent)
+}
+public struct _TelemetryFactory {
+  public static func create(deviceId: Swift.String) -> DotCore._Telemetry
+}
+@objc public protocol _RawImage {
+  @objc var bytes: Foundation.Data { get }
+  @objc var size: DotCore.ImageSize { get }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTBgraRawImage) final public class BgraRawImage : ObjectiveC.NSObject, DotCore._RawImage {
+  @objc final public let bytesPointer: Swift.UnsafeMutablePointer<Swift.UInt8>
+  @objc final public var bytesPointerPacked: Swift.UnsafeMutablePointer<Swift.UInt32> {
+    @objc get
+  }
+  @objc final public let size: DotCore.ImageSize
+  @objc final public var bytes: Foundation.Data {
+    @objc get
+    @objc set
+  }
+  @objc public init(bytesPointer: Swift.UnsafeMutablePointer<Swift.UInt8>, size: DotCore.ImageSize)
+  @objc deinit
+}
+open class _EntityCollector<Entity> {
+  public var values: [Entity] {
+    get
+  }
+  public init(staticBufferSize: Swift.Int, circularBufferSize: Swift.Int)
+  public func collect(entity: Entity)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTPointDouble) final public class PointDouble : ObjectiveC.NSObject {
+  @objc final public let x: Swift.Double
+  @objc final public let y: Swift.Double
+  @objc public init(x: Swift.Double, y: Swift.Double)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+extension DotCore.PointDouble {
+  @objc public static func from(cgPoint: CoreFoundation.CGPoint) -> DotCore.PointDouble
+  @objc final public var cgPoint: CoreFoundation.CGPoint {
+    @objc get
+  }
+}
+extension DotCore.PointDouble {
+  @objc final public func rebased(parentRectangle: DotCore.RectangleDouble) -> DotCore.PointDouble
+  @objc final public func mirrored() -> DotCore.PointDouble
+}
+@objc public enum DotLibraryId : Swift.Int, Swift.CustomStringConvertible {
+  case face
+  case faceLite
+  case document
+  case nfc
+  public var description: Swift.String {
+    get
+  }
+  public var telemetryName: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol DotLibrary {
+  @objc var id: DotCore.DotLibraryId { get }
+  @objc func initialize(license: DotCore.DotSdkLicenseProxyProtocol) throws
+  @objc func deinitialize() throws
+  @objc func verifyIsActive() throws
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTIntervalDouble) final public class IntervalDouble : ObjectiveC.NSObject {
+  public enum Error : Foundation.LocalizedError {
+    case invalidBounds
+    public var errorDescription: Swift.String? {
+      get
+    }
+    public static func == (a: DotCore.IntervalDouble.Error, b: DotCore.IntervalDouble.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @objc final public let min: Swift.Double
+  @objc final public let max: Swift.Double
+  @objc public init(min: Swift.Double, max: Swift.Double) throws
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTWrappedFloat) final public class WrappedFloat : ObjectiveC.NSObject {
+  @objc final public let value: Swift.Float
+  @objc public init(value: Swift.Float)
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTCorners) final public class Corners : ObjectiveC.NSObject {
+  @objc final public let topLeft: DotCore.PointDouble
+  @objc final public let topRight: DotCore.PointDouble
+  @objc final public let bottomRight: DotCore.PointDouble
+  @objc final public let bottomLeft: DotCore.PointDouble
+  @objc public init(topLeft: DotCore.PointDouble, topRight: DotCore.PointDouble, bottomRight: DotCore.PointDouble, bottomLeft: DotCore.PointDouble)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+extension DotCore.Corners {
+  @objc final public var points: [DotCore.PointDouble] {
+    @objc get
+  }
+  @objc public static func from(rectangle: DotCore.RectangleDouble) -> DotCore.Corners
+  @objc final public func rebased(parentRectangle: DotCore.RectangleDouble) -> DotCore.Corners
+  @objc final public func mirrored() -> DotCore.Corners
+}
+@objc public protocol DotSdkLicenseProxyProtocol {
+  @objc var licenseBytes: Foundation.Data { get }
+  @objc var isEvaluation: Swift.Bool { get }
+  @objc var isRealTimeTransactionReportingEnabled: Swift.Bool { get }
+  @objc var isFaceEnabled: Swift.Bool { get }
+  @objc var isFacePassiveLivenessEnabled: Swift.Bool { get }
+  @objc var isFaceMatchingEnabled: Swift.Bool { get }
+  @objc var isFaceLiteEnabled: Swift.Bool { get }
+  @objc var isDocumentEnabled: Swift.Bool { get }
+  @objc var isNfcEnabled: Swift.Bool { get }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class DotSdkLicenseProxy : ObjectiveC.NSObject, DotCore.DotSdkLicenseProxyProtocol {
+  @objc final public let licenseBytes: Foundation.Data
+  @objc final public var isEvaluation: Swift.Bool {
+    @objc get
+  }
+  @objc final public var isRealTimeTransactionReportingEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc final public var isFaceEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc final public var isFacePassiveLivenessEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc final public var isFaceMatchingEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc final public var isFaceLiteEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc final public var isDocumentEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc final public var isNfcEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc deinit
+}
+public struct _HashCalculator {
+  public enum _HashType {
+    case md5
+    case sha1
+    case sha256
+    public static func == (a: DotCore._HashCalculator._HashType, b: DotCore._HashCalculator._HashType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func hash(data: Foundation.Data, type: DotCore._HashCalculator._HashType) -> [Swift.UInt8]
+  public static func hash(buffer: Swift.UnsafeBufferPointer<Swift.UInt8>, type: DotCore._HashCalculator._HashType) -> [Swift.UInt8]
+}
+public struct _DotSdkApiCheck {
+  public static func checkIsLibraryActive(_ libraryId: DotCore.DotLibraryId) throws
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTBezierPathFactory) final public class BezierPathFactory : ObjectiveC.NSObject {
+  @objc public static func createPlaceholderPath(rect: CoreFoundation.CGRect, cornerRadius: CoreFoundation.CGFloat) -> UIKit.UIBezierPath
+  @objc public static func createDetectionPath(corners: DotCore.Corners, cornerRadius: CoreFoundation.CGFloat) -> UIKit.UIBezierPath
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTRectangleDouble) final public class RectangleDouble : ObjectiveC.NSObject {
+  @objc final public let left: Swift.Double
+  @objc final public let top: Swift.Double
+  @objc final public let right: Swift.Double
+  @objc final public let bottom: Swift.Double
+  @objc public init(left: Swift.Double, top: Swift.Double, right: Swift.Double, bottom: Swift.Double)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+extension DotCore.RectangleDouble {
+  @objc final public var points: [DotCore.PointDouble] {
+    @objc get
+  }
+  @objc final public var cgRect: CoreFoundation.CGRect {
+    @objc get
+  }
+  @objc final public var width: Swift.Double {
+    @objc get
+  }
+  @objc final public var height: Swift.Double {
+    @objc get
+  }
+  @objc final public func rebased(parentRectangle: DotCore.RectangleDouble) -> DotCore.RectangleDouble
+  @objc final public func mirrored() -> DotCore.RectangleDouble
+  @objc public static var fullRectangle: DotCore.RectangleDouble {
+    @objc get
+  }
+  @objc public static func from(cgRect: CoreFoundation.CGRect) -> DotCore.RectangleDouble
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTCIImageFactory) final public class CIImageFactory : ObjectiveC.NSObject {
+  @objc public static func create(bgraRawImage: DotCore.BgraRawImage, ciContext: CoreImage.CIContext) -> CoreImage.CIImage
+  @objc public static func create(bgrRawImage: DotCore.BgrRawImage) -> CoreImage.CIImage
+  @objc deinit
+}
+open class _Box<T> {
+  final public let wrappedValue: T
+  public init(_ wrappedValue: T)
+  @objc deinit
+}
+public protocol _StateMachine : AnyObject {
+  associatedtype STATE : DotCore._State
+  var states: [Self.STATE] { get }
+  var currentState: Self.STATE { get set }
+  var isFinished: Swift.Bool { get }
+  func change(stateId: Swift.String)
+}
+extension DotCore._StateMachine {
+  public var isFinished: Swift.Bool {
+    get
+  }
+  public func change(stateId: Swift.String)
+}
+open class _DefaultStateMachine<STATE> : DotCore._StateMachine where STATE : DotCore._State {
+  public var states: [STATE]
+  public var currentState: STATE
+  public init(initialState: STATE, states: [STATE])
+  @objc deinit
+}
+public struct _TelemetryEvent : Swift.Equatable {
+  public let name: Swift.String
+  public let duration: Swift.Double?
+  public let parameters: [Swift.String : Swift.String]?
+  public init(name: Swift.String, duration: Swift.Double?, parameters: [Swift.String : Swift.String]?)
+  public static func == (a: DotCore._TelemetryEvent, b: DotCore._TelemetryEvent) -> Swift.Bool
+}
+public struct _AspectRatioSizeCalculator {
+  public init()
+  public func calculate4x3(size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
+}
+public protocol _RawImageFactory {
+  func create(ciImage: CoreImage.CIImage, ciContext: CoreImage.CIContext) -> DotCore._RawImage
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTBgraRawImageFactory) final public class BgraRawImageFactory : ObjectiveC.NSObject {
+  @objc public static func create(cgImage: CoreGraphics.CGImage) -> DotCore.BgraRawImage
+  @objc public static func create(ciImage: CoreImage.CIImage, ciContext: CoreImage.CIContext) -> DotCore.BgraRawImage
+  @objc deinit
+}
+extension DotCore._OverlayView.PlaceholderType : Swift.Equatable {}
+extension DotCore._OverlayView.PlaceholderType : Swift.Hashable {}
+extension DotCore.LoggerLogLevel : Swift.Equatable {}
+extension DotCore.LoggerLogLevel : Swift.Hashable {}
+extension DotCore.LoggerLogLevel : Swift.RawRepresentable {}
+extension DotCore.IntervalFloat.Error : Swift.Equatable {}
+extension DotCore.IntervalFloat.Error : Swift.Hashable {}
+extension DotCore.DotLibraryId : Swift.Equatable {}
+extension DotCore.DotLibraryId : Swift.Hashable {}
+extension DotCore.DotLibraryId : Swift.RawRepresentable {}
+extension DotCore.IntervalDouble.Error : Swift.Equatable {}
+extension DotCore.IntervalDouble.Error : Swift.Hashable {}
+extension DotCore._HashCalculator._HashType : Swift.Equatable {}
+extension DotCore._HashCalculator._HashType : Swift.Hashable {}

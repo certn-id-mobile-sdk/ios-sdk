@@ -1,0 +1,717 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "TopLevel",
+    "printedName": "TopLevel",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "DotCore",
+        "printedName": "DotCore",
+        "declKind": "Import",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "DotNfc",
+        "printedName": "DotNfc",
+        "declKind": "Import",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "DotFaceCore",
+        "printedName": "DotFaceCore",
+        "declKind": "Import",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "DotFaceDetectionFast",
+        "printedName": "DotFaceDetectionFast",
+        "declKind": "Import",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "DotDocument",
+        "printedName": "DotDocument",
+        "declKind": "Import",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CertnIDLibrary",
+        "printedName": "CertnIDLibrary",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "face",
+            "printedName": "face",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(CertnIDMobileSDK.CertnIDLibrary.Type) -> CertnIDMobileSDK.CertnIDLibrary",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CertnIDLibrary",
+                    "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                    "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "CertnIDMobileSDK.CertnIDLibrary.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CertnIDLibrary",
+                        "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                        "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16CertnIDMobileSDK0A9IDLibraryO4faceyA2CmF",
+            "mangledName": "$s16CertnIDMobileSDK0A9IDLibraryO4faceyA2CmF",
+            "moduleName": "CertnIDMobileSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "document",
+            "printedName": "document",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(CertnIDMobileSDK.CertnIDLibrary.Type) -> CertnIDMobileSDK.CertnIDLibrary",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CertnIDLibrary",
+                    "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                    "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "CertnIDMobileSDK.CertnIDLibrary.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CertnIDLibrary",
+                        "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                        "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16CertnIDMobileSDK0A9IDLibraryO8documentyA2CmF",
+            "mangledName": "$s16CertnIDMobileSDK0A9IDLibraryO8documentyA2CmF",
+            "moduleName": "CertnIDMobileSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "nfc",
+            "printedName": "nfc",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(CertnIDMobileSDK.CertnIDLibrary.Type) -> CertnIDMobileSDK.CertnIDLibrary",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CertnIDLibrary",
+                    "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                    "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "CertnIDMobileSDK.CertnIDLibrary.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CertnIDLibrary",
+                        "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                        "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16CertnIDMobileSDK0A9IDLibraryO3nfcyA2CmF",
+            "mangledName": "$s16CertnIDMobileSDK0A9IDLibraryO3nfcyA2CmF",
+            "moduleName": "CertnIDMobileSDK",
+            "intro_iOS": "13",
+            "declAttributes": [
+              "Available"
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CertnIDLibrary",
+                "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CertnIDLibrary",
+                "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16CertnIDMobileSDK0A9IDLibraryO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s16CertnIDMobileSDK0A9IDLibraryO2eeoiySbAC_ACtFZ",
+            "moduleName": "CertnIDMobileSDK",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16CertnIDMobileSDK0A9IDLibraryO9hashValueSivp",
+            "mangledName": "$s16CertnIDMobileSDK0A9IDLibraryO9hashValueSivp",
+            "moduleName": "CertnIDMobileSDK",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16CertnIDMobileSDK0A9IDLibraryO9hashValueSivg",
+                "mangledName": "$s16CertnIDMobileSDK0A9IDLibraryO9hashValueSivg",
+                "moduleName": "CertnIDMobileSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16CertnIDMobileSDK0A9IDLibraryO4hash4intoys6HasherVz_tF",
+            "mangledName": "$s16CertnIDMobileSDK0A9IDLibraryO4hash4intoys6HasherVz_tF",
+            "moduleName": "CertnIDMobileSDK",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:16CertnIDMobileSDK0A9IDLibraryO",
+        "mangledName": "$s16CertnIDMobileSDK0A9IDLibraryO",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CertnIDSDKConfiguration",
+        "printedName": "CertnIDSDKConfiguration",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "licenseData",
+            "printedName": "licenseData",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16CertnIDMobileSDK0A18IDSDKConfigurationC11licenseData10Foundation0F0Vvp",
+            "mangledName": "$s16CertnIDMobileSDK0A18IDSDKConfigurationC11licenseData10Foundation0F0Vvp",
+            "moduleName": "CertnIDMobileSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "Final",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16CertnIDMobileSDK0A18IDSDKConfigurationC11licenseData10Foundation0F0Vvg",
+                "mangledName": "$s16CertnIDMobileSDK0A18IDSDKConfigurationC11licenseData10Foundation0F0Vvg",
+                "moduleName": "CertnIDMobileSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "libraries",
+            "printedName": "libraries",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[CertnIDMobileSDK.CertnIDLibrary]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CertnIDLibrary",
+                    "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                    "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16CertnIDMobileSDK0A18IDSDKConfigurationC9librariesSayAA0A9IDLibraryOGvp",
+            "mangledName": "$s16CertnIDMobileSDK0A18IDSDKConfigurationC9librariesSayAA0A9IDLibraryOGvp",
+            "moduleName": "CertnIDMobileSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "Final",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[CertnIDMobileSDK.CertnIDLibrary]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CertnIDLibrary",
+                        "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                        "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16CertnIDMobileSDK0A18IDSDKConfigurationC9librariesSayAA0A9IDLibraryOGvg",
+                "mangledName": "$s16CertnIDMobileSDK0A18IDSDKConfigurationC9librariesSayAA0A9IDLibraryOGvg",
+                "moduleName": "CertnIDMobileSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(licenseData:libraries:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CertnIDSDKConfiguration",
+                "printedName": "CertnIDMobileSDK.CertnIDSDKConfiguration",
+                "usr": "s:16CertnIDMobileSDK0A18IDSDKConfigurationC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[CertnIDMobileSDK.CertnIDLibrary]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CertnIDLibrary",
+                    "printedName": "CertnIDMobileSDK.CertnIDLibrary",
+                    "usr": "s:16CertnIDMobileSDK0A9IDLibraryO"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:16CertnIDMobileSDK0A18IDSDKConfigurationC11licenseData9librariesAC10Foundation0F0V_SayAA0A9IDLibraryOGtcfc",
+            "mangledName": "$s16CertnIDMobileSDK0A18IDSDKConfigurationC11licenseData9librariesAC10Foundation0F0V_SayAA0A9IDLibraryOGtcfc",
+            "moduleName": "CertnIDMobileSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:16CertnIDMobileSDK0A18IDSDKConfigurationC",
+        "mangledName": "$s16CertnIDMobileSDK0A18IDSDKConfigurationC",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "AccessControl",
+          "Final",
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "DotCore",
+        "printedName": "DotCore",
+        "declKind": "Import",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "DotFaceCore",
+        "printedName": "DotFaceCore",
+        "declKind": "Import",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CertnIDMobileSdk",
+        "printedName": "CertnIDMobileSdk",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "shared",
+            "printedName": "shared",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CertnIDMobileSdk",
+                "printedName": "CertnIDMobileSDK.CertnIDMobileSdk",
+                "usr": "s:16CertnIDMobileSDK0aB3SdkC"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16CertnIDMobileSDK0aB3SdkC6sharedACvpZ",
+            "mangledName": "$s16CertnIDMobileSDK0aB3SdkC6sharedACvpZ",
+            "moduleName": "CertnIDMobileSDK",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CertnIDMobileSdk",
+                    "printedName": "CertnIDMobileSDK.CertnIDMobileSdk",
+                    "usr": "s:16CertnIDMobileSDK0aB3SdkC"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16CertnIDMobileSDK0aB3SdkC6sharedACvgZ",
+                "mangledName": "$s16CertnIDMobileSDK0aB3SdkC6sharedACvgZ",
+                "moduleName": "CertnIDMobileSDK",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "isInitialized",
+            "printedName": "isInitialized",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16CertnIDMobileSDK0aB3SdkC13isInitializedSbvp",
+            "mangledName": "$s16CertnIDMobileSDK0aB3SdkC13isInitializedSbvp",
+            "moduleName": "CertnIDMobileSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16CertnIDMobileSDK0aB3SdkC13isInitializedSbvg",
+                "mangledName": "$s16CertnIDMobileSDK0aB3SdkC13isInitializedSbvg",
+                "moduleName": "CertnIDMobileSDK",
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "version",
+            "printedName": "version",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16CertnIDMobileSDK0aB3SdkC7versionSSvp",
+            "mangledName": "$s16CertnIDMobileSDK0aB3SdkC7versionSSvp",
+            "moduleName": "CertnIDMobileSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16CertnIDMobileSDK0aB3SdkC7versionSSvg",
+                "mangledName": "$s16CertnIDMobileSDK0aB3SdkC7versionSSvg",
+                "moduleName": "CertnIDMobileSDK",
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "initialize",
+            "printedName": "initialize(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CertnIDSDKConfiguration",
+                "printedName": "CertnIDMobileSDK.CertnIDSDKConfiguration",
+                "usr": "s:16CertnIDMobileSDK0A18IDSDKConfigurationC"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16CertnIDMobileSDK0aB3SdkC10initializeyyAA0A18IDSDKConfigurationCKF",
+            "mangledName": "$s16CertnIDMobileSDK0aB3SdkC10initializeyyAA0A18IDSDKConfigurationCKF",
+            "moduleName": "CertnIDMobileSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "deinitialize",
+            "printedName": "deinitialize()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16CertnIDMobileSDK0aB3SdkC12deinitializeyyKF",
+            "mangledName": "$s16CertnIDMobileSDK0aB3SdkC12deinitializeyyKF",
+            "moduleName": "CertnIDMobileSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:16CertnIDMobileSDK0aB3SdkC",
+        "mangledName": "$s16CertnIDMobileSDK0aB3SdkC",
+        "moduleName": "CertnIDMobileSDK",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "hasMissingDesignatedInitializers": true
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": []
+}
