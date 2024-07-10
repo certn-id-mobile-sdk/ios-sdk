@@ -35,13 +35,5 @@ Pod::Spec.new do |s|
   s.dependency "dot-document"
   s.dependency "dot-face-detection-fast"
   s.dependency "dot-nfc"
-  #s.source_files = 'CertnIDMobileSDK/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'CertnIDMobileSDK' => ['CertnIDMobileSDK/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency "dot-face-detection-balanced"
 end
