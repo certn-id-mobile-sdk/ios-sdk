@@ -16,6 +16,7 @@ To integrate CertnIDMobileSDK into your iOS project, follow these steps:
 ### Using CocoaPods
 1. Add the following line to your `Podfile`:
     ```ruby
+    source 'https://github.com/certn-id-mobile-sdk/ios-sdk'
     pod 'CertnIDMobileSDK'
     ```
 2. Run `pod install` to install the SDK.
