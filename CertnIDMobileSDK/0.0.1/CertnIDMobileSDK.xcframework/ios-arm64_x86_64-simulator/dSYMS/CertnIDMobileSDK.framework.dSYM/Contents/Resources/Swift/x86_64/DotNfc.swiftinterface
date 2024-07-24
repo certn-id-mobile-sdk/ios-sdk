@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
-// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DotNfc
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DotNfc
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import AudioToolbox
 import CommonCrypto
@@ -8,6 +8,7 @@ import CoreNFC
 import CryptoKit
 import CryptoTokenKit
 import DotCore
+import DotDocumentCommons
 @_exported import DotNfc
 import DotOpenSSL
 import Foundation
@@ -15,6 +16,7 @@ import Swift
 import UIKit
 import _Concurrency
 import _StringProcessing
+import _SwiftConcurrencyShims
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
 @objc(DOTNTravelDocument) final public class TravelDocument : ObjectiveC.NSObject {
   @objc final public let ldsVersion: Swift.String
@@ -127,6 +129,20 @@ import _StringProcessing
   }
   @objc deinit
 }
+@available(iOS 13, *)
+extension DotNfc.NfcTravelDocumentReader {
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
+  @objc(DOTNNfcTravelDocumentReaderError) final public class Error : ObjectiveC.NSObject, Foundation.LocalizedError {
+    @objc final public let debugInfo: DotNfc.DebugInfo
+    @objc final public var errorDescription: Swift.String? {
+      @objc get
+    }
+    @objc override final public var description: Swift.String {
+      @objc get
+    }
+    @objc deinit
+  }
+}
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
 @objc(DOTNAuthenticationStatus) final public class AuthenticationStatus : ObjectiveC.NSObject {
   @objc final public let data: DotNfc.DataAuthenticationStatus
@@ -143,9 +159,9 @@ import _StringProcessing
 }
 @available(iOS 13, *)
 @objc(DOTNNfcTravelDocumentReaderDelegate) public protocol NfcTravelDocumentReaderDelegate {
-  @objc func nfcTravelDocumentReader(_ nfcTravelDocumentReader: DotNfc.NfcTravelDocumentReaderProtocol, succeeded travelDocument: DotNfc.TravelDocument)
-  @objc func nfcTravelDocumentReader(_ nfcTravelDocumentReader: DotNfc.NfcTravelDocumentReaderProtocol, failed error: DotNfc.NfcTravelDocumentReaderError)
-  @objc func nfcTravelDocumentReaderCanceled(_ nfcTravelDocumentReader: DotNfc.NfcTravelDocumentReaderProtocol)
+  @objc func nfcTravelDocumentReader(_ nfcTravelDocumentReader: DotNfc.NfcTravelDocumentReader, succeeded travelDocument: DotNfc.TravelDocument)
+  @objc func nfcTravelDocumentReader(_ nfcTravelDocumentReader: DotNfc.NfcTravelDocumentReader, failed error: DotNfc.NfcTravelDocumentReader.Error)
+  @objc func nfcTravelDocumentReaderCanceled(_ nfcTravelDocumentReader: DotNfc.NfcTravelDocumentReader)
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
 @objc(DOTNLds1eMrtdApplication) public class Lds1eMrtdApplication : ObjectiveC.NSObject {
@@ -206,19 +222,13 @@ import _StringProcessing
   }
   @objc deinit
 }
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
-@objc final public class NfcTravelDocumentReaderFactory : ObjectiveC.NSObject {
-  @objc override convenience dynamic public init()
-  @objc final public func create(configuration: DotNfc.NfcTravelDocumentReaderConfiguration) -> DotNfc.NfcTravelDocumentReaderProtocol
-  @objc deinit
-}
 @_inheritsConvenienceInitializers @available(iOS 13, *)
 @objc final public class DotNfcLibrary : ObjectiveC.NSObject, DotCore.DotLibrary {
   @objc final public var id: DotCore.DotLibraryId {
     @objc get
   }
   @objc override dynamic public init()
-  @objc final public func initialize(license: DotCore.DotSdkLicenseProxyProtocol) throws
+  @objc final public func initialize(license: any DotCore.DotSdkLicenseProxyProtocol) throws
   @objc final public func deinitialize() throws
   @objc final public func verifyIsActive() throws
   @objc deinit
@@ -312,8 +322,8 @@ import _StringProcessing
     @objc get
     @objc set
   }
-  @objc public static func info(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
   @objc public static func debug(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  @objc public static func info(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
   @objc public static func warning(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
   @objc public static func error(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
   @objc deinit
@@ -347,29 +357,11 @@ import _StringProcessing
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
-@objc(DOTNNfcTravelDocumentReader) final public class NfcTravelDocumentReader : ObjectiveC.NSObject, DotNfc.NfcTravelDocumentReaderProtocol {
-  @objc final public let configuration: DotNfc.NfcTravelDocumentReaderConfiguration
-  @available(*, deprecated, message: "Use NfcTravelDocumentReaderFactory.create() instead.")
-  @objc convenience public init(configuration: DotNfc.NfcTravelDocumentReaderConfiguration)
-  @objc final public func setDelegate(_ delegate: DotNfc.NfcTravelDocumentReaderDelegate?, queue: Dispatch.DispatchQueue? = .main)
+@objc(DOTNNfcTravelDocumentReader) final public class NfcTravelDocumentReader : ObjectiveC.NSObject {
+  @objc final public let configuration: DotNfc.NfcTravelDocumentReader.Configuration
+  @objc convenience public init(configuration: DotNfc.NfcTravelDocumentReader.Configuration)
+  @objc final public func setDelegate(_ delegate: (any DotNfc.NfcTravelDocumentReaderDelegate)?, queue: Dispatch.DispatchQueue? = .main)
   @objc final public func read(nfcKey: DotNfc.NfcKey, activeAuthenticationChallenge: Foundation.Data? = nil)
-  @objc deinit
-}
-@available(iOS 13, *)
-@objc(DOTNNfcTravelDocumentReaderProtocol) public protocol NfcTravelDocumentReaderProtocol {
-  @objc func setDelegate(_ delegate: DotNfc.NfcTravelDocumentReaderDelegate?, queue: Dispatch.DispatchQueue?)
-  @objc func read(nfcKey: DotNfc.NfcKey, activeAuthenticationChallenge: Foundation.Data?)
-}
-@available(iOS 13, *)
-extension DotNfc.NfcTravelDocumentReaderProtocol {
-  public func setDelegate(_ delegate: DotNfc.NfcTravelDocumentReaderDelegate?)
-  public func read(nfcKey: DotNfc.NfcKey)
-}
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
-@objc(DOTNNfcTravelDocumentReaderConfiguration) final public class NfcTravelDocumentReaderConfiguration : ObjectiveC.NSObject {
-  @objc final public let authorityCertificatesUrl: Foundation.URL?
-  @objc final public let _debugInfoEnabled: Swift.Bool
-  @objc public init(authorityCertificatesUrl: Foundation.URL? = nil, _debugInfoEnabled: Swift.Bool = false)
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
@@ -381,17 +373,6 @@ extension DotNfc.NfcTravelDocumentReaderProtocol {
   }
   @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
   @objc override final public var hash: Swift.Int {
-    @objc get
-  }
-  @objc deinit
-}
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
-@objc(DOTNNfcTravelDocumentReaderError) final public class NfcTravelDocumentReaderError : ObjectiveC.NSObject, Foundation.LocalizedError {
-  @objc final public let debugInfo: DotNfc.DebugInfo
-  @objc final public var errorDescription: Swift.String? {
-    @objc get
-  }
-  @objc override final public var description: Swift.String {
     @objc get
   }
   @objc deinit
@@ -412,16 +393,8 @@ extension DotNfc.NfcTravelDocumentReaderProtocol {
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
 @objc(DOTNMachineReadableZoneInformation) final public class MachineReadableZoneInformation : ObjectiveC.NSObject {
-  @objc final public let documentCode: Swift.String
-  @objc final public let issuingStateOrOrganization: Swift.String
-  @objc final public let nameOfHolder: DotNfc.NameOfHolder
-  @objc final public let nationality: Swift.String
-  @objc final public let documentNumber: Swift.String
-  @objc final public let dateOfBirth: Swift.String
-  @objc final public let sex: Swift.String
-  @objc final public let dateOfExpiry: Swift.String
-  @objc final public let optionalData: [Swift.String]
-  @objc public init(documentCode: Swift.String, issuingStateOrOrganization: Swift.String, nameOfHolder: DotNfc.NameOfHolder, nationality: Swift.String, documentNumber: Swift.String, dateOfBirth: Swift.String, sex: Swift.String, dateOfExpiry: Swift.String, optionalData: [Swift.String])
+  @objc final public let machineReadableZone: DotDocumentCommons.MachineReadableZone
+  @objc public init(machineReadableZone: DotDocumentCommons.MachineReadableZone)
   @objc override final public var description: Swift.String {
     @objc get
   }
@@ -443,6 +416,16 @@ extension DotNfc.NfcTravelDocumentReaderProtocol {
     @objc get
   }
   @objc deinit
+}
+@available(iOS 13, *)
+extension DotNfc.NfcTravelDocumentReader {
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
+  @objc(DOTNNfcTravelDocumentReaderConfiguration) final public class Configuration : ObjectiveC.NSObject {
+    @objc final public let authorityCertificatesUrl: Foundation.URL?
+    @objc final public let _debugInfoEnabled: Swift.Bool
+    @objc public init(authorityCertificatesUrl: Foundation.URL? = nil, _debugInfoEnabled: Swift.Bool = false)
+    @objc deinit
+  }
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 13, *)
 @objc(DOTNChipAuthenticationStatus) final public class ChipAuthenticationStatus : ObjectiveC.NSObject {

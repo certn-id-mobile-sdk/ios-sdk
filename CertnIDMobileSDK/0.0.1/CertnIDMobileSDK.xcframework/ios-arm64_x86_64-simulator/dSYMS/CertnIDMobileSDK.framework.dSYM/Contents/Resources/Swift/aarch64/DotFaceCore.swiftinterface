@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
-// swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DotFaceCore
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DotFaceCore
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import AVFoundation
 import CommonCrypto
@@ -15,43 +15,60 @@ import Swift
 import UIKit
 import _Concurrency
 import _StringProcessing
+import _SwiftConcurrencyShims
 import iface
-@_inheritsConvenienceInitializers @objc(DOTFSmileLivenessStyle) final public class SmileLivenessStyle : ObjectiveC.NSObject {
-  public struct Defaults {
-    public static let backgroundColor: UIKit.UIColor
-    public static let instructionFont: UIKit.UIFont
-    public static let instructionTextColor: UIKit.UIColor
-    public static let instructionBackgroundColor: UIKit.UIColor
-    public static let placeholderColor: UIKit.UIColor
-    public static let detectionLayerColor: UIKit.UIColor
-    public static let overlayColor: UIKit.UIColor
+extension DotFaceCore.SmileLivenessViewController {
+  @_inheritsConvenienceInitializers @objc(DOTFSmileLivenessStyle) final public class Style : ObjectiveC.NSObject {
+    public struct Defaults {
+      public static let backgroundColor: UIKit.UIColor
+      public static let instructionFont: UIKit.UIFont
+      public static let instructionTextColor: UIKit.UIColor
+      public static let instructionBackgroundColor: UIKit.UIColor
+      public static let placeholderColor: UIKit.UIColor
+      public static let detectionLayerColor: UIKit.UIColor
+      public static let placeholderOverlayColor: UIKit.UIColor
+    }
+    @objc final public let backgroundColor: UIKit.UIColor
+    @objc final public let instructionFont: UIKit.UIFont
+    @objc final public let instructionTextColor: UIKit.UIColor
+    @objc final public let instructionBackgroundColor: UIKit.UIColor
+    @objc final public let placeholderColor: UIKit.UIColor
+    @objc final public let detectionLayerColor: UIKit.UIColor
+    @objc final public let placeholderOverlayColor: UIKit.UIColor
+    @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, instructionFont: UIKit.UIFont = Defaults.instructionFont, instructionTextColor: UIKit.UIColor = Defaults.instructionTextColor, instructionBackgroundColor: UIKit.UIColor = Defaults.instructionBackgroundColor, placeholderColor: UIKit.UIColor = Defaults.placeholderColor, detectionLayerColor: UIKit.UIColor = Defaults.detectionLayerColor, placeholderOverlayColor: UIKit.UIColor = Defaults.placeholderOverlayColor)
+    @objc override dynamic public init()
+    @objc deinit
   }
-  @objc final public let backgroundColor: UIKit.UIColor
-  @objc final public let instructionFont: UIKit.UIFont
-  @objc final public let instructionTextColor: UIKit.UIColor
-  @objc final public let instructionBackgroundColor: UIKit.UIColor
-  @objc final public let placeholderColor: UIKit.UIColor
-  @objc final public let detectionLayerColor: UIKit.UIColor
-  @objc final public let overlayColor: UIKit.UIColor
-  @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, instructionFont: UIKit.UIFont = Defaults.instructionFont, instructionTextColor: UIKit.UIColor = Defaults.instructionTextColor, instructionBackgroundColor: UIKit.UIColor = Defaults.instructionBackgroundColor, placeholderColor: UIKit.UIColor = Defaults.placeholderColor, detectionLayerColor: UIKit.UIColor = Defaults.detectionLayerColor, overlayColor: UIKit.UIColor = Defaults.overlayColor)
-  @objc override dynamic public init()
-  @objc deinit
 }
-@objc(DOTFEyeGazeLivenessState) public enum EyeGazeLivenessState : Swift.Int, Swift.CustomStringConvertible {
-  case ok
-  case noFace
-  case lostFace
-  case lowQualityFace
-  case faceTooClose
-  case faceTooFar
+@objc(DOTFEyeGazeLivenessCorner) public enum EyeGazeLivenessCorner : Swift.Int, Swift.CaseIterable, Swift.CustomStringConvertible {
+  case topLeft
+  case topRight
+  case bottomLeft
+  case bottomRight
   public var description: Swift.String {
     get
   }
   public init?(rawValue: Swift.Int)
+  public typealias AllCases = [DotFaceCore.EyeGazeLivenessCorner]
   public typealias RawValue = Swift.Int
+  public static var allCases: [DotFaceCore.EyeGazeLivenessCorner] {
+    get
+  }
   public var rawValue: Swift.Int {
     get
   }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFWrappedEyeGazeLivenessCorner) final public class WrappedEyeGazeLivenessCorner : ObjectiveC.NSObject {
+  @objc final public let corner: DotFaceCore.EyeGazeLivenessCorner
+  @objc public init(corner: DotFaceCore.EyeGazeLivenessCorner)
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFValueRange) final public class ValueRange : ObjectiveC.NSObject {
   public enum Error : Foundation.LocalizedError {
@@ -89,38 +106,73 @@ import iface
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceImage) final public class FaceImage : ObjectiveC.NSObject {
-  @objc final public let image: DotCore.BgrRawImage
-  @objc final public let minFaceSizePixels: Swift.Int
-  @objc final public let maxFaceSizePixels: Swift.Int
+  @objc final public let bgrRawImage: DotCore.BgrRawImage
+  @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
+  @objc public init(bgrRawImage: DotCore.BgrRawImage, faceSizeRatioInterval: DotCore.IntervalDouble) throws
   @objc deinit
 }
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceSimpleCaptureDetection) final public class FaceSimpleCaptureDetection : ObjectiveC.NSObject {
-  @objc final public let bgrRawImage: DotCore.BgrRawImage
-  @objc final public let detectedFace: DotFaceCore.DetectedFace?
-  @objc final public let position: DotFaceCommons.DetectionPosition?
-  @objc public init(bgrRawImage: DotCore.BgrRawImage, detectedFace: DotFaceCore.DetectedFace?, position: DotFaceCommons.DetectionPosition?)
-  @objc override final public var description: Swift.String {
-    @objc get
+extension DotFaceCore.EyeGazeLivenessViewController {
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFEyeGazeLivenessConfiguration) final public class Configuration : ObjectiveC.NSObject {
+    public enum Error : Foundation.LocalizedError {
+      case invalidCornerCount(cornerCount: Swift.Int)
+      public var errorDescription: Swift.String? {
+        get
+      }
+    }
+    @objc(DOTFEyeGazeLivenessTransitionType) public enum TransitionType : Swift.Int, Swift.CustomStringConvertible {
+      case move
+      case fade
+      public var description: Swift.String {
+        get
+      }
+      public init?(rawValue: Swift.Int)
+      public typealias RawValue = Swift.Int
+      public var rawValue: Swift.Int {
+        get
+      }
+    }
+    public struct Defaults {
+      public static let faceSizeRatioInterval: DotCore.IntervalDouble
+      public static let minValidSegmentCount: Swift.Int
+      public static let transitionDurationMillis: Swift.Int
+      public static let transitionType: DotFaceCore.EyeGazeLivenessViewController.Configuration.TransitionType
+      public static let objectImageSize: CoreFoundation.CGSize
+      public static let isTorchEnabled: Swift.Bool
+      public static let cameraFacing: DotCamera.CameraFacing
+    }
+    @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
+    @objc final public let isTorchEnabled: Swift.Bool
+    @objc final public let cameraFacing: DotCamera.CameraFacing
+    @objc final public let corners: [DotFaceCore.WrappedEyeGazeLivenessCorner]
+    @objc final public let transitionDurationMillis: Swift.Int
+    @objc final public let transitionType: DotFaceCore.EyeGazeLivenessViewController.Configuration.TransitionType
+    @objc final public let objectImage: UIKit.UIImage
+    @objc final public let objectImageSize: CoreFoundation.CGSize
+    @objc final public let sessionToken: Swift.String?
+    @objc public init(sessionToken: Swift.String? = nil, faceSizeRatioInterval: DotCore.IntervalDouble = Defaults.faceSizeRatioInterval, isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, transitionDurationMillis: Swift.Int = Defaults.transitionDurationMillis, transitionType: DotFaceCore.EyeGazeLivenessViewController.Configuration.TransitionType = Defaults.transitionType, corners: [DotFaceCore.WrappedEyeGazeLivenessCorner], objectImage: UIKit.UIImage? = nil, objectImageSize: CoreFoundation.CGSize = Defaults.objectImageSize, query: DotFaceCore.FaceDetectionQuery = .init()) throws
+    @objc override final public var description: Swift.String {
+      @objc get
+    }
+    @objc deinit
   }
-  @objc deinit
 }
 @_inheritsConvenienceInitializers @objc(DOTFFaceImageQualityQuery) final public class FaceImageQualityQuery : ObjectiveC.NSObject {
-  @objc final public let sharpness: Swift.Bool
-  @objc final public let brightness: Swift.Bool
-  @objc final public let contrast: Swift.Bool
-  @objc final public let uniqueIntensityLevels: Swift.Bool
-  @objc final public let shadow: Swift.Bool
-  @objc final public let specularity: Swift.Bool
-  @objc final public let backgroundUniformity: Swift.Bool
+  @objc final public let evaluateSharpness: Swift.Bool
+  @objc final public let evaluateBrightness: Swift.Bool
+  @objc final public let evaluateContrast: Swift.Bool
+  @objc final public let evaluateUniqueIntensityLevels: Swift.Bool
+  @objc final public let evaluateShadow: Swift.Bool
+  @objc final public let evaluateSpecularity: Swift.Bool
+  @objc final public let evaluateBackgroundUniformity: Swift.Bool
   @objc override convenience dynamic public init()
-  @objc public init(sharpness: Swift.Bool = false, brightness: Swift.Bool = false, contrast: Swift.Bool = false, uniqueIntensityLevels: Swift.Bool = false, shadow: Swift.Bool = false, specularity: Swift.Bool = false, backgroundUniformity: Swift.Bool = false)
+  @objc public init(evaluateSharpness: Swift.Bool = false, evaluateBrightness: Swift.Bool = false, evaluateContrast: Swift.Bool = false, evaluateUniqueIntensityLevels: Swift.Bool = false, evaluateShadow: Swift.Bool = false, evaluateSpecularity: Swift.Bool = false, evaluateBackgroundUniformity: Swift.Bool = false)
   @objc deinit
 }
 @_inheritsConvenienceInitializers @objc(DOTFEyesExpressionQuery) final public class EyesExpressionQuery : ObjectiveC.NSObject {
-  @objc final public let rightEye: Swift.Bool
-  @objc final public let leftEye: Swift.Bool
+  @objc final public let evaluateRightEye: Swift.Bool
+  @objc final public let evaluateLeftEye: Swift.Bool
   @objc override convenience dynamic public init()
-  @objc public init(rightEye: Swift.Bool = false, leftEye: Swift.Bool = false)
+  @objc public init(evaluateRightEye: Swift.Bool = false, evaluateLeftEye: Swift.Bool = false)
   @objc deinit
 }
 @objc(DOTFMagnifEyeLivenessViewControllerDelegate) public protocol MagnifEyeLivenessViewControllerDelegate {
@@ -136,9 +188,9 @@ import iface
   @objc(magnifEyeLivenessViewControllerViewWillTransition:) optional func magnifEyeLivenessViewControllerViewWillTransition(_ viewController: DotFaceCore.MagnifEyeLivenessViewController)
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFExpression) final public class Expression : ObjectiveC.NSObject {
-  @objc final public let eyes: DotFaceCore.EyesExpression?
+  @objc final public let eyes: DotFaceCore.EyesExpression
   @objc final public let mouth: DotFaceCore.FaceAttribute?
-  @objc convenience public init(eyes: DotFaceCore.EyesExpression? = nil, mouth: DotFaceCore.FaceAttribute? = nil)
+  @objc convenience public init(eyes: DotFaceCore.EyesExpression, mouth: DotFaceCore.FaceAttribute? = nil)
   @objc override final public var description: Swift.String {
     @objc get
   }
@@ -150,29 +202,9 @@ import iface
   @objc public static var bundle: Foundation.Bundle
   @objc deinit
 }
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFDetectedFace) final public class DetectedFace : ObjectiveC.NSObject, DotFaceCommons._FaceDetectionResult {
-  @objc final public let image: DotCore.BgrRawImage
-  @objc final public var confidence: Swift.Double {
-    @objc get
-  }
-  @objc override final public var description: Swift.String {
-    @objc get
-  }
-  @objc final public func createTemplate() throws -> DotFaceCore.Template
-  @objc final public func createFullFrontalImage() throws -> DotCore.BgrRawImage
-  @objc final public func evaluateFaceQuality() throws -> DotFaceCore.FaceQuality
-  @objc final public func evaluateFaceQuality(faceQualityQuery: DotFaceCore.FaceQualityQuery) throws -> DotFaceCore.FaceQuality
-  @objc final public func evaluatePassiveLiveness() throws -> DotFaceCore.FaceAttribute
-  @objc final public func evaluateFaceAspects() throws -> DotFaceCore.FaceAspects
-  @objc deinit
-}
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceImageFactory) final public class FaceImageFactory : ObjectiveC.NSObject {
-  @objc public static func create(image: DotCore.BgrRawImage, minFaceSizeRatio: Swift.Double, maxFaceSizeRatio: Swift.Double) throws -> DotFaceCore.FaceImage
-  @objc deinit
-}
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceAspects) final public class FaceAspects : ObjectiveC.NSObject {
-  @objc final public let eyeDistance: Swift.Int
-  @objc public init(eyeDistance: Swift.Int)
+  @objc final public let eyeDistanceToImageShorterSideRatio: Swift.Double
+  @objc public init(eyeDistanceToImageShorterSideRatio: Swift.Double)
   @objc override final public var description: Swift.String {
     @objc get
   }
@@ -184,21 +216,16 @@ import iface
   }
   @objc final public let configuration: DotFaceCore.DotFaceLibraryConfiguration
   @objc public init(configuration: DotFaceCore.DotFaceLibraryConfiguration)
-  @objc final public func initialize(license: DotCore.DotSdkLicenseProxyProtocol) throws
+  @objc final public func initialize(license: any DotCore.DotSdkLicenseProxyProtocol) throws
   @objc final public func deinitialize() throws
   @objc final public func verifyIsActive() throws
   @objc deinit
 }
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFSegmentImage) final public class SegmentImage : ObjectiveC.NSObject {
-  @objc final public let image: DotCore.BgrRawImage
-  @objc convenience public init(image: DotCore.BgrRawImage)
-  @objc deinit
-}
 @_hasMissingDesignatedInitializers @objc(DOTFFaceSimpleCaptureViewController) @_Concurrency.MainActor(unsafe) final public class FaceSimpleCaptureViewController : UIKit.UIViewController {
-  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotFaceCore.FaceSimpleCaptureConfiguration
-  @objc @_Concurrency.MainActor(unsafe) final public let style: DotFaceCore.FaceSimpleCaptureStyle
-  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: DotFaceCore.FaceSimpleCaptureViewControllerDelegate?
-  @objc @_Concurrency.MainActor(unsafe) public static func create(configuration: DotFaceCore.FaceSimpleCaptureConfiguration = .init(), style: DotFaceCore.FaceSimpleCaptureStyle = .init()) -> DotFaceCore.FaceSimpleCaptureViewController
+  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotFaceCore.FaceSimpleCaptureViewController.Configuration
+  @objc @_Concurrency.MainActor(unsafe) final public let style: DotFaceCore.FaceSimpleCaptureViewController.Style
+  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: (any DotFaceCore.FaceSimpleCaptureViewControllerDelegate)?
+  @objc @_Concurrency.MainActor(unsafe) convenience public init(configuration: DotFaceCore.FaceSimpleCaptureViewController.Configuration = .init(), style: DotFaceCore.FaceSimpleCaptureViewController.Style = .init())
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
   @objc @_Concurrency.MainActor(unsafe) final public func start()
   @objc @_Concurrency.MainActor(unsafe) final public func stopAsync(onStopped: @escaping () -> Swift.Void)
@@ -211,129 +238,145 @@ extension DotFaceCore.FaceSimpleCaptureViewController {
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillAppear(_ animated: Swift.Bool)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidDisappear(_ animated: Swift.Bool)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillDisappear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFLogger) final public class Logger : ObjectiveC.NSObject {
   @objc public static var logLevel: DotCore.LoggerLogLevel {
     @objc get
     @objc set
   }
-  @objc public static func info(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
   @objc public static func debug(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
+  @objc public static func info(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
   @objc public static func warning(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
   @objc public static func error(_ message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function)
   @objc deinit
 }
-@_inheritsConvenienceInitializers @objc(DOTFFaceSimpleCaptureStyle) final public class FaceSimpleCaptureStyle : ObjectiveC.NSObject {
-  public struct Defaults {
-    public static let backgroundColor: UIKit.UIColor
-    public static let trackingCircleColor: UIKit.UIColor
+@_hasMissingDesignatedInitializers final public class _EyeGazeLivenessSegmentCaptureState : DotFaceCommons._FaceAutoCaptureStateImagePropertiesCollector {
+  weak final public var stateMachine: (any DotCore._StateMachine)?
+  final public var id: Swift.String {
+    get
   }
-  @objc final public let backgroundColor: UIKit.UIColor
-  @objc final public let trackingCircleColor: UIKit.UIColor
-  @objc override convenience dynamic public init()
-  @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, trackingCircleColor: UIKit.UIColor = Defaults.trackingCircleColor)
+  final public var isFinal: Swift.Bool {
+    get
+  }
+  final public func process(sample: DotCapture._AutoCaptureSample) throws -> any DotCapture._ProcessingResultMarker
+  final public func requestSegmentCapture(corner: DotFaceCore.EyeGazeLivenessCorner) throws
   @objc deinit
 }
-@_inheritsConvenienceInitializers @objc(DOTFFaceAutoCaptureConfiguration) final public class FaceAutoCaptureConfiguration : ObjectiveC.NSObject, DotCamera._CameraConfiguration {
-  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFQualityAttributeThresholds) final public class QualityAttributeThresholds : ObjectiveC.NSObject {
-    @_inheritsConvenienceInitializers @objc(DOTFQualityAttributeThresholdsBuilder) final public class Builder : ObjectiveC.NSObject {
-      @objc override dynamic public init()
-      @discardableResult
-      @objc final public func minConfidence(_ minConfidence: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func sizeInterval(_ sizeInterval: DotCore.IntervalDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func pitchAngleInterval(_ pitchAngleInterval: DotCore.IntervalFloat?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func yawAngleInterval(_ yawAngleInterval: DotCore.IntervalFloat?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func minSharpness(_ minSharpness: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func brightnessInterval(_ brightnessInterval: DotCore.IntervalDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func contrastInterval(_ contrastInterval: DotCore.IntervalDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func minUniqueIntensityLevels(_ minUniqueIntensityLevels: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func minBackgroundUniformity(_ minBackgroundUniformity: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func maxGlassesPresenceScore(_ maxGlassesPresenceScore: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func maxMaskPresenceScore(_ maxMaskPresenceScore: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func minMouthStatusScore(_ minMouthStatusScore: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func minEyesStatusScore(_ minEyesStatusScore: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func maxShadow(_ maxShadow: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @discardableResult
-      @objc final public func maxDevicePitchAngle(_ maxDevicePitchAngle: DotCore.WrappedFloat?) throws -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder
-      @objc final public func build() -> DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds
+extension DotFaceCore.FaceSimpleCaptureViewController {
+  @_inheritsConvenienceInitializers @objc(DOTFFaceSimpleCaptureStyle) final public class Style : ObjectiveC.NSObject {
+    public struct Defaults {
+      public static let backgroundColor: UIKit.UIColor
+      public static let trackingCircleColor: UIKit.UIColor
+    }
+    @objc final public let backgroundColor: UIKit.UIColor
+    @objc final public let trackingCircleColor: UIKit.UIColor
+    @objc override convenience dynamic public init()
+    @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, trackingCircleColor: UIKit.UIColor = Defaults.trackingCircleColor)
+    @objc deinit
+  }
+}
+extension DotFaceCore.FaceAutoCaptureViewController {
+  @_inheritsConvenienceInitializers @objc(DOTFFaceAutoCaptureConfiguration) final public class Configuration : ObjectiveC.NSObject, DotCamera._CameraConfiguration {
+    @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFQualityAttributeThresholds) final public class QualityAttributeThresholds : ObjectiveC.NSObject {
+      @_inheritsConvenienceInitializers @objc(DOTFQualityAttributeThresholdsBuilder) final public class Builder : ObjectiveC.NSObject {
+        @objc override dynamic public init()
+        @discardableResult
+        @objc final public func minConfidence(_ minConfidence: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func sizeInterval(_ sizeInterval: DotCore.IntervalDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func pitchAngleInterval(_ pitchAngleInterval: DotCore.IntervalFloat?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func yawAngleInterval(_ yawAngleInterval: DotCore.IntervalFloat?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func minSharpness(_ minSharpness: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func brightnessInterval(_ brightnessInterval: DotCore.IntervalDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func contrastInterval(_ contrastInterval: DotCore.IntervalDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func minUniqueIntensityLevels(_ minUniqueIntensityLevels: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func minBackgroundUniformity(_ minBackgroundUniformity: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func maxGlassesPresenceScore(_ maxGlassesPresenceScore: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func maxMaskPresenceScore(_ maxMaskPresenceScore: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func minMouthStatusScore(_ minMouthStatusScore: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func minEyesStatusScore(_ minEyesStatusScore: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func maxShadow(_ maxShadow: DotCore.WrappedDouble?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @discardableResult
+        @objc final public func maxDevicePitchAngle(_ maxDevicePitchAngle: DotCore.WrappedFloat?) throws -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder
+        @objc final public func build() -> DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds
+        @objc deinit
+      }
+      @objc final public let minConfidence: DotCore.WrappedDouble?
+      @objc final public let sizeInterval: DotCore.IntervalDouble?
+      @objc final public let pitchAngleInterval: DotCore.IntervalFloat?
+      @objc final public let yawAngleInterval: DotCore.IntervalFloat?
+      @objc final public let minSharpness: DotCore.WrappedDouble?
+      @objc final public let brightnessInterval: DotCore.IntervalDouble?
+      @objc final public let contrastInterval: DotCore.IntervalDouble?
+      @objc final public let minUniqueIntensityLevels: DotCore.WrappedDouble?
+      @objc final public let minBackgroundUniformity: DotCore.WrappedDouble?
+      @objc final public let maxGlassesPresenceScore: DotCore.WrappedDouble?
+      @objc final public let maxMaskPresenceScore: DotCore.WrappedDouble?
+      @objc final public let minMouthStatusScore: DotCore.WrappedDouble?
+      @objc final public let minEyesStatusScore: DotCore.WrappedDouble?
+      @objc final public let maxShadow: DotCore.WrappedDouble?
+      @objc final public let maxDevicePitchAngle: DotCore.WrappedFloat?
+      @objc override final public var description: Swift.String {
+        @objc get
+      }
+      @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+      @objc override final public var hash: Swift.Int {
+        @objc get
+      }
       @objc deinit
     }
-    @objc final public let minConfidence: DotCore.WrappedDouble?
-    @objc final public let sizeInterval: DotCore.IntervalDouble?
-    @objc final public let pitchAngleInterval: DotCore.IntervalFloat?
-    @objc final public let yawAngleInterval: DotCore.IntervalFloat?
-    @objc final public let minSharpness: DotCore.WrappedDouble?
-    @objc final public let brightnessInterval: DotCore.IntervalDouble?
-    @objc final public let contrastInterval: DotCore.IntervalDouble?
-    @objc final public let minUniqueIntensityLevels: DotCore.WrappedDouble?
-    @objc final public let minBackgroundUniformity: DotCore.WrappedDouble?
-    @objc final public let maxGlassesPresenceScore: DotCore.WrappedDouble?
-    @objc final public let maxMaskPresenceScore: DotCore.WrappedDouble?
-    @objc final public let minMouthStatusScore: DotCore.WrappedDouble?
-    @objc final public let minEyesStatusScore: DotCore.WrappedDouble?
-    @objc final public let maxShadow: DotCore.WrappedDouble?
-    @objc final public let maxDevicePitchAngle: DotCore.WrappedFloat?
+    @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFQualityAttributeThresholdPresets) final public class QualityAttributeThresholdPresets : ObjectiveC.NSObject {
+      @objc public static var standard: DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder {
+        @objc get
+      }
+      @objc public static var passiveLiveness: DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder {
+        @objc get
+      }
+      @objc public static var icao: DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds.Builder {
+        @objc get
+      }
+      @objc deinit
+    }
+    public struct Defaults {
+      public static let faceSizeRatioInterval: DotCore.IntervalDouble
+      public static let isDetectionLayerVisible: Swift.Bool
+      public static let isTorchEnabled: Swift.Bool
+      public static let cameraFacing: DotCamera.CameraFacing
+      public static let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+    }
+    @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
+    @objc final public let qualityAttributeThresholds: DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds
+    @objc final public let query: DotFaceCore.FaceDetectionQuery
+    @objc final public let isDetectionLayerVisible: Swift.Bool
+    @objc final public let isTorchEnabled: Swift.Bool
+    @objc final public let cameraFacing: DotCamera.CameraFacing
+    @objc final public let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+    @objc final public let sessionToken: Swift.String?
+    @objc override convenience dynamic public init()
+    @objc public init(sessionToken: Swift.String? = nil, qualityAttributeThresholds: DotFaceCore.FaceAutoCaptureViewController.Configuration.QualityAttributeThresholds = QualityAttributeThresholdPresets.standard.build(), query: DotFaceCore.FaceDetectionQuery = .init(), faceSizeRatioInterval: DotCore.IntervalDouble = Defaults.faceSizeRatioInterval, isDetectionLayerVisible: Swift.Bool = Defaults.isDetectionLayerVisible, isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType = Defaults.cameraPreviewScaleType)
     @objc override final public var description: Swift.String {
       @objc get
     }
-    @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
-    @objc override final public var hash: Swift.Int {
-      @objc get
-    }
     @objc deinit
   }
-  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFQualityAttributeThresholdPresets) final public class QualityAttributeThresholdPresets : ObjectiveC.NSObject {
-    @objc public static var standard: DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder {
-      @objc get
-    }
-    @objc public static var passiveLiveness: DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder {
-      @objc get
-    }
-    @objc public static var icao: DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds.Builder {
-      @objc get
-    }
-    @objc deinit
-  }
-  public struct Defaults {
-    public static let faceSizeRatioInterval: DotCore.IntervalDouble
-    public static let isDetectionLayerVisible: Swift.Bool
-    public static let isTorchEnabled: Swift.Bool
-    public static let cameraFacing: DotCamera.CameraFacing
-    public static let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
-  }
-  @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
-  @objc final public let qualityAttributeThresholds: DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds
-  @objc final public let isDetectionLayerVisible: Swift.Bool
-  @objc final public let isTorchEnabled: Swift.Bool
-  @objc final public let cameraFacing: DotCamera.CameraFacing
-  @objc final public let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
-  @objc final public let sessionToken: Swift.String?
-  @objc override convenience dynamic public init()
-  @objc public init(sessionToken: Swift.String? = nil, qualityAttributeThresholds: DotFaceCore.FaceAutoCaptureConfiguration.QualityAttributeThresholds = QualityAttributeThresholdPresets.standard.build(), faceSizeRatioInterval: DotCore.IntervalDouble = Defaults.faceSizeRatioInterval, isDetectionLayerVisible: Swift.Bool = Defaults.isDetectionLayerVisible, isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType = Defaults.cameraPreviewScaleType)
-  @objc override final public var description: Swift.String {
-    @objc get
-  }
-  @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceSimpleCaptureResult) final public class FaceSimpleCaptureResult : ObjectiveC.NSObject {
   @objc final public let bgrRawImage: DotCore.BgrRawImage
-  @objc final public let detectedFace: DotFaceCore.DetectedFace
+  @objc final public let face: DotFaceCore.FaceDetector.Face
   @objc final public let content: Foundation.Data
-  @objc public init(bgrRawImage: DotCore.BgrRawImage, detectedFace: DotFaceCore.DetectedFace, content: Foundation.Data)
   @objc override final public var description: Swift.String {
     @objc get
   }
@@ -352,26 +395,29 @@ extension DotFaceCore.FaceSimpleCaptureViewController {
   @objc optional func smileLivenessViewController(_ viewController: DotFaceCore.SmileLivenessViewController, processed detection: DotFaceCore.FaceAutoCaptureDetection)
   @objc func smileLivenessViewController(_ viewController: DotFaceCore.SmileLivenessViewController, finished result: DotFaceCore.SmileLivenessResult)
 }
-@_inheritsConvenienceInitializers @objc(DOTFMagnifEyeLivenessConfiguration) final public class MagnifEyeLivenessConfiguration : ObjectiveC.NSObject, DotCamera._CameraConfiguration {
-  public struct Defaults {
-    public static let faceSizeRatioInterval: DotCore.IntervalDouble
-    public static let isDetectionLayerVisible: Swift.Bool
-    public static let isTorchEnabled: Swift.Bool
-    public static let cameraFacing: DotCamera.CameraFacing
-    public static let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+extension DotFaceCore.MagnifEyeLivenessViewController {
+  @_inheritsConvenienceInitializers @objc(DOTFMagnifEyeLivenessConfiguration) final public class Configuration : ObjectiveC.NSObject, DotCamera._CameraConfiguration {
+    public struct Defaults {
+      public static let faceSizeRatioInterval: DotCore.IntervalDouble
+      public static let isDetectionLayerVisible: Swift.Bool
+      public static let isTorchEnabled: Swift.Bool
+      public static let cameraFacing: DotCamera.CameraFacing
+      public static let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+    }
+    @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
+    @objc final public let query: DotFaceCore.FaceDetectionQuery
+    @objc final public let isDetectionLayerVisible: Swift.Bool
+    @objc final public let isTorchEnabled: Swift.Bool
+    @objc final public let cameraFacing: DotCamera.CameraFacing
+    @objc final public let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+    @objc final public let sessionToken: Swift.String?
+    @objc override convenience dynamic public init()
+    @objc public init(sessionToken: Swift.String? = nil, faceSizeRatioInterval: DotCore.IntervalDouble = Defaults.faceSizeRatioInterval, query: DotFaceCore.FaceDetectionQuery = .init(), isDetectionLayerVisible: Swift.Bool = Defaults.isDetectionLayerVisible, isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType = Defaults.cameraPreviewScaleType)
+    @objc override final public var description: Swift.String {
+      @objc get
+    }
+    @objc deinit
   }
-  @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
-  @objc final public let isDetectionLayerVisible: Swift.Bool
-  @objc final public let isTorchEnabled: Swift.Bool
-  @objc final public let cameraFacing: DotCamera.CameraFacing
-  @objc final public let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
-  @objc final public let sessionToken: Swift.String?
-  @objc override convenience dynamic public init()
-  @objc public init(sessionToken: Swift.String? = nil, faceSizeRatioInterval: DotCore.IntervalDouble = Defaults.faceSizeRatioInterval, isDetectionLayerVisible: Swift.Bool = Defaults.isDetectionLayerVisible, isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType = Defaults.cameraPreviewScaleType)
-  @objc override final public var description: Swift.String {
-    @objc get
-  }
-  @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFTemplate) final public class Template : ObjectiveC.NSObject {
   @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFTemplateVersion) final public class Version : ObjectiveC.NSObject {
@@ -388,30 +434,33 @@ extension DotFaceCore.FaceSimpleCaptureViewController {
   @objc convenience public init(bytes: Foundation.Data, version: DotFaceCore.Template.Version)
   @objc deinit
 }
-@_inheritsConvenienceInitializers @objc(DOTFFaceSimpleCaptureConfiguration) final public class FaceSimpleCaptureConfiguration : ObjectiveC.NSObject, DotCamera._CameraConfiguration {
-  public struct Defaults {
-    public static let faceSizeRatioInterval: DotCore.IntervalDouble
-    public static let isTorchEnabled: Swift.Bool
-    public static let cameraFacing: DotCamera.CameraFacing
-    public static let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+extension DotFaceCore.FaceSimpleCaptureViewController {
+  @_inheritsConvenienceInitializers @objc(DOTFFaceSimpleCaptureConfiguration) final public class Configuration : ObjectiveC.NSObject, DotCamera._CameraConfiguration {
+    public struct Defaults {
+      public static let faceSizeRatioInterval: DotCore.IntervalDouble
+      public static let isTorchEnabled: Swift.Bool
+      public static let cameraFacing: DotCamera.CameraFacing
+      public static let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+    }
+    @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
+    @objc final public let query: DotFaceCore.FaceDetectionQuery
+    @objc final public let isTorchEnabled: Swift.Bool
+    @objc final public let cameraFacing: DotCamera.CameraFacing
+    @objc final public let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+    @objc final public let sessionToken: Swift.String?
+    @objc override convenience dynamic public init()
+    @objc public init(sessionToken: Swift.String? = nil, faceSizeRatioInterval: DotCore.IntervalDouble = Defaults.faceSizeRatioInterval, query: DotFaceCore.FaceDetectionQuery = .init(), isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType = Defaults.cameraPreviewScaleType)
+    @objc override final public var description: Swift.String {
+      @objc get
+    }
+    @objc deinit
   }
-  @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
-  @objc final public let isTorchEnabled: Swift.Bool
-  @objc final public let cameraFacing: DotCamera.CameraFacing
-  @objc final public let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
-  @objc final public let sessionToken: Swift.String?
-  @objc override convenience dynamic public init()
-  @objc public init(sessionToken: Swift.String? = nil, faceSizeRatioInterval: DotCore.IntervalDouble = Defaults.faceSizeRatioInterval, isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType = Defaults.cameraPreviewScaleType)
-  @objc override final public var description: Swift.String {
-    @objc get
-  }
-  @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc(DOTFSmileLivenessViewController) @_Concurrency.MainActor(unsafe) final public class SmileLivenessViewController : UIKit.UIViewController {
-  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotFaceCore.SmileLivenessConfiguration
-  @objc @_Concurrency.MainActor(unsafe) final public let style: DotFaceCore.SmileLivenessStyle
-  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: DotFaceCore.SmileLivenessViewControllerDelegate?
-  @objc @_Concurrency.MainActor(unsafe) public static func create(configuration: DotFaceCore.SmileLivenessConfiguration = .init(), style: DotFaceCore.SmileLivenessStyle = .init()) -> DotFaceCore.SmileLivenessViewController
+  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotFaceCore.SmileLivenessViewController.Configuration
+  @objc @_Concurrency.MainActor(unsafe) final public let style: DotFaceCore.SmileLivenessViewController.Style
+  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: (any DotFaceCore.SmileLivenessViewControllerDelegate)?
+  @objc @_Concurrency.MainActor(unsafe) convenience public init(configuration: DotFaceCore.SmileLivenessViewController.Configuration = .init(), style: DotFaceCore.SmileLivenessViewController.Style = .init())
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
   @objc @_Concurrency.MainActor(unsafe) final public func start()
   @objc @_Concurrency.MainActor(unsafe) final public func stopAsync(onStopped: @escaping () -> Swift.Void)
@@ -423,54 +472,7 @@ extension DotFaceCore.SmileLivenessViewController {
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillAppear(_ animated: Swift.Bool)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidDisappear(_ animated: Swift.Bool)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillDisappear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
-}
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFEyeGazeLivenessConfiguration) final public class EyeGazeLivenessConfiguration : ObjectiveC.NSObject {
-  public enum Error : Foundation.LocalizedError {
-    case wrongMinValidSegmentCount
-    public var errorDescription: Swift.String? {
-      get
-    }
-    public static func == (a: DotFaceCore.EyeGazeLivenessConfiguration.Error, b: DotFaceCore.EyeGazeLivenessConfiguration.Error) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
-    public var hashValue: Swift.Int {
-      get
-    }
-  }
-  @objc(DOTFEyeGazeLivenessTransitionType) public enum TransitionType : Swift.Int, Swift.CustomStringConvertible {
-    case move
-    case fade
-    public var description: Swift.String {
-      get
-    }
-    public init?(rawValue: Swift.Int)
-    public typealias RawValue = Swift.Int
-    public var rawValue: Swift.Int {
-      get
-    }
-  }
-  public struct Defaults {
-    public static let minFaceSizeRatio: Swift.Double
-    public static let maxFaceSizeRatio: Swift.Double
-    public static let proximityTolerance: Swift.Double
-    public static let minValidSegmentCount: Swift.Int
-    public static let transitionType: DotFaceCore.EyeGazeLivenessConfiguration.TransitionType
-    public static let objectImageSize: CoreFoundation.CGSize
-  }
-  @objc final public let minFaceSizeRatio: Swift.Double
-  @objc final public let maxFaceSizeRatio: Swift.Double
-  @objc final public let proximityTolerance: Swift.Double
-  @objc final public let segments: [DotFaceCore.Segment]
-  @objc final public let minValidSegmentCount: Swift.Int
-  @objc final public let transitionType: DotFaceCore.EyeGazeLivenessConfiguration.TransitionType
-  @objc final public let objectImage: UIKit.UIImage
-  @objc final public let objectImageSize: CoreFoundation.CGSize
-  @objc override convenience dynamic public init()
-  @objc convenience public init(transitionType: DotFaceCore.EyeGazeLivenessConfiguration.TransitionType = Defaults.transitionType, segments: [DotFaceCore.Segment] = [], minValidSegmentCount: Swift.Int = Defaults.minValidSegmentCount, minFaceSizeRatio: Swift.Double = Defaults.minFaceSizeRatio, maxFaceSizeRatio: Swift.Double = Defaults.maxFaceSizeRatio, objectImage: UIKit.UIImage? = nil, objectImageSize: CoreFoundation.CGSize = Defaults.objectImageSize, proximityTolerance: Swift.Double = Defaults.proximityTolerance) throws
-  @objc override final public var description: Swift.String {
-    @objc get
-  }
-  @objc deinit
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFGlasses) final public class Glasses : ObjectiveC.NSObject {
   @objc final public let score: Swift.Double
@@ -483,9 +485,9 @@ extension DotFaceCore.SmileLivenessViewController {
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFExpressionQuery) final public class ExpressionQuery : ObjectiveC.NSObject {
   @objc final public let eyes: DotFaceCore.EyesExpressionQuery
-  @objc final public let mouth: Swift.Bool
+  @objc final public let evaluateMouth: Swift.Bool
   @objc override convenience dynamic public init()
-  @objc convenience public init(eyes: DotFaceCore.EyesExpressionQuery = EyesExpressionQuery(), mouth: Swift.Bool = false)
+  @objc convenience public init(eyes: DotFaceCore.EyesExpressionQuery = EyesExpressionQuery(), evaluateMouth: Swift.Bool = false)
   @objc deinit
 }
 @_inheritsConvenienceInitializers @objc(DOTFFaceMatcher) final public class FaceMatcher : ObjectiveC.NSObject {
@@ -509,85 +511,74 @@ extension DotFaceCore.SmileLivenessViewController {
   @objc final public func match(referenceTemplateBytes: Foundation.Data, probeFaceImage: DotFaceCore.FaceImage) throws -> DotFaceCore.FaceMatcher.Result
   @objc deinit
 }
-@_inheritsConvenienceInitializers @objc(DOTFSmileLivenessConfiguration) final public class SmileLivenessConfiguration : ObjectiveC.NSObject, DotCamera._CameraConfiguration {
-  public struct Defaults {
-    public static let faceSizeRatioInterval: DotCore.IntervalDouble
-    public static let isDetectionLayerVisible: Swift.Bool
-    public static let isTorchEnabled: Swift.Bool
-    public static let cameraFacing: DotCamera.CameraFacing
-    public static let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
-  }
-  @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
-  @objc final public let isDetectionLayerVisible: Swift.Bool
-  @objc final public let isTorchEnabled: Swift.Bool
-  @objc final public let cameraFacing: DotCamera.CameraFacing
-  @objc final public let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
-  @objc final public let sessionToken: Swift.String?
-  @objc override convenience dynamic public init()
-  @objc public init(sessionToken: Swift.String? = nil, faceSizeRatioInterval: DotCore.IntervalDouble = Defaults.faceSizeRatioInterval, isDetectionLayerVisible: Swift.Bool = Defaults.isDetectionLayerVisible, isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType = Defaults.cameraPreviewScaleType)
-  @objc override final public var description: Swift.String {
-    @objc get
-  }
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class FaceDetectionQuery : ObjectiveC.NSObject {
+  @objc final public let faceQuality: DotFaceCore.FaceQualityQuery
+  @objc final public let evaluatePassiveLiveness: Swift.Bool
+  @objc final public let createFullFrontalImage: Swift.Bool
+  @objc final public let createTemplate: Swift.Bool
+  @objc public init(faceQuality: DotFaceCore.FaceQualityQuery = .init(), evaluatePassiveLiveness: Swift.Bool = false, createFullFrontalImage: Swift.Bool = false, createTemplate: Swift.Bool = false)
   @objc deinit
 }
-@objc(DOTFSegmentsGenerator) public protocol SegmentsGenerator {
-  @objc func generate(segmentCount: Swift.Int, segmentDurationMillis: Swift.Int) -> [DotFaceCore.Segment]
+extension DotFaceCore.SmileLivenessViewController {
+  @_inheritsConvenienceInitializers @objc(DOTFSmileLivenessConfiguration) final public class Configuration : ObjectiveC.NSObject, DotCamera._CameraConfiguration {
+    public struct Defaults {
+      public static let faceSizeRatioInterval: DotCore.IntervalDouble
+      public static let isDetectionLayerVisible: Swift.Bool
+      public static let isTorchEnabled: Swift.Bool
+      public static let cameraFacing: DotCamera.CameraFacing
+      public static let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+    }
+    @objc final public let faceSizeRatioInterval: DotCore.IntervalDouble
+    @objc final public let query: DotFaceCore.FaceDetectionQuery
+    @objc final public let isDetectionLayerVisible: Swift.Bool
+    @objc final public let isTorchEnabled: Swift.Bool
+    @objc final public let cameraFacing: DotCamera.CameraFacing
+    @objc final public let cameraPreviewScaleType: DotCamera.CameraPreviewScaleType
+    @objc final public let sessionToken: Swift.String?
+    @objc override convenience dynamic public init()
+    @objc public init(sessionToken: Swift.String? = nil, faceSizeRatioInterval: DotCore.IntervalDouble = Defaults.faceSizeRatioInterval, query: DotFaceCore.FaceDetectionQuery = .init(), isDetectionLayerVisible: Swift.Bool = Defaults.isDetectionLayerVisible, isTorchEnabled: Swift.Bool = Defaults.isTorchEnabled, cameraFacing: DotCamera.CameraFacing = Defaults.cameraFacing, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType = Defaults.cameraPreviewScaleType)
+    @objc override final public var description: Swift.String {
+      @objc get
+    }
+    @objc deinit
+  }
 }
-@_inheritsConvenienceInitializers @objc(DOTFRandomSegmentsGenerator) final public class RandomSegmentsGenerator : ObjectiveC.NSObject, DotFaceCore.SegmentsGenerator {
-  @objc final public func generate(segmentCount: Swift.Int, segmentDurationMillis: Swift.Int) -> [DotFaceCore.Segment]
+@objc(DOTFEyeGazeLivenessCornersGenerator) public protocol EyeGazeLivenessCornersGenerator {
+  @objc func generate(count: Swift.Int) -> [DotFaceCore.WrappedEyeGazeLivenessCorner]
+}
+@_inheritsConvenienceInitializers @objc(DOTFRandomEyeGazeLivenessCornersGenerator) final public class RandomEyeGazeLivenessCornersGenerator : ObjectiveC.NSObject, DotFaceCore.EyeGazeLivenessCornersGenerator {
+  @objc final public func generate(count: Swift.Int) -> [DotFaceCore.WrappedEyeGazeLivenessCorner]
   @objc override dynamic public init()
   @objc deinit
 }
-@_inheritsConvenienceInitializers @objc(DOTFEyeGazeLivenessViewController) @_Concurrency.MainActor(unsafe) final public class EyeGazeLivenessViewController : UIKit.UIViewController {
-  @objc @_Concurrency.MainActor(unsafe) final public var configuration: DotFaceCore.EyeGazeLivenessConfiguration {
-    get
+extension DotFaceCore.MagnifEyeLivenessViewController {
+  @_inheritsConvenienceInitializers @objc(DOTFMagnifEyeLivenessStyle) final public class Style : ObjectiveC.NSObject {
+    public struct Defaults {
+      public static let backgroundColor: UIKit.UIColor
+      public static let instructionFont: UIKit.UIFont
+      public static let instructionTextColor: UIKit.UIColor
+      public static let instructionCandidateSelectionTextColor: UIKit.UIColor
+      public static let instructionBackgroundColor: UIKit.UIColor
+      public static let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
+      public static let placeholderColor: UIKit.UIColor
+      public static let placeholderCandidateSelectionColor: UIKit.UIColor
+      public static let detectionLayerColor: UIKit.UIColor
+      public static let placeholderOverlayColor: UIKit.UIColor
+    }
+    @objc final public let backgroundColor: UIKit.UIColor
+    @objc final public let instructionFont: UIKit.UIFont
+    @objc final public let instructionTextColor: UIKit.UIColor
+    @objc final public let instructionCandidateSelectionTextColor: UIKit.UIColor
+    @objc final public let instructionBackgroundColor: UIKit.UIColor
+    @objc final public let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
+    @objc final public let placeholderColor: UIKit.UIColor
+    @objc final public let placeholderCandidateSelectionColor: UIKit.UIColor
+    @objc final public let detectionLayerColor: UIKit.UIColor
+    @objc final public let placeholderOverlayColor: UIKit.UIColor
+    @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, instructionFont: UIKit.UIFont = Defaults.instructionFont, instructionTextColor: UIKit.UIColor = Defaults.instructionTextColor, instructionCandidateSelectionTextColor: UIKit.UIColor = Defaults.instructionCandidateSelectionTextColor, instructionBackgroundColor: UIKit.UIColor = Defaults.instructionBackgroundColor, instructionCandidateSelectionBackgroundColor: UIKit.UIColor = Defaults.instructionCandidateSelectionBackgroundColor, placeholderColor: UIKit.UIColor = Defaults.placeholderColor, placeholderCandidateSelectionColor: UIKit.UIColor = Defaults.placeholderCandidateSelectionColor, detectionLayerColor: UIKit.UIColor = Defaults.detectionLayerColor, placeholderOverlayColor: UIKit.UIColor = Defaults.placeholderOverlayColor)
+    @objc override dynamic public init()
+    @objc deinit
   }
-  @objc @_Concurrency.MainActor(unsafe) final public var style: DotFaceCore.EyeGazeLivenessStyle {
-    get
-  }
-  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: DotFaceCore.EyeGazeLivenessViewControllerDelegate?
-  @objc @_Concurrency.MainActor(unsafe) public static func create(configuration: DotFaceCore.EyeGazeLivenessConfiguration, style: DotFaceCore.EyeGazeLivenessStyle = .init()) -> DotFaceCore.EyeGazeLivenessViewController
-  @objc @_Concurrency.MainActor(unsafe) final public func start()
-  @objc @_Concurrency.MainActor(unsafe) final public func stopAsync()
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @objc deinit
-}
-extension DotFaceCore.EyeGazeLivenessViewController {
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillAppear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillDisappear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidAppear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidDisappear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLayoutSubviews()
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
-}
-@_inheritsConvenienceInitializers @objc(DOTFMagnifEyeLivenessStyle) final public class MagnifEyeLivenessStyle : ObjectiveC.NSObject {
-  public struct Defaults {
-    public static let backgroundColor: UIKit.UIColor
-    public static let instructionFont: UIKit.UIFont
-    public static let instructionTextColor: UIKit.UIColor
-    public static let instructionCandidateSelectionTextColor: UIKit.UIColor
-    public static let instructionBackgroundColor: UIKit.UIColor
-    public static let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
-    public static let placeholderColor: UIKit.UIColor
-    public static let placeholderCandidateSelectionColor: UIKit.UIColor
-    public static let detectionLayerColor: UIKit.UIColor
-    public static let overlayColor: UIKit.UIColor
-  }
-  @objc final public let backgroundColor: UIKit.UIColor
-  @objc final public let instructionFont: UIKit.UIFont
-  @objc final public let instructionTextColor: UIKit.UIColor
-  @objc final public let instructionCandidateSelectionTextColor: UIKit.UIColor
-  @objc final public let instructionBackgroundColor: UIKit.UIColor
-  @objc final public let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
-  @objc final public let placeholderColor: UIKit.UIColor
-  @objc final public let placeholderCandidateSelectionColor: UIKit.UIColor
-  @objc final public let detectionLayerColor: UIKit.UIColor
-  @objc final public let overlayColor: UIKit.UIColor
-  @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, instructionFont: UIKit.UIFont = Defaults.instructionFont, instructionTextColor: UIKit.UIColor = Defaults.instructionTextColor, instructionCandidateSelectionTextColor: UIKit.UIColor = Defaults.instructionCandidateSelectionTextColor, instructionBackgroundColor: UIKit.UIColor = Defaults.instructionBackgroundColor, instructionCandidateSelectionBackgroundColor: UIKit.UIColor = Defaults.instructionCandidateSelectionBackgroundColor, placeholderColor: UIKit.UIColor = Defaults.placeholderColor, placeholderCandidateSelectionColor: UIKit.UIColor = Defaults.placeholderCandidateSelectionColor, detectionLayerColor: UIKit.UIColor = Defaults.detectionLayerColor, overlayColor: UIKit.UIColor = Defaults.overlayColor)
-  @objc override dynamic public init()
-  @objc deinit
 }
 @objc(DOTFEyeGazeLivenessViewControllerDelegate) public protocol EyeGazeLivenessViewControllerDelegate {
   @objc optional func eyeGazeLivenessViewControllerViewDidLoad(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
@@ -598,29 +589,10 @@ extension DotFaceCore.EyeGazeLivenessViewController {
   @objc optional func eyeGazeLivenessViewControllerViewDidDisappear(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
   @objc optional func eyeGazeLivenessViewControllerViewWillTransition(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
   @objc optional func eyeGazeLivenessViewControllerNoCameraPermission(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
-  @objc optional func eyeGazeLivenessViewControllerStopped(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
-  @objc func eyeGazeLivenessViewController(_ viewController: DotFaceCore.EyeGazeLivenessViewController, stateChanged state: DotFaceCore.EyeGazeLivenessState)
-  @objc func eyeGazeLivenessViewController(_ viewController: DotFaceCore.EyeGazeLivenessViewController, finished score: Swift.Float, with segmentImages: [DotFaceCore.SegmentImage])
-  @objc func eyeGazeLivenessViewControllerNoMoreSegments(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
-  @objc func eyeGazeLivenessViewControllerEyesNotDetected(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
-  @objc func eyeGazeLivenessViewControllerFaceTrackingFailed(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
-}
-@_inheritsConvenienceInitializers @objc(DOTFEyeGazeLivenessStyle) final public class EyeGazeLivenessStyle : ObjectiveC.NSObject {
-  public struct Defaults {
-    public static let backgroundColor: UIKit.UIColor
-    public static let objectColor: UIKit.UIColor
-    public static let hintFont: UIKit.UIFont
-    public static let hintTextColor: UIKit.UIColor
-    public static let hintBackgroundColor: UIKit.UIColor
-  }
-  @objc final public let backgroundColor: UIKit.UIColor
-  @objc final public let objectColor: UIKit.UIColor
-  @objc final public let hintFont: UIKit.UIFont
-  @objc final public let hintTextColor: UIKit.UIColor
-  @objc final public let hintBackgroundColor: UIKit.UIColor
-  @objc override dynamic public init()
-  @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, objectColor: UIKit.UIColor = Defaults.objectColor, hintFont: UIKit.UIFont = Defaults.hintFont, hintTextColor: UIKit.UIColor = Defaults.hintTextColor, hintBackgroundColor: UIKit.UIColor = Defaults.hintBackgroundColor)
-  @objc deinit
+  @objc optional func eyeGazeLivenessViewController(_ viewController: DotFaceCore.EyeGazeLivenessViewController, processed detection: DotFaceCore.FaceAutoCaptureDetection)
+  @objc func eyeGazeLivenessViewController(_ viewController: DotFaceCore.EyeGazeLivenessViewController, finished result: DotFaceCore.EyeGazeLivenessResult)
+  @objc func eyeGazeLivenessViewControllerAllCornersUsed(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
+  @objc func eyeGazeLivenessViewControllerCriticalFacePresenceLost(_ viewController: DotFaceCore.EyeGazeLivenessViewController)
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceAttribute) final public class FaceAttribute : ObjectiveC.NSObject {
   @objc final public let score: Swift.Double
@@ -630,6 +602,24 @@ extension DotFaceCore.EyeGazeLivenessViewController {
     @objc get
   }
   @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(DOTFEyeGazeLivenessViewController) @_Concurrency.MainActor(unsafe) final public class EyeGazeLivenessViewController : UIKit.UIViewController {
+  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotFaceCore.EyeGazeLivenessViewController.Configuration
+  @objc @_Concurrency.MainActor(unsafe) final public let style: DotFaceCore.EyeGazeLivenessViewController.Style
+  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: (any DotFaceCore.EyeGazeLivenessViewControllerDelegate)?
+  @objc @_Concurrency.MainActor(unsafe) convenience public init(configuration: DotFaceCore.EyeGazeLivenessViewController.Configuration, style: DotFaceCore.EyeGazeLivenessViewController.Style = .init())
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
+  @objc @_Concurrency.MainActor(unsafe) final public func start()
+  @objc @_Concurrency.MainActor(unsafe) final public func stopAsync(onStopped: @escaping () -> Swift.Void)
+  @objc deinit
+}
+extension DotFaceCore.EyeGazeLivenessViewController {
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLayoutSubviews()
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewDidDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
 }
 @objc public protocol DotFaceModule {
   @objc var versionName: Swift.String { get }
@@ -732,11 +722,24 @@ extension DotFaceCore.EyeGazeLivenessViewController {
   }
   @objc deinit
 }
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFEyeGazeLivenessResult) final public class EyeGazeLivenessResult : ObjectiveC.NSObject {
+  @objc final public let bgrRawImage: DotCore.BgrRawImage
+  @objc final public let face: DotFaceCore.FaceDetector.Face
+  @objc final public let content: Foundation.Data
+  @objc final public let score: DotCore.WrappedDouble?
+  @available(*, deprecated, message: "Temporary property for the legacy way of liveness evaluation on DIS. Only 'content' property should be used for server-side evaluation.")
+  @objc final public let cornerBgrRawImages: [DotCore.BgrRawImage]
+  @objc public init(bgrRawImage: DotCore.BgrRawImage, face: DotFaceCore.FaceDetector.Face, content: Foundation.Data, score: DotCore.WrappedDouble?, cornerBgrRawImages: [DotCore.BgrRawImage])
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceAutoCaptureResult) final public class FaceAutoCaptureResult : ObjectiveC.NSObject, DotFaceCommons._FaceAutoCaptureResultMarker {
   @objc final public let bgrRawImage: DotCore.BgrRawImage
-  @objc final public let detectedFace: DotFaceCore.DetectedFace?
+  @objc final public let face: DotFaceCore.FaceDetector.Face?
   @objc final public let content: Foundation.Data
-  @objc public init(bgrRawImage: DotCore.BgrRawImage, detectedFace: DotFaceCore.DetectedFace?, content: Foundation.Data)
+  @objc public init(bgrRawImage: DotCore.BgrRawImage, face: DotFaceCore.FaceDetector.Face?, content: Foundation.Data)
   @objc override final public var description: Swift.String {
     @objc get
   }
@@ -766,10 +769,10 @@ extension DotFaceCore.EyeGazeLivenessViewController {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc(DOTFFaceAutoCaptureViewController) @_Concurrency.MainActor(unsafe) final public class FaceAutoCaptureViewController : UIKit.UIViewController {
-  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotFaceCore.FaceAutoCaptureConfiguration
-  @objc @_Concurrency.MainActor(unsafe) final public let style: DotFaceCore.FaceAutoCaptureStyle
-  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: DotFaceCore.FaceAutoCaptureViewControllerDelegate?
-  @objc @_Concurrency.MainActor(unsafe) public static func create(configuration: DotFaceCore.FaceAutoCaptureConfiguration = .init(), style: DotFaceCore.FaceAutoCaptureStyle = .init()) -> DotFaceCore.FaceAutoCaptureViewController
+  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotFaceCore.FaceAutoCaptureViewController.Configuration
+  @objc @_Concurrency.MainActor(unsafe) final public let style: DotFaceCore.FaceAutoCaptureViewController.Style
+  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: (any DotFaceCore.FaceAutoCaptureViewControllerDelegate)?
+  @objc @_Concurrency.MainActor(unsafe) convenience public init(configuration: DotFaceCore.FaceAutoCaptureViewController.Configuration = .init(), style: DotFaceCore.FaceAutoCaptureViewController.Style = .init())
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
   @objc @_Concurrency.MainActor(unsafe) final public func start()
   @objc @_Concurrency.MainActor(unsafe) final public func stopAsync(onStopped: @escaping () -> Swift.Void)
@@ -782,73 +785,65 @@ extension DotFaceCore.FaceAutoCaptureViewController {
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillAppear(_ animated: Swift.Bool)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidDisappear(_ animated: Swift.Bool)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillDisappear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceAutoCaptureDetection) final public class FaceAutoCaptureDetection : ObjectiveC.NSObject {
   @objc final public let bgrRawImage: DotCore.BgrRawImage
-  @objc final public let detectedFace: DotFaceCore.DetectedFace?
-  @objc final public let position: DotFaceCommons.DetectionPosition?
+  @objc final public let face: DotFaceCore.FaceDetector.Face?
   @objc final public let deviceTiltAngles: DotCapture.TiltAngles?
   @objc final public let validatorIdentifiers: [Swift.String]
-  @objc public init(bgrRawImage: DotCore.BgrRawImage, detectedFace: DotFaceCore.DetectedFace?, position: DotFaceCommons.DetectionPosition?, deviceTiltAngles: DotCapture.TiltAngles?, validatorIdentifiers: [Swift.String])
+  @objc public init(bgrRawImage: DotCore.BgrRawImage, face: DotFaceCore.FaceDetector.Face?, deviceTiltAngles: DotCapture.TiltAngles?, validatorIdentifiers: [Swift.String])
   @objc override final public var description: Swift.String {
     @objc get
   }
   @objc deinit
 }
-@_inheritsConvenienceInitializers @objc(DOTFFaceAutoCaptureStyle) final public class FaceAutoCaptureStyle : ObjectiveC.NSObject {
-  public struct Defaults {
-    public static let backgroundColor: UIKit.UIColor
-    public static let backgroundOverlayColor: UIKit.UIColor
-    public static let circleOutlineColor: UIKit.UIColor
-    public static let trackingCircleColor: UIKit.UIColor
-    public static let circleOutlineColorStayStill: UIKit.UIColor
-    public static let hintFont: UIKit.UIFont
-    public static let hintTextColor: UIKit.UIColor
-    public static let hintBackgroundColor: UIKit.UIColor
+extension DotFaceCore.FaceAutoCaptureViewController {
+  @_inheritsConvenienceInitializers @objc(DOTFFaceAutoCaptureStyle) final public class Style : ObjectiveC.NSObject {
+    public struct Defaults {
+      public static let backgroundColor: UIKit.UIColor
+      public static let instructionFont: UIKit.UIFont
+      public static let instructionTextColor: UIKit.UIColor
+      public static let instructionCandidateSelectionTextColor: UIKit.UIColor
+      public static let instructionBackgroundColor: UIKit.UIColor
+      public static let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
+      public static let placeholderColor: UIKit.UIColor
+      public static let placeholderCandidateSelectionColor: UIKit.UIColor
+      public static let detectionLayerColor: UIKit.UIColor
+      public static let placeholderOverlayColor: UIKit.UIColor
+    }
+    @objc final public let backgroundColor: UIKit.UIColor
+    @objc final public let instructionFont: UIKit.UIFont
+    @objc final public let instructionTextColor: UIKit.UIColor
+    @objc final public let instructionCandidateSelectionTextColor: UIKit.UIColor
+    @objc final public let instructionBackgroundColor: UIKit.UIColor
+    @objc final public let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
+    @objc final public let placeholderColor: UIKit.UIColor
+    @objc final public let placeholderCandidateSelectionColor: UIKit.UIColor
+    @objc final public let detectionLayerColor: UIKit.UIColor
+    @objc final public let placeholderOverlayColor: UIKit.UIColor
+    @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, instructionFont: UIKit.UIFont = Defaults.instructionFont, instructionTextColor: UIKit.UIColor = Defaults.instructionTextColor, instructionCandidateSelectionTextColor: UIKit.UIColor = Defaults.instructionCandidateSelectionTextColor, instructionBackgroundColor: UIKit.UIColor = Defaults.instructionBackgroundColor, instructionCandidateSelectionBackgroundColor: UIKit.UIColor = Defaults.instructionCandidateSelectionBackgroundColor, placeholderColor: UIKit.UIColor = Defaults.placeholderColor, placeholderCandidateSelectionColor: UIKit.UIColor = Defaults.placeholderCandidateSelectionColor, detectionLayerColor: UIKit.UIColor = Defaults.detectionLayerColor, placeholderOverlayColor: UIKit.UIColor = Defaults.placeholderOverlayColor)
+    @objc override dynamic public init()
+    @objc deinit
   }
-  @objc final public let backgroundColor: UIKit.UIColor
-  @objc final public let backgroundOverlayColor: UIKit.UIColor
-  @objc final public let circleOutlineColor: UIKit.UIColor
-  @objc final public let trackingCircleColor: UIKit.UIColor
-  @objc final public let circleOutlineColorStayStill: UIKit.UIColor
-  @objc final public let hintFont: UIKit.UIFont
-  @objc final public let hintTextColor: UIKit.UIColor
-  @objc final public let hintBackgroundColor: UIKit.UIColor
-  @objc override dynamic public init()
-  @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, backgroundOverlayColor: UIKit.UIColor = Defaults.backgroundOverlayColor, circleOutlineColor: UIKit.UIColor = Defaults.circleOutlineColor, trackingCircleColor: UIKit.UIColor = Defaults.trackingCircleColor, circleOutlineColorStayStill: UIKit.UIColor = Defaults.circleOutlineColorStayStill, hintFont: UIKit.UIFont = Defaults.hintFont, hintTextColor: UIKit.UIColor = Defaults.hintTextColor, hintBackgroundColor: UIKit.UIColor = Defaults.hintBackgroundColor)
-  @objc deinit
 }
-@_inheritsConvenienceInitializers @objc(DOTFFaceDetector) final public class FaceDetector : ObjectiveC.NSObject {
-  @objc override dynamic public init()
-  @objc final public func detect(faceImage: DotFaceCore.FaceImage, maximumFaces: Swift.Int) throws -> [DotFaceCore.DetectedFace]
-  @objc deinit
-}
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFSegment) final public class Segment : ObjectiveC.NSObject {
-  @objc(DOTFSegmentCorner) public enum Corner : Swift.Int, Swift.CaseIterable, Swift.CustomStringConvertible {
-    case topLeft
-    case topRight
-    case bottomLeft
-    case bottomRight
-    public var description: Swift.String {
-      get
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceDetector) final public class FaceDetector : ObjectiveC.NSObject {
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class Face : ObjectiveC.NSObject {
+    @objc final public let confidence: Swift.Double
+    @objc final public let position: DotFaceCommons.DetectionPosition
+    @objc final public let faceAspects: DotFaceCore.FaceAspects
+    @objc final public let faceQuality: DotFaceCore.FaceQuality
+    @objc final public let passiveLivenessFaceAttribute: DotFaceCore.FaceAttribute?
+    @objc final public let fullFrontalBgrRawImage: DotCore.BgrRawImage?
+    @objc final public let template: DotFaceCore.Template?
+    @objc public init(confidence: Swift.Double, position: DotFaceCommons.DetectionPosition, faceAspects: DotFaceCore.FaceAspects, faceQuality: DotFaceCore.FaceQuality, passiveLivenessFaceAttribute: DotFaceCore.FaceAttribute?, fullFrontalBgrRawImage: DotCore.BgrRawImage?, template: DotFaceCore.Template?)
+    @objc override final public var description: Swift.String {
+      @objc get
     }
-    public init?(rawValue: Swift.Int)
-    public typealias AllCases = [DotFaceCore.Segment.Corner]
-    public typealias RawValue = Swift.Int
-    public static var allCases: [DotFaceCore.Segment.Corner] {
-      get
-    }
-    public var rawValue: Swift.Int {
-      get
-    }
+    @objc deinit
   }
-  @objc final public let targetCorner: DotFaceCore.Segment.Corner
-  @objc final public let durationMillis: Swift.Int
-  @objc public init(targetCorner: DotFaceCore.Segment.Corner, durationMillis: Swift.Int)
-  @objc override final public var description: Swift.String {
-    @objc get
-  }
+  @objc override convenience dynamic public init()
+  @objc final public func detect(faceImage: DotFaceCore.FaceImage, query: DotFaceCore.FaceDetectionQuery = .init(), limit: Swift.Int) throws -> [DotFaceCore.FaceDetector.Face]
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFHeadPose) final public class HeadPose : ObjectiveC.NSObject {
@@ -863,11 +858,10 @@ extension DotFaceCore.FaceAutoCaptureViewController {
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFSmileLivenessResult) final public class SmileLivenessResult : ObjectiveC.NSObject {
   @objc final public let bgrRawImage: DotCore.BgrRawImage
-  @objc final public let detectedFace: DotFaceCore.DetectedFace
+  @objc final public let face: DotFaceCore.FaceDetector.Face
   @available(*, deprecated, message: "Temporary property for liveness evaluation on DIS. It will be replaced by binary content.")
   @objc final public let smileExpressionBgrRawImage: DotCore.BgrRawImage
   @objc final public let content: Foundation.Data
-  @objc public init(bgrRawImage: DotCore.BgrRawImage, detectedFace: DotFaceCore.DetectedFace, smileExpressionBgrRawImage: DotCore.BgrRawImage, content: Foundation.Data)
   @objc override final public var description: Swift.String {
     @objc get
   }
@@ -893,19 +887,19 @@ extension DotFaceCore.FaceAutoCaptureViewController {
   @objc deinit
 }
 @_inheritsConvenienceInitializers @objc(DOTFHeadPoseQuery) final public class HeadPoseQuery : ObjectiveC.NSObject {
-  @objc final public let roll: Swift.Bool
-  @objc final public let yaw: Swift.Bool
-  @objc final public let pitch: Swift.Bool
+  @objc final public let evaluateRoll: Swift.Bool
+  @objc final public let evaluateYaw: Swift.Bool
+  @objc final public let evaluatePitch: Swift.Bool
   @objc override convenience dynamic public init()
-  @objc public init(roll: Swift.Bool = false, yaw: Swift.Bool = false, pitch: Swift.Bool = false)
+  @objc public init(evaluateRoll: Swift.Bool = false, evaluateYaw: Swift.Bool = false, evaluatePitch: Swift.Bool = false)
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFFaceQuality) final public class FaceQuality : ObjectiveC.NSObject {
-  @objc final public let imageQuality: DotFaceCore.FaceImageQuality?
-  @objc final public let headPose: DotFaceCore.HeadPose?
-  @objc final public let wearables: DotFaceCore.Wearables?
-  @objc final public let expression: DotFaceCore.Expression?
-  @objc public init(imageQuality: DotFaceCore.FaceImageQuality? = nil, headPose: DotFaceCore.HeadPose? = nil, wearables: DotFaceCore.Wearables? = nil, expression: DotFaceCore.Expression? = nil)
+  @objc final public let imageQuality: DotFaceCore.FaceImageQuality
+  @objc final public let headPose: DotFaceCore.HeadPose
+  @objc final public let wearables: DotFaceCore.Wearables
+  @objc final public let expression: DotFaceCore.Expression
+  @objc public init(imageQuality: DotFaceCore.FaceImageQuality, headPose: DotFaceCore.HeadPose, wearables: DotFaceCore.Wearables, expression: DotFaceCore.Expression)
   @objc override final public var description: Swift.String {
     @objc get
   }
@@ -920,11 +914,30 @@ extension DotFaceCore.FaceAutoCaptureViewController {
   }
   @objc deinit
 }
+extension DotFaceCore.EyeGazeLivenessViewController {
+  @_inheritsConvenienceInitializers @objc(DOTFEyeGazeLivenessStyle) final public class Style : ObjectiveC.NSObject {
+    public struct Defaults {
+      public static let backgroundColor: UIKit.UIColor
+      public static let objectColor: UIKit.UIColor
+      public static let instructionFont: UIKit.UIFont
+      public static let instructionTextColor: UIKit.UIColor
+      public static let instructionBackgroundColor: UIKit.UIColor
+    }
+    @objc final public let backgroundColor: UIKit.UIColor
+    @objc final public let objectColor: UIKit.UIColor
+    @objc final public let instructionFont: UIKit.UIFont
+    @objc final public let instructionTextColor: UIKit.UIColor
+    @objc final public let instructionBackgroundColor: UIKit.UIColor
+    @objc override dynamic public init()
+    @objc public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, objectColor: UIKit.UIColor = Defaults.objectColor, instructionFont: UIKit.UIFont = Defaults.instructionFont, instructionTextColor: UIKit.UIColor = Defaults.instructionTextColor, instructionBackgroundColor: UIKit.UIColor = Defaults.instructionBackgroundColor)
+    @objc deinit
+  }
+}
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFMagnifEyeLivenessResult) final public class MagnifEyeLivenessResult : ObjectiveC.NSObject, DotFaceCommons._MagnifEyeLivenessResultMarker {
   @objc final public let bgrRawImage: DotCore.BgrRawImage
-  @objc final public let detectedFace: DotFaceCore.DetectedFace
+  @objc final public let face: DotFaceCore.FaceDetector.Face
   @objc final public let content: Foundation.Data
-  @objc public init(bgrRawImage: DotCore.BgrRawImage, detectedFace: DotFaceCore.DetectedFace, content: Foundation.Data)
+  @objc public init(bgrRawImage: DotCore.BgrRawImage, face: DotFaceCore.FaceDetector.Face, content: Foundation.Data)
   @objc override final public var description: Swift.String {
     @objc get
   }
@@ -942,17 +955,17 @@ extension DotFaceCore.FaceAutoCaptureViewController {
       get
     }
   }
-  @objc final public let modules: [DotFaceCore.DotFaceModule]
+  @objc final public let modules: [any DotFaceCore.DotFaceModule]
   @objc final public let faceDetectionConfidenceThreshold: Swift.Double
-  @objc convenience public init(modules: [DotFaceCore.DotFaceModule])
-  @objc public init(modules: [DotFaceCore.DotFaceModule], faceDetectionConfidenceThreshold: Swift.Double) throws
+  @objc convenience public init(modules: [any DotFaceCore.DotFaceModule])
+  @objc public init(modules: [any DotFaceCore.DotFaceModule], faceDetectionConfidenceThreshold: Swift.Double) throws
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc(DOTFMagnifEyeLivenessViewController) @_Concurrency.MainActor(unsafe) final public class MagnifEyeLivenessViewController : UIKit.UIViewController {
-  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotFaceCore.MagnifEyeLivenessConfiguration
-  @objc @_Concurrency.MainActor(unsafe) final public let style: DotFaceCore.MagnifEyeLivenessStyle
-  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: DotFaceCore.MagnifEyeLivenessViewControllerDelegate?
-  @objc @_Concurrency.MainActor(unsafe) public static func create(configuration: DotFaceCore.MagnifEyeLivenessConfiguration = .init(), style: DotFaceCore.MagnifEyeLivenessStyle = .init()) -> DotFaceCore.MagnifEyeLivenessViewController
+  @objc @_Concurrency.MainActor(unsafe) final public let configuration: DotFaceCore.MagnifEyeLivenessViewController.Configuration
+  @objc @_Concurrency.MainActor(unsafe) final public let style: DotFaceCore.MagnifEyeLivenessViewController.Style
+  @objc @_Concurrency.MainActor(unsafe) weak final public var delegate: (any DotFaceCore.MagnifEyeLivenessViewControllerDelegate)?
+  @objc @_Concurrency.MainActor(unsafe) convenience public init(configuration: DotFaceCore.MagnifEyeLivenessViewController.Configuration = .init(), style: DotFaceCore.MagnifEyeLivenessViewController.Style = .init())
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidLoad()
   @objc @_Concurrency.MainActor(unsafe) final public func start()
   @objc @_Concurrency.MainActor(unsafe) final public func stopAsync(onStopped: @escaping () -> Swift.Void)
@@ -964,7 +977,7 @@ extension DotFaceCore.MagnifEyeLivenessViewController {
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillAppear(_ animated: Swift.Bool)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewDidDisappear(_ animated: Swift.Bool)
   @_Concurrency.MainActor(unsafe) @objc override final public func viewWillDisappear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
+  @_Concurrency.MainActor(unsafe) @objc override final public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTFWearables) final public class Wearables : ObjectiveC.NSObject {
   @objc final public let glasses: DotFaceCore.Glasses?
@@ -994,14 +1007,13 @@ extension DotFaceCore.MagnifEyeLivenessViewController {
   @objc optional func faceAutoCaptureViewControllerViewWillTransition(_ viewController: DotFaceCore.FaceAutoCaptureViewController)
   @objc optional func faceAutoCaptureViewControllerNoCameraPermission(_ viewController: DotFaceCore.FaceAutoCaptureViewController)
   @objc optional func faceAutoCaptureViewController(_ viewController: DotFaceCore.FaceAutoCaptureViewController, processed detection: DotFaceCore.FaceAutoCaptureDetection)
-  @objc optional func faceAutoCaptureViewControllerCandidateSelectionStarted(_ viewController: DotFaceCore.FaceAutoCaptureViewController)
   @objc func faceAutoCaptureViewController(_ viewController: DotFaceCore.FaceAutoCaptureViewController, captured result: DotFaceCore.FaceAutoCaptureResult)
 }
 @_inheritsConvenienceInitializers @objc(DOTFWearablesQuery) final public class WearablesQuery : ObjectiveC.NSObject {
-  @objc final public let glasses: Swift.Bool
-  @objc final public let mask: Swift.Bool
+  @objc final public let evaluateGlasses: Swift.Bool
+  @objc final public let evaluateMask: Swift.Bool
   @objc override convenience dynamic public init()
-  @objc public init(glasses: Swift.Bool = false, mask: Swift.Bool = false)
+  @objc public init(evaluateGlasses: Swift.Bool = false, evaluateMask: Swift.Bool = false)
   @objc deinit
 }
 @objc(DOTFFaceSimpleCaptureViewControllerDelegate) public protocol FaceSimpleCaptureViewControllerDelegate {
@@ -1015,19 +1027,19 @@ extension DotFaceCore.MagnifEyeLivenessViewController {
   @objc optional func faceSimpleCaptureViewControllerNoCameraPermission(_ viewController: DotFaceCore.FaceSimpleCaptureViewController)
   @objc func faceSimpleCaptureViewController(_ viewController: DotFaceCore.FaceSimpleCaptureViewController, captured result: DotFaceCore.FaceSimpleCaptureResult)
 }
-extension DotFaceCore.EyeGazeLivenessState : Swift.Equatable {}
-extension DotFaceCore.EyeGazeLivenessState : Swift.Hashable {}
-extension DotFaceCore.EyeGazeLivenessState : Swift.RawRepresentable {}
+extension DotFaceCore.EyeGazeLivenessCorner : Swift.Equatable {}
+extension DotFaceCore.EyeGazeLivenessCorner : Swift.Hashable {}
+extension DotFaceCore.EyeGazeLivenessCorner : Swift.RawRepresentable {}
 extension DotFaceCore.ValueRange.Error : Swift.Equatable {}
 extension DotFaceCore.ValueRange.Error : Swift.Hashable {}
 extension DotFaceCore.ValueRange.Status : Swift.Equatable {}
 extension DotFaceCore.ValueRange.Status : Swift.Hashable {}
 extension DotFaceCore.ValueRange.Status : Swift.RawRepresentable {}
-extension DotFaceCore.EyeGazeLivenessConfiguration.Error : Swift.Equatable {}
-extension DotFaceCore.EyeGazeLivenessConfiguration.Error : Swift.Hashable {}
-extension DotFaceCore.EyeGazeLivenessConfiguration.TransitionType : Swift.Equatable {}
-extension DotFaceCore.EyeGazeLivenessConfiguration.TransitionType : Swift.Hashable {}
-extension DotFaceCore.EyeGazeLivenessConfiguration.TransitionType : Swift.RawRepresentable {}
+extension DotFaceCore.EyeGazeLivenessViewController.Configuration.TransitionType : Swift.Equatable {}
+extension DotFaceCore.EyeGazeLivenessViewController.Configuration.TransitionType : Swift.Hashable {}
+extension DotFaceCore.EyeGazeLivenessViewController.Configuration.TransitionType : Swift.RawRepresentable {}
+extension DotFaceCore._EyeGazeLivenessSegmentCaptureState : DotCapture._AutoCaptureProcessProtocol {}
+extension DotFaceCore._EyeGazeLivenessSegmentCaptureState : DotCore._State {}
 extension DotFaceCore.FaceMatcher.Error : Swift.Equatable {}
 extension DotFaceCore.FaceMatcher.Error : Swift.Hashable {}
 extension DotFaceCore.DotFaceModuleId : Swift.Equatable {}
@@ -1039,9 +1051,6 @@ extension DotFaceCore.DotFaceModuleCategory : Swift.RawRepresentable {}
 extension DotFaceCore.FaceFeature : Swift.Equatable {}
 extension DotFaceCore.FaceFeature : Swift.Hashable {}
 extension DotFaceCore.FaceFeature : Swift.RawRepresentable {}
-extension DotFaceCore.Segment.Corner : Swift.Equatable {}
-extension DotFaceCore.Segment.Corner : Swift.Hashable {}
-extension DotFaceCore.Segment.Corner : Swift.RawRepresentable {}
 extension DotFaceCore.TemplateMatcher.Error : Swift.Equatable {}
 extension DotFaceCore.TemplateMatcher.Error : Swift.Hashable {}
 extension DotFaceCore.DotFaceLibraryConfiguration.Error : Swift.Equatable {}
