@@ -1,0 +1,204 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DotCapture
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import DotCamera
+@_exported import DotCapture
+import DotCore
+import Foundation
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public protocol _AutoCaptureDetectionValidator {
+  associatedtype FRAME_PARAMETERS
+  var identifier: Swift.String { get }
+  func validate(autoCaptureFrameParameters: Self.FRAME_PARAMETERS) -> Swift.Bool
+}
+open class _AutoCaptureFrameParametersEvaluator<VALIDATOR> where VALIDATOR : DotCapture._AutoCaptureDetectionValidator {
+  public init(validators: [VALIDATOR])
+  public func evaluate(frameParameters: VALIDATOR.FRAME_PARAMETERS) -> [Swift.String]
+  @objc deinit
+}
+public protocol _AutoCaptureProcessProtocol {
+  func process(sample: DotCapture._AutoCaptureSample) throws -> any DotCapture._ProcessingResultMarker
+}
+public typealias _AutoCaptureState = DotCapture._AutoCaptureProcessProtocol & DotCore._State
+open class _AutoCaptureStateBox : DotCore._StateBox, DotCapture._AutoCaptureProcessProtocol {
+  public init(state: any DotCapture._AutoCaptureProcessProtocol & DotCore._State)
+  public func process(sample: DotCapture._AutoCaptureSample) throws -> any DotCapture._ProcessingResultMarker
+  @objc deinit
+}
+@_inheritsConvenienceInitializers open class _AutoCaptureStateMachine<T> : DotCore._DefaultStateMachine<T>, DotCapture._AutoCaptureProcessProtocol where T : DotCapture._AutoCaptureProcessProtocol, T : DotCore._State {
+  public func process(sample: DotCapture._AutoCaptureSample) throws -> any DotCapture._ProcessingResultMarker
+  override public init(initialState: T, states: [T])
+  @objc deinit
+}
+public protocol _AutoCaptureStateMachineFactory {
+  func create() -> DotCapture._AutoCaptureStateMachine<DotCapture._AutoCaptureStateBox>
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTTiltAngles) final public class TiltAngles : ObjectiveC.NSObject {
+  @objc final public let pitch: Swift.Float
+  @objc public init(pitch: Swift.Float)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
+public protocol _RequestCaptureProtocol {
+  func requestCapture() throws
+}
+public typealias _AutoCaptureRequestCaptureState = DotCapture._AutoCaptureState & DotCapture._RequestCaptureProtocol
+final public class _AutoCaptureRequestCaptureStateBox : DotCapture._AutoCaptureStateBox, DotCapture._RequestCaptureProtocol {
+  public init(state: any DotCapture._AutoCaptureState & DotCapture._RequestCaptureProtocol)
+  final public func requestCapture() throws
+  @objc deinit
+}
+@_inheritsConvenienceInitializers final public class _AutoCaptureRequestCaptureStateMachine<T> : DotCapture._AutoCaptureStateMachine<T>, DotCapture._RequestCaptureProtocol where T : DotCapture._AutoCaptureRequestCaptureStateBox {
+  final public func requestCapture() throws
+  override public init(initialState: T, states: [T])
+  @objc deinit
+}
+public protocol _AutoCaptureRequestCaptureStateMachineFactory {
+  func create() -> DotCapture._AutoCaptureRequestCaptureStateMachine<DotCapture._AutoCaptureRequestCaptureStateBox>
+}
+public protocol _AutoCaptureRectanglesCalculator {
+  associatedtype RECTANGLES : Swift.Equatable
+  func calculate(sourceImageSize: CoreFoundation.CGSize, previewSize: CoreFoundation.CGSize, cameraPreviewScaleType: DotCamera.CameraPreviewScaleType) -> Self.RECTANGLES
+}
+public protocol _AutoCaptureViewModel : AnyObject {
+  associatedtype SYNC : DotCapture._AutoCaptureSynchronizer
+  var synchronizer: Self.SYNC { get }
+  func start()
+  func stop(completion: (() -> Swift.Void)?)
+  func onNotifyListeners(processingResult: Self.SYNC.CONTROLLER.RESULT)
+}
+open class _DefaultAutoCaptureViewModel<SYNC, CALCULATOR> : DotCapture._AutoCaptureViewModel where SYNC : DotCapture._AutoCaptureSynchronizer, CALCULATOR : DotCapture._AutoCaptureRectanglesCalculator {
+  final public let synchronizer: SYNC
+  final public let autoCaptureRectangles: DotCore._OptionalObservableVariable<CALCULATOR.RECTANGLES>
+  public var previewViewSizeBlock: (() -> CoreFoundation.CGSize)?
+  public var isRunning: Swift.Bool {
+    get
+  }
+  public init(cameraPreviewScaleType: DotCamera.CameraPreviewScaleType, synchronizer: SYNC, rectanglesCalculator: CALCULATOR, imagePropertiesAnalyzerFactory: any DotCamera._ImagePropertiesAnalyzerFactory, onCreateController: @escaping (CoreFoundation.CGSize, CALCULATOR.RECTANGLES, any DotCamera._ImagePropertiesAnalyzer) -> SYNC.CONTROLLER)
+  open func start()
+  public func stop(completion: (() -> Swift.Void)?)
+  open func didStart()
+  open func didStop()
+  open func onNotifyListeners(processingResult: SYNC.CONTROLLER.RESULT)
+  @objc deinit
+}
+public protocol _UniversalImageCropper {
+  func crop(rawImage: any DotCore._RawImage, normalizedRectangle: DotCore.RectangleDouble) throws -> any DotCore._RawImage
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class _InstructionView : UIKit.UIView {
+  public struct _UIState {
+    public init(message: Swift.String? = nil, font: UIKit.UIFont? = nil, textColor: UIKit.UIColor? = nil, backgroundColor: UIKit.UIColor? = nil, isHidden: Swift.Bool? = nil, isAlphaEnabled: Swift.Bool? = nil)
+  }
+  @_Concurrency.MainActor(unsafe) final public func update(with uiState: DotCapture._InstructionView._UIState)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class _OverlayView : UIKit.UIView {
+  public enum PlaceholderType {
+    case oval
+    case roundedRectangle
+    public static func == (a: DotCapture._OverlayView.PlaceholderType, b: DotCapture._OverlayView.PlaceholderType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public struct _UIState {
+    public init(fillColor: UIKit.UIColor? = nil, isHidden: Swift.Bool? = nil)
+  }
+  @_Concurrency.MainActor(unsafe) @objc override final public class var layerClass: Swift.AnyClass {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) final public func updatePlaceholder(center: CoreFoundation.CGPoint, size: CoreFoundation.CGSize, type: DotCapture._OverlayView.PlaceholderType)
+  @_Concurrency.MainActor(unsafe) final public func update(with uiState: DotCapture._OverlayView._UIState)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public protocol _AutoCaptureSynchronizer : AnyObject {
+  associatedtype CONTROLLER : DotCapture._AutoCaptureController
+  var createControllerClosure: (() -> Self.CONTROLLER?)? { get set }
+  var sourceImageSizeClosure: ((CoreFoundation.CGSize) -> Swift.Void)? { get set }
+  var processingResultClosure: ((Self.CONTROLLER.RESULT) -> Swift.Void)? { get set }
+  var processingErrorClosure: ((any Swift.Error) -> Swift.Void)? { get set }
+  func start(completion: (() -> Swift.Void)?)
+  func stop(completion: (() -> Swift.Void)?)
+}
+public struct _AutoCaptureRectangles : Swift.Equatable {
+  public let detectionRectangleNormalizedInSourceImage: DotCore.RectangleDouble
+  public let detectionRectangleNormalizedInPreview: DotCore.RectangleDouble
+  public let placeholderRectangleNormalizedInPreview: DotCore.RectangleDouble
+  public init(detectionRectangleNormalizedInSourceImage: DotCore.RectangleDouble, detectionRectangleNormalizedInPreview: DotCore.RectangleDouble, placeholderRectangleNormalizedInPreview: DotCore.RectangleDouble)
+  public static func == (a: DotCapture._AutoCaptureRectangles, b: DotCapture._AutoCaptureRectangles) -> Swift.Bool
+}
+public protocol _ProcessingResultMarker {
+}
+public protocol _AutoCaptureController {
+  associatedtype RESULT : DotCapture._ProcessingResultMarker
+  var imageSize: DotCore.ImageSize? { get }
+  var isFinished: Swift.Bool { get }
+  func process(sample: DotCapture._AutoCaptureSample) throws -> Self.RESULT
+}
+public typealias _AutoCaptureRequestCaptureController = DotCapture._AutoCaptureController & DotCapture._RequestCaptureProtocol
+final public class _AutoCaptureSample {
+  final public let rawImage: any DotCore._RawImage
+  final public let imageProperties: DotCamera._ImageProperties?
+  final public let deviceTiltAngles: DotCapture.TiltAngles?
+  final public let timestampMillis: Swift.Int
+  public init(rawImage: any DotCore._RawImage, imageProperties: DotCamera._ImageProperties?, deviceTiltAngles: DotCapture.TiltAngles?, timestampMillis: Swift.Int)
+  @objc deinit
+}
+public protocol _AutoCaptureSampleFactory {
+  func startSync()
+  func stopSync()
+  func create(rawImage: any DotCore._RawImage, imageProperties: DotCamera._ImageProperties?, timestampMillis: Swift.Int) -> DotCapture._AutoCaptureSample
+}
+final public class _DefaultAutoCaptureSampleFactory : DotCapture._AutoCaptureSampleFactory {
+  public init()
+  final public func startSync()
+  final public func stopSync()
+  final public func create(rawImage: any DotCore._RawImage, imageProperties: DotCamera._ImageProperties?, timestampMillis: Swift.Int) -> DotCapture._AutoCaptureSample
+  @objc deinit
+}
+open class _DefaultAutoCaptureSynchronizer<CONTROLLER> : DotCapture._AutoCaptureSynchronizer where CONTROLLER : DotCapture._AutoCaptureController {
+  final public let processingQueue: Dispatch.DispatchQueue
+  public var controller: CONTROLLER? {
+    get
+  }
+  public var createControllerClosure: (() -> CONTROLLER?)?
+  public var sourceImageSizeClosure: ((CoreFoundation.CGSize) -> Swift.Void)?
+  public var processingResultClosure: ((CONTROLLER.RESULT) -> Swift.Void)?
+  public var processingErrorClosure: ((any Swift.Error) -> Swift.Void)?
+  public init(rawImageFactory: any DotCore._RawImageFactory, autoCaptureSampleFactory: any DotCapture._AutoCaptureSampleFactory)
+  open func start(completion: (() -> Swift.Void)?)
+  open func stop(completion: (() -> Swift.Void)?)
+  @objc deinit
+}
+extension DotCapture._DefaultAutoCaptureSynchronizer : DotCamera._ImageSourceHandlerDelegate {
+  public func imageSourceHandler(_ imageSourceHandler: DotCamera._ImageSourceHandler, produced image: CoreImage.CIImage, imageProperties: DotCamera._ImageProperties?, timestampMillis: Swift.Int)
+}
+@_inheritsConvenienceInitializers open class _AutoCaptureRequestCaptureSynchronizer<T> : DotCapture._DefaultAutoCaptureSynchronizer<T> where T : DotCapture._AutoCaptureController, T : DotCapture._RequestCaptureProtocol {
+  public var requestCaptureErrorClosure: ((any Swift.Error) -> Swift.Void)?
+  public func requestCaptureAsync()
+  override public init(rawImageFactory: any DotCore._RawImageFactory, autoCaptureSampleFactory: any DotCapture._AutoCaptureSampleFactory)
+  @objc deinit
+}
+public protocol _AutoCaptureCandidateEvaluator {
+  associatedtype SCORE : Swift.Comparable
+  associatedtype RESULT
+  func evaluate(bestCandidate: Self.RESULT?, currentCandidate: Self.RESULT) -> Self.RESULT
+  func isCurrentCandidateBetter(bestCandidate: Self.RESULT, currentCandidate: Self.RESULT) -> Swift.Bool
+  func calculateCandidateScore(_ candidate: Self.RESULT) -> Self.SCORE?
+}
+extension DotCapture._AutoCaptureCandidateEvaluator {
+  public func evaluate(bestCandidate: Self.RESULT?, currentCandidate: Self.RESULT) -> Self.RESULT
+  public func isCurrentCandidateBetter(bestCandidate: Self.RESULT, currentCandidate: Self.RESULT) -> Swift.Bool
+}
+extension DotCapture._OverlayView.PlaceholderType : Swift.Equatable {}
+extension DotCapture._OverlayView.PlaceholderType : Swift.Hashable {}

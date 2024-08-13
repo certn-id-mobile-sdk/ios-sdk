@@ -1,0 +1,203 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DotCamera
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AVFoundation
+@_exported import DotCamera
+import DotCore
+import Foundation
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public protocol _CameraConfiguration {
+  var isTorchEnabled: Swift.Bool { get }
+  var cameraFacing: DotCamera.CameraFacing { get }
+  var cameraPreviewScaleType: DotCamera.CameraPreviewScaleType { get }
+}
+public struct _ImageProperties {
+  public func getProperty(with id: Swift.String) -> Any?
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class _CameraPreviewView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc override final public class var layerClass: Swift.AnyClass {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) final public var videoPreviewLayer: AVFoundation.AVCaptureVideoPreviewLayer {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public protocol _ImageSourceHandlerDelegate : AnyObject {
+  func imageSourceHandler(_ imageSourceHandler: DotCamera._ImageSourceHandler, produced image: CoreImage.CIImage, imageProperties: DotCamera._ImageProperties?, timestampMillis: Swift.Int)
+}
+final public class _ImageSourceHandler : DotCamera._ImageSourceOrientationObserver {
+  final public var imageSource: (any DotCamera._ImageSource)? {
+    get
+  }
+  weak final public var delegate: (any DotCamera._ImageSourceHandlerDelegate)?
+  final public var onCameraPermissionDenied: (() -> Swift.Void)?
+  final public var onDidCreateImageSource: ((any DotCamera._ImageSource) -> Swift.Void)?
+  final public var onDidUpdateImageSourceOrientation: ((DotCamera._ImageSourceOrientation) -> Swift.Void)?
+  final public var onFailedToCreateCameraImageSource: ((any Swift.Error) -> Swift.Void)?
+  final public var onImageSourceError: ((any Swift.Error) -> Swift.Void)?
+  public init(configuration: any DotCamera._CameraConfiguration, cameraPreset: DotCamera._CameraPreset, cameraToken: Swift.String, isPreviewViewHidden: Swift.Bool = false, testImageSource: (any DotCamera._ImageSource)? = nil)
+  final public func startImageSource()
+  final public func stopImageSource()
+  final public func startAutoCapture()
+  final public func updateForInterfaceOrientation()
+  final public func updateForDeviceOrientation()
+  @objc deinit
+}
+extension DotCamera._ImageSourceHandler : DotCamera._ImageSourceDelegate {
+  final public func imageSource(_ imageSource: any DotCamera._ImageSource, produced image: CoreImage.CIImage, imageProperties: DotCamera._ImageProperties?, timestampMillis: Swift.Int)
+  final public func imageSourceError(_ imageSource: any DotCamera._ImageSource, error: any Swift.Error)
+}
+public struct _CameraImageSourceConfiguration : Swift.CustomStringConvertible {
+  public let facing: DotCamera.CameraFacing
+  public let preset: DotCamera._CameraPreset
+  public let previewScaleType: AVFoundation.AVLayerVideoGravity
+  public let isTorchEnabled: Swift.Bool
+  public init(facing: DotCamera.CameraFacing, preset: DotCamera._CameraPreset, previewScaleType: AVFoundation.AVLayerVideoGravity, isTorchEnabled: Swift.Bool)
+  public var description: Swift.String {
+    get
+  }
+}
+@objc(DOTCameraPreviewScaleType) public enum CameraPreviewScaleType : Swift.Int, Swift.CustomStringConvertible {
+  case fit
+  case fill
+  public var native: AVFoundation.AVLayerVideoGravity {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public protocol _ImageSourceDelegate : AnyObject {
+  func imageSource(_ imageSource: any DotCamera._ImageSource, produced image: CoreImage.CIImage, imageProperties: DotCamera._ImageProperties?, timestampMillis: Swift.Int)
+  func imageSourceError(_ imageSource: any DotCamera._ImageSource, error: any Swift.Error)
+}
+@objc(DOTCameraFacing) public enum CameraFacing : Swift.Int, Swift.CustomStringConvertible {
+  case front
+  case back
+  public var native: AVFoundation.AVCaptureDevice.Position {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public protocol _ImageSource : AnyObject {
+  var previewView: UIKit.UIView { get }
+  var orientation: DotCamera._ImageSourceOrientation { get set }
+  var delegate: (any DotCamera._ImageSourceDelegate)? { get set }
+  func startSession()
+  func stopSession()
+  func startAutoCapture()
+}
+@objc final public class _CameraImageSource : ObjectiveC.NSObject, DotCamera._ImageSource {
+  public enum _Error : Foundation.LocalizedError {
+    case deviceNotFound(configuration: DotCamera._CameraImageSourceConfiguration)
+    case failedToAddDeviceInput(configuration: DotCamera._CameraImageSourceConfiguration, device: AVFoundation.AVCaptureDevice)
+    case failedToAddVideoDataOutput(configuration: DotCamera._CameraImageSourceConfiguration)
+    case failedToSetSessionPreset(configuration: DotCamera._CameraImageSourceConfiguration)
+    case failedToLockCaptureDevice(configuration: DotCamera._CameraImageSourceConfiguration, device: AVFoundation.AVCaptureDevice)
+    case failedToConvertSampleBuffer
+    public var errorDescription: Swift.String? {
+      get
+    }
+  }
+  final public var previewView: UIKit.UIView {
+    get
+  }
+  final public var orientation: DotCamera._ImageSourceOrientation {
+    get
+    set
+  }
+  weak final public var delegate: (any DotCamera._ImageSourceDelegate)?
+  public init(configuration: DotCamera._CameraImageSourceConfiguration, cameraToken: Swift.String, videoQueue: Dispatch.DispatchQueue) throws
+  final public func startSession()
+  final public func stopSession()
+  final public func startAutoCapture()
+  @objc deinit
+}
+extension DotCamera._CameraImageSource : AVFoundation.AVCaptureVideoDataOutputSampleBufferDelegate {
+  @objc final public func captureOutput(_ output: AVFoundation.AVCaptureOutput, didOutput sampleBuffer: CoreMedia.CMSampleBuffer, from connection: AVFoundation.AVCaptureConnection)
+}
+public enum _CameraPreset : Swift.CustomStringConvertible {
+  case photo
+  case hd
+  case fullHD
+  case high
+  case high4x3
+  case high16x9
+  case highWidth
+  public var native: AVFoundation.AVCaptureSession.Preset {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public static func == (a: DotCamera._CameraPreset, b: DotCamera._CameraPreset) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol _ImagePropertiesAnalyzerResultMarker {
+}
+public protocol _ImagePropertiesAnalyzer {
+  func collect(rawImage: any DotCore._RawImage)
+  func collect(imageProperties: DotCamera._ImageProperties?)
+  func createResult() -> any DotCamera._ImagePropertiesAnalyzerResultMarker
+}
+public protocol _ImagePropertiesAnalyzerFactory {
+  func create() -> any DotCamera._ImagePropertiesAnalyzer
+}
+public protocol _ImageSourceOrientationObserver {
+  func getDeviceOrientation() -> DotCamera._ImageSourceOrientation?
+  func getInterfaceOrientation() -> DotCamera._ImageSourceOrientation?
+}
+extension DotCamera._ImageSourceOrientationObserver {
+  public func getDeviceOrientation() -> DotCamera._ImageSourceOrientation?
+  public func getInterfaceOrientation() -> DotCamera._ImageSourceOrientation?
+}
+public enum _ImageSourceOrientation : Swift.CustomStringConvertible {
+  case portrait
+  case landscapeLeft
+  case landscapeRight
+  case portraitUpsideDown
+  public var videoOrientation: AVFoundation.AVCaptureVideoOrientation {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public static func == (a: DotCamera._ImageSourceOrientation, b: DotCamera._ImageSourceOrientation) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension DotCamera.CameraPreviewScaleType : Swift.Equatable {}
+extension DotCamera.CameraPreviewScaleType : Swift.Hashable {}
+extension DotCamera.CameraPreviewScaleType : Swift.RawRepresentable {}
+extension DotCamera.CameraFacing : Swift.Equatable {}
+extension DotCamera.CameraFacing : Swift.Hashable {}
+extension DotCamera.CameraFacing : Swift.RawRepresentable {}
+extension DotCamera._CameraPreset : Swift.Equatable {}
+extension DotCamera._CameraPreset : Swift.Hashable {}
+extension DotCamera._ImageSourceOrientation : Swift.Equatable {}
+extension DotCamera._ImageSourceOrientation : Swift.Hashable {}
