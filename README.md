@@ -512,12 +512,165 @@ Protocol `CertnIDFaceAutoCaptureViewControllerDelegate` is used to handle the au
 
 CertnID SDK NFC module provides a component for NFC reading which is easy to integrate into an iOS application. Supported documents are those which implement [ICAO Doc 9303: Machine Readable Travel Documents] (https://www.icao.int/publications/pages/publication.aspx?docnum=9303) as specified by International Civil Aviation Organization (ICAO).
 
+## Permissions
+
+1. First, add capability `Near Field Communication Tag Reading` to your Xcode target
+2. Second, add following to your `Info.plist`:
+```swift
+<key>NFCReaderUsageDescription</key>
+<string>NFC tag to read NDEF messages into the application</string>
+
+<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+<array>
+	<string>A0000002471001</string>
+</array>
+```
+
 ### Sample implementation
 
+Core of the NFC reading module is `CertnIDNfcTravelDocumentReader` which reads NFC data from a document and provides `CertnIDTravelDocument` result and information about the reading status. You need `CertnIDNfcTravelDocumentReader` to be initialized with a
+`CertnIDNfcTravelDocumentReaderConfiguration` which contains `authorityCertificatesUrl` -- file URL with Country Signing Certificate Authority (CSCA) certificates in `PEM` format. After `CertnIDNfcTravelDocumentReader` is initilized, you can setup its delegate using `setDelegate(_ delegate: (any CertnIDMobileSDK.CertnIDNfcTravelDocumentReaderDelegate)?, queue: DispatchQueue? = .main)` function and start NFC data reading with it, by calling `read(nfcKey: CertnIDNfcKey, activeAuthenticationChallenge: Data? = nil)`, where `CertnIDNfcKey` is an NFC key created from the document number, date of expiry and date of birth. `CertnIDNfcTravelDocumentReaderDelegate` then will receive status updates.
 
+```swift
+import CertnIDMobileSDK
+import UIKit
+
+class NfcViewController: UIViewController {
+    private let nfcKey: CertnIDNfcKey?
+    private let nfcReader: CertnIDNfcTravelDocumentReader
+
+    init() {
+        self.nfcKey = try? CertnIDNfcKey(
+            documentNumber: "PASTE DOCUMENT NUMBER HERE",
+            dateOfExpiry: "PASTE DATE OF EXPIRY HERE",
+            dateOfBirth: "PASTE DATE OF BIRTH HERE"
+        )
+
+        let authorityCertificatesUrl = Bundle.main.url(forResource: "authority_certificates", withExtension: "pem")
+        let configuration = CertnIDNfcTravelDocumentReaderConfiguration(authorityCertificatesUrl: authorityCertificatesUrl)
+        self.nfcReader = CertnIDNfcTravelDocumentReader(configuration: configuration)
+        super.init(nibName: nil, bundle: nil)
+        nfcReader.setDelegate(self)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        start()
+    }
+
+    func start() {
+        guard let nfcKey else {
+            print("Failed to init NFC Key")
+            return
+        }
+
+        nfcReader.read(
+            nfcKey: nfcKey
+        )
+    }
+}
+
+extension NfcViewController: CertnIDNfcTravelDocumentReaderDelegate {
+    func nfcTravelDocumentReader(
+        _ nfcTravelDocumentReader: CertnIDMobileSDK.CertnIDNfcTravelDocumentReader,
+        succeeded travelDocument: CertnIDMobileSDK.CertnIDTravelDocument
+    ) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        if let encoded = try? encoder.encode(travelDocument) {
+            print(String(data: encoded, encoding: .utf8) ?? "Failed to encode data")
+        }
+    }
+
+    func nfcTravelDocumentReader(
+        _ nfcTravelDocumentReader: CertnIDMobileSDK.CertnIDNfcTravelDocumentReader,
+        failed error: String
+    ) {
+        print(error)
+    }
+
+    func nfcTravelDocumentReaderCanceled(
+        _ nfcTravelDocumentReader: CertnIDMobileSDK.CertnIDNfcTravelDocumentReader
+    ) {
+        print("User cancelled NFC reading")
+    }
+}
+```
+
+### CertnIDNfcTravelDocumentReader
+
+`CertnIDNfcTravelDocumentReader` is used to start the process of reading NFC data. It should be initialized with `CertnIDNfcTravelDocumentReaderConfiguration` and a `CertnIDNfcTravelDocumentReaderDelegate` should be properly set up to get the callbacks from a reader. After initializing and setting up delegate, start reading data by calling `read(nfcKey: CertnIDMobileSDK.CertnIDNfcKey, activeAuthenticationChallenge: Data? = nil)` function. See the description of `CertnIDNfcKey` and `activeAuthenticationChallenge` below.
+
+```swift
+    /// Current configuration.
+    @objc final public let configuration: CertnIDMobileSDK.CertnIDNfcTravelDocumentReaderConfiguration
+
+    /// Initialize and configure `CertnIDNfcTravelDocumentReader`.
+    @objc public init(configuration: CertnIDMobileSDK.CertnIDNfcTravelDocumentReaderConfiguration)
+
+    /// Set delegate and `DispatchQueue` on which you want to recieve the delegate callbacks. `CertnIDNfcTravelDocumentReader` will hold weak reference to `delegate` and `queue`.
+    @objc final public func setDelegate(_ delegate: (any CertnIDMobileSDK.CertnIDNfcTravelDocumentReaderDelegate)?, queue: DispatchQueue? = .main)
+
+    /// Read passport using NFC key.
+    ///
+    /// You can handle success or failure of NFC reading by implementing the delegate methods.
+    ///
+    /// - Parameter nfcKey: NFC key created from the document number, date of expiry and date of birth.
+    /// - Parameter activeAuthenticationChallenge: Random 8 bytes. If the Active Authentication challenge is set, Active Authentication protocol will be used for the authentication of the chip (if supported by the chip). Response (signature) will be returned in the result of the read operation. This response should be validated by the application server to verify the authenticity of the chip. In case when the Active Authentication protocol is not supported by the chip, the chip will be authenticated the same way as if the argument `activeAuthenticationChallenge` is not set.
+    @objc final public func read(nfcKey: CertnIDMobileSDK.CertnIDNfcKey, activeAuthenticationChallenge: Data? = nil)
+```
+
+### CertnIDNfcTravelDocumentReaderConfiguration
+
+`CertnIDNfcTravelDocumentReaderConfiguration` is used to provide an information about the location of Country Signing Certificate Authority (CSCA) certificates in `PEM` format file. It has only one parameter:
+```swift
+ @objc final public let authorityCertificatesUrl: URL?
+ ```
+
+### CertnIDNfcKey
+
+`CertnIDNfcKey` is the access key to NFC data:
+```swift
+    /// Document number in MRZ format.
+    @objc final public let documentNumber: String
+
+    /// Date of expiry in MRZ format [yyMMdd].
+    @objc final public let dateOfExpiry: String
+
+    /// Date of birth in MRZ format [yyMMdd].
+    @objc final public let dateOfBirth: String
+```
+
+### ActiveAuthenticationChallenge
+
+`ActiveAuthenticationChallenge` is used in case, when server-side authentication of the chip is required. If the Active Authentication protocol is supported by the chip, it will be used for the authentication of the chip and the response (signature) will be returned in TravelDocument class.
+
+### CertnIDNfcTravelDocumentReaderDelegate
+
+`CertnIDNfcTravelDocumentReaderDelegate` is a protocol which allows back communication with the app, it sends the status and result of NFC reading:
+```swift
+    /// Tells the delegate that NFC reading has finished successfully with travel document as a result.
+    @objc func nfcTravelDocumentReader(_ nfcTravelDocumentReader: CertnIDMobileSDK.CertnIDNfcTravelDocumentReader, succeeded travelDocument: CertnIDMobileSDK.CertnIDTravelDocument)
+
+    /// Tells the delegate that NFC reading has failed with an error.
+    @objc func nfcTravelDocumentReader(_ nfcTravelDocumentReader: CertnIDMobileSDK.CertnIDNfcTravelDocumentReader, failed error: String)
+
+    /// Tells the delegate that NFC reading has been canceled by the system dialog cancel button on click event.
+    @objc func nfcTravelDocumentReaderCanceled(_ nfcTravelDocumentReader: CertnIDMobileSDK.CertnIDNfcTravelDocumentReader)
+```
+
+### CertnIDTravelDocument
+
+`CertnIDTravelDocument` is an Encodable object which you can encode and send the data to server for processing. It has no public available parameters.
 
 ## Support and Documentation
-For detailed documentation and support, visit the [TrustmaticMobileSDK Documentation] (https://demo.trustmatic.io/documentation/) or contact support at [support@trustmatic.com](mailto:support@trustmatic.com).
+
+For detailed documentation and support, visit the [TrustmaticMobileSDK Documentation](https://demo.trustmatic.io/documentation/) or contact support at [support@trustmatic.com](mailto:support@trustmatic.com).
 
 ## License
+
 CertnIDMobileSDK is available under a commercial license. For more information, please refer to the official website or contact the sales team.
