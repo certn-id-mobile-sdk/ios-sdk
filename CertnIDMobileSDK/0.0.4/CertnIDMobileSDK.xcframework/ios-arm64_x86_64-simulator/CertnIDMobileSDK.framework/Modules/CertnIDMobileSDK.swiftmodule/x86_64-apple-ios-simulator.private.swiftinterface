@@ -1,0 +1,457 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name CertnIDMobileSDK
+@_exported import CertnIDMobileSDK
+import DotCore
+import DotDocument
+import DotDocumentCommons
+import DotFaceCore
+import DotNfc
+import Foundation
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@available(iOS 13, *)
+extension DotNfc.TravelDocument : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.OptionalDetails : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.AdditionalDocumentDetails : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.NameOfHolder : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.AdditionalPersonalDetails : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.DisplayedSignatureOrUsualMark : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.EncodedIdentificationFeaturesFace : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.Image : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.ImageFormat : Swift.Encodable {
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.MachineReadableZoneInformation : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+extension DotDocumentCommons.MachineReadableZone : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+extension DotDocumentCommons.MrzCheckDigit : Swift.Encodable {
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+extension DotDocumentCommons.Td1MachineReadableZone : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+extension DotDocumentCommons.Td2MachineReadableZone : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+extension DotDocumentCommons.Td3MachineReadableZone : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+extension DotDocumentCommons.MrzStringPosition : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+extension DotDocumentCommons.MrzElement : Swift.Encodable {
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+extension DotDocumentCommons.MrzNameElement : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.LdsMasterFile : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.Lds1eMrtdApplication : Swift.Encodable {
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.Lds1ElementaryFile : Swift.Encodable {
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.AccessControlProtocol : Swift.Encodable {
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.AuthenticationStatus : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.DataAuthenticationStatus : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension DotNfc.ChipAuthenticationStatus : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+extension DotCore.ImageSize : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@objc public class IntervalDouble : ObjectiveC.NSObject {
+  final public let min: Swift.Double
+  final public let max: Swift.Double
+  public init(min: Swift.Double, max: Swift.Double)
+  @objc deinit
+}
+@objc public class IntervalFloat : ObjectiveC.NSObject {
+  final public let min: Swift.Float
+  final public let max: Swift.Float
+  public init(min: Swift.Float, max: Swift.Float)
+  @objc deinit
+}
+@objc public enum CertnIDValidationMode : Swift.Int {
+  case standard
+  case strict
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum CertnIDMrzValidation : Swift.Int {
+  case none
+  case validateIfPresent
+  case validateAlways
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum CertnIDCameraFacing : Swift.Int {
+  case front
+  case back
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum CertnIDCameraPreviewScaleType : Swift.Int {
+  case fit
+  case fill
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum CertnIDPlaceholderType : Swift.Int {
+  case cornersOnly
+  case cornersAndMrzFillers
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public class CertnIDDocumentAutoCaptureConfiguration : ObjectiveC.NSObject {
+  @objc public class CertnIDQualityAttributeThresholds : ObjectiveC.NSObject {
+    final public let minConfidence: Swift.Double?
+    final public let minSize: Swift.Double?
+    final public let minSharpness: Swift.Double?
+    final public let brightnessInterval: CertnIDMobileSDK.IntervalDouble?
+    final public let maxHotspotsScore: Swift.Double?
+    public init(minConfidence: Swift.Double? = 0.9, minSize: Swift.Double? = 0.43, minSharpness: Swift.Double? = 0.65, brightnessInterval: CertnIDMobileSDK.IntervalDouble? = .init(min: 0.25, max: 0.9), maxHotspotsScore: Swift.Double? = 0.008)
+    @objc deinit
+  }
+  @objc final public let qualityAttributeThresholds: CertnIDMobileSDK.CertnIDDocumentAutoCaptureConfiguration.CertnIDQualityAttributeThresholds
+  @objc final public let validationMode: CertnIDMobileSDK.CertnIDValidationMode
+  @objc final public let mrzValidation: CertnIDMobileSDK.CertnIDMrzValidation
+  @objc final public let isDetectionLayerVisible: Swift.Bool
+  @objc final public let isTorchEnabled: Swift.Bool
+  @objc final public let cameraFacing: CertnIDMobileSDK.CertnIDCameraFacing
+  @objc final public let cameraPreviewScaleType: CertnIDMobileSDK.CertnIDCameraPreviewScaleType
+  @objc final public let placeholderType: CertnIDMobileSDK.CertnIDPlaceholderType
+  public init(qualityAttributeThresholds: CertnIDMobileSDK.CertnIDDocumentAutoCaptureConfiguration.CertnIDQualityAttributeThresholds = .init(), validationMode: CertnIDMobileSDK.CertnIDValidationMode = .standard, mrzValidation: CertnIDMobileSDK.CertnIDMrzValidation = .none, isDetectionLayerVisible: Swift.Bool = false, isTorchEnabled: Swift.Bool = false, cameraFacing: CertnIDMobileSDK.CertnIDCameraFacing = .back, cameraPreviewScaleType: CertnIDMobileSDK.CertnIDCameraPreviewScaleType = .fit, placeholderType: CertnIDMobileSDK.CertnIDPlaceholderType = .cornersOnly)
+  @objc deinit
+}
+@objc public class CertnIDDocumentAutoCaptureStyle : ObjectiveC.NSObject {
+  @objc final public let backgroundColor: UIKit.UIColor
+  @objc final public let instructionFont: UIKit.UIFont
+  @objc final public let instructionTextColor: UIKit.UIColor
+  @objc final public let instructionCandidateSelectionTextColor: UIKit.UIColor
+  @objc final public let instructionBackgroundColor: UIKit.UIColor
+  @objc final public let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
+  @objc final public let placeholderColor: UIKit.UIColor
+  @objc final public let placeholderCandidateSelectionColor: UIKit.UIColor
+  @objc final public let detectionLayerColor: UIKit.UIColor
+  @objc final public let placeholderOverlayColor: UIKit.UIColor
+  @usableFromInline
+  internal static let Defaults: DotDocument.DocumentAutoCaptureViewController.Style
+  public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, instructionFont: UIKit.UIFont = Defaults.instructionFont, instructionTextColor: UIKit.UIColor = Defaults.instructionTextColor, instructionCandidateSelectionTextColor: UIKit.UIColor = Defaults.instructionCandidateSelectionTextColor, instructionBackgroundColor: UIKit.UIColor = Defaults.instructionBackgroundColor, instructionCandidateSelectionBackgroundColor: UIKit.UIColor = Defaults.instructionCandidateSelectionBackgroundColor, placeholderColor: UIKit.UIColor = Defaults.placeholderColor, placeholderCandidateSelectionColor: UIKit.UIColor = Defaults.placeholderCandidateSelectionColor, detectionLayerColor: UIKit.UIColor = Defaults.detectionLayerColor, placeholderOverlayColor: UIKit.UIColor = Defaults.placeholderOverlayColor)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc public class CertnIDDetectionPosition : ObjectiveC.NSObject {
+  @objc deinit
+}
+@objc final public class CertnIDImageParameters : ObjectiveC.NSObject {
+  @objc final public let brightness: Swift.Double
+  @objc final public let sharpness: Swift.Double
+  @objc final public let hotspotsScore: Swift.Double
+  @objc public init(sharpness: Swift.Double, brightness: Swift.Double, hotspotsScore: Swift.Double)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc final public class CertnIDDocument : ObjectiveC.NSObject {
+  @objc final public var detectionPosition: CertnIDMobileSDK.CertnIDDetectionPosition {
+    @objc get
+  }
+  @objc final public let confidence: Swift.Double
+  @objc final public let widthToHeightRatio: Swift.Double
+  @objc final public var imageParameters: CertnIDMobileSDK.CertnIDImageParameters {
+    @objc get
+  }
+  @objc deinit
+}
+@objc public enum CertnIDTravelDocumentType : Swift.Int, Swift.CaseIterable {
+  case td1
+  case td2
+  case td3
+  case unknown
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [CertnIDMobileSDK.CertnIDTravelDocumentType]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [CertnIDMobileSDK.CertnIDTravelDocumentType] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers @objc public class CertnIDDocumentAutoCaptureResult : ObjectiveC.NSObject {
+  final public var image: UIKit.UIImage {
+    get
+  }
+  @objc final public var document: CertnIDMobileSDK.CertnIDDocument? {
+    @objc get
+  }
+  @objc final public let content: Foundation.Data
+  @objc public var travelDocumentType: CertnIDMobileSDK.CertnIDTravelDocumentType {
+    @objc get
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc public class CertnIDDocumentAutoCaptureDetection : ObjectiveC.NSObject {
+  final public var image: UIKit.UIImage {
+    get
+  }
+  @objc final public var document: CertnIDMobileSDK.CertnIDDocument? {
+    @objc get
+  }
+  @objc public var travelDocumentType: CertnIDMobileSDK.CertnIDTravelDocumentType {
+    @objc get
+  }
+  @objc final public let validatorIdentifiers: [Swift.String]
+  @objc deinit
+}
+@objc public protocol CertnIDDocumentAutoCaptureDelegate {
+  @objc func documentAutoCaptureViewController(_ viewController: CertnIDMobileSDK.CertnIDDocumentAutoCaptureViewController, captured result: CertnIDMobileSDK.CertnIDDocumentAutoCaptureResult)
+  @objc optional func documentAutoCaptureViewController(_ viewController: CertnIDMobileSDK.CertnIDDocumentAutoCaptureViewController, processed detection: CertnIDMobileSDK.CertnIDDocumentAutoCaptureDetection)
+  @objc optional func documentAutoCaptureViewControllerNoCameraPermission(_ viewController: CertnIDMobileSDK.CertnIDDocumentAutoCaptureViewController)
+}
+@_hasMissingDesignatedInitializers @objc @_Concurrency.MainActor(unsafe) public class CertnIDDocumentAutoCaptureViewController : UIKit.UIViewController {
+  @objc @_Concurrency.MainActor(unsafe) final public let configuration: CertnIDMobileSDK.CertnIDDocumentAutoCaptureConfiguration
+  @objc @_Concurrency.MainActor(unsafe) final public let style: CertnIDMobileSDK.CertnIDDocumentAutoCaptureStyle
+  @objc @_Concurrency.MainActor(unsafe) public var delegate: (any CertnIDMobileSDK.CertnIDDocumentAutoCaptureDelegate)?
+  @objc @_Concurrency.MainActor(unsafe) public init(configuration: CertnIDMobileSDK.CertnIDDocumentAutoCaptureConfiguration, style: CertnIDMobileSDK.CertnIDDocumentAutoCaptureStyle)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) public func start()
+  @_Concurrency.MainActor(unsafe) public func stopAsync(onStopped: @escaping () -> Swift.Void)
+  @objc deinit
+}
+extension CertnIDMobileSDK.CertnIDDocumentAutoCaptureViewController : DotDocument.DocumentAutoCaptureViewControllerDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func documentAutoCaptureViewController(_ viewController: DotDocument.DocumentAutoCaptureViewController, captured result: DotDocument.DocumentAutoCaptureResult)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func documentAutoCaptureViewController(_ viewController: DotDocument.DocumentAutoCaptureViewController, processed detection: DotDocument.DocumentAutoCaptureDetection)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func documentAutoCaptureViewControllerNoCameraPermission(_ viewController: DotDocument.DocumentAutoCaptureViewController)
+}
+@objc final public class CertnIDFaceAutoCaptureConfiguration : ObjectiveC.NSObject {
+  @objc final public class CertnIDQualityAttributeThresholds : ObjectiveC.NSObject {
+    final public let minConfidence: Swift.Double?
+    final public let sizeInterval: CertnIDMobileSDK.IntervalDouble?
+    final public let pitchAngleInterval: CertnIDMobileSDK.IntervalFloat?
+    final public let yawAngleInterval: CertnIDMobileSDK.IntervalFloat?
+    final public let minSharpness: Swift.Double?
+    final public let brightnessInterval: CertnIDMobileSDK.IntervalDouble?
+    final public let contrastInterval: CertnIDMobileSDK.IntervalDouble?
+    final public let minUniqueIntensityLevels: Swift.Double?
+    final public let maxGlassesPresenceScore: Swift.Double?
+    final public let maxMaskPresenceScore: Swift.Double?
+    final public let minMouthStatusScore: Swift.Double?
+    final public let minEyesStatusScore: Swift.Double?
+    final public let maxShadow: Swift.Double?
+    final public let maxDevicePitchAngle: Swift.Float?
+    public init(minConfidence: Swift.Double? = 0.15, sizeInterval: CertnIDMobileSDK.IntervalDouble? = IntervalDouble(min: 0.16, max: 0.2), pitchAngleInterval: CertnIDMobileSDK.IntervalFloat? = IntervalFloat(min: -15, max: 15), yawAngleInterval: CertnIDMobileSDK.IntervalFloat? = IntervalFloat(min: -20, max: 20), minSharpness: Swift.Double? = 0.2832, brightnessInterval: CertnIDMobileSDK.IntervalDouble? = IntervalDouble(min: 0.11, max: 0.75), contrastInterval: CertnIDMobileSDK.IntervalDouble? = IntervalDouble(min: 0.25, max: 0.8), minUniqueIntensityLevels: Swift.Double? = 0.525, maxGlassesPresenceScore: Swift.Double? = 1.0, maxMaskPresenceScore: Swift.Double? = 0.5, minMouthStatusScore: Swift.Double? = 0.5, minEyesStatusScore: Swift.Double? = 0.5, maxShadow: Swift.Double? = 0.75, maxDevicePitchAngle: Swift.Float? = 30)
+    @objc deinit
+  }
+  @objc final public let faceSizeRatioInterval: CertnIDMobileSDK.IntervalDouble
+  @objc final public let qualityAttributeThresholds: CertnIDMobileSDK.CertnIDFaceAutoCaptureConfiguration.CertnIDQualityAttributeThresholds
+  @objc final public let isDetectionLayerVisible: Swift.Bool
+  @objc final public let isTorchEnabled: Swift.Bool
+  @objc final public let cameraFacing: CertnIDMobileSDK.CertnIDCameraFacing
+  @objc final public let cameraPreviewScaleType: CertnIDMobileSDK.CertnIDCameraPreviewScaleType
+  public init(faceSizeRatioInterval: CertnIDMobileSDK.IntervalDouble = IntervalDouble(min: 0.1, max: 0.3), qualityAttributeThresholds: CertnIDMobileSDK.CertnIDFaceAutoCaptureConfiguration.CertnIDQualityAttributeThresholds = .init(), isDetectionLayerVisible: Swift.Bool = true, isTorchEnabled: Swift.Bool = false, cameraFacing: CertnIDMobileSDK.CertnIDCameraFacing = .front, cameraPreviewScaleType: CertnIDMobileSDK.CertnIDCameraPreviewScaleType = .fit)
+  @objc deinit
+}
+@objc public class CertnIDFaceAutoCaptureStyle : ObjectiveC.NSObject {
+  @objc final public let backgroundColor: UIKit.UIColor
+  @objc final public let instructionFont: UIKit.UIFont
+  @objc final public let instructionTextColor: UIKit.UIColor
+  @objc final public let instructionCandidateSelectionTextColor: UIKit.UIColor
+  @objc final public let instructionBackgroundColor: UIKit.UIColor
+  @objc final public let instructionCandidateSelectionBackgroundColor: UIKit.UIColor
+  @objc final public let placeholderColor: UIKit.UIColor
+  @objc final public let placeholderCandidateSelectionColor: UIKit.UIColor
+  @objc final public let detectionLayerColor: UIKit.UIColor
+  @objc final public let placeholderOverlayColor: UIKit.UIColor
+  @usableFromInline
+  internal static let Defaults: DotFaceCore.FaceAutoCaptureViewController.Style
+  public init(backgroundColor: UIKit.UIColor = Defaults.backgroundColor, instructionFont: UIKit.UIFont = Defaults.instructionFont, instructionTextColor: UIKit.UIColor = Defaults.instructionTextColor, instructionCandidateSelectionTextColor: UIKit.UIColor = Defaults.instructionCandidateSelectionTextColor, instructionBackgroundColor: UIKit.UIColor = Defaults.instructionBackgroundColor, instructionCandidateSelectionBackgroundColor: UIKit.UIColor = Defaults.instructionCandidateSelectionBackgroundColor, placeholderColor: UIKit.UIColor = Defaults.placeholderColor, placeholderCandidateSelectionColor: UIKit.UIColor = Defaults.placeholderCandidateSelectionColor, detectionLayerColor: UIKit.UIColor = Defaults.detectionLayerColor, placeholderOverlayColor: UIKit.UIColor = Defaults.placeholderOverlayColor)
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers public class CertnIDFaceAutoCaptureDetection : ObjectiveC.NSObject {
+  final public var image: UIKit.UIImage {
+    get
+  }
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers public class CertnIDFaceAutoCaptureResult : ObjectiveC.NSObject {
+  final public var image: UIKit.UIImage {
+    get
+  }
+  @objc final public let content: Foundation.Data
+  @objc deinit
+}
+@objc public protocol CertnIDFaceAutoCaptureViewControllerDelegate {
+  @objc optional func faceAutoCaptureViewControllerNoCameraPermission(_ viewController: CertnIDMobileSDK.CertnIDFaceAutoCaptureViewController)
+  @objc optional func faceAutoCaptureViewController(_ viewController: CertnIDMobileSDK.CertnIDFaceAutoCaptureViewController, processed detection: CertnIDMobileSDK.CertnIDFaceAutoCaptureDetection)
+  @objc optional func faceAutoCaptureViewController(_ viewController: CertnIDMobileSDK.CertnIDFaceAutoCaptureViewController, captured result: CertnIDMobileSDK.CertnIDFaceAutoCaptureResult)
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class CertnIDFaceAutoCaptureViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) final public let configuration: CertnIDMobileSDK.CertnIDFaceAutoCaptureConfiguration
+  @_Concurrency.MainActor(unsafe) final public let style: CertnIDMobileSDK.CertnIDFaceAutoCaptureStyle
+  @_Concurrency.MainActor(unsafe) public var delegate: (any CertnIDMobileSDK.CertnIDFaceAutoCaptureViewControllerDelegate)?
+  @_Concurrency.MainActor(unsafe) public init(configuration: CertnIDMobileSDK.CertnIDFaceAutoCaptureConfiguration, style: CertnIDMobileSDK.CertnIDFaceAutoCaptureStyle)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) public func start()
+  @_Concurrency.MainActor(unsafe) public func stopAsync(onStopped: @escaping () -> Swift.Void)
+  @objc deinit
+}
+extension CertnIDMobileSDK.CertnIDFaceAutoCaptureViewController : DotFaceCore.FaceAutoCaptureViewControllerDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func faceAutoCaptureViewControllerNoCameraPermission(_ viewController: DotFaceCore.FaceAutoCaptureViewController)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func faceAutoCaptureViewController(_ viewController: DotFaceCore.FaceAutoCaptureViewController, processed detection: DotFaceCore.FaceAutoCaptureDetection)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func faceAutoCaptureViewController(_ viewController: DotFaceCore.FaceAutoCaptureViewController, captured result: DotFaceCore.FaceAutoCaptureResult)
+}
+public enum CertnIDLibrary {
+  case faceFast
+  case faceBalanced
+  case document
+  @available(iOS 13, *)
+  case nfc
+  public static func == (a: CertnIDMobileSDK.CertnIDLibrary, b: CertnIDMobileSDK.CertnIDLibrary) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+final public class CertnIDSDKConfiguration {
+  final public let licenseData: Foundation.Data
+  final public let libraries: [CertnIDMobileSDK.CertnIDLibrary]
+  public init(licenseData: Foundation.Data, libraries: [CertnIDMobileSDK.CertnIDLibrary])
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class CertnIDMobileSdk {
+  public static let shared: CertnIDMobileSDK.CertnIDMobileSdk
+  public var isInitialized: Swift.Bool {
+    get
+  }
+  public var version: Swift.String {
+    get
+  }
+  public func initialize(_ configuration: CertnIDMobileSDK.CertnIDSDKConfiguration) throws
+  public func deinitialize() throws
+  @objc deinit
+}
+@available(iOS 13, *)
+@objc final public class CertnIDNfcTravelDocumentReaderConfiguration : ObjectiveC.NSObject {
+  @objc final public let authorityCertificatesUrl: Foundation.URL?
+  @objc public init(authorityCertificatesUrl: Foundation.URL? = nil)
+  @objc deinit
+}
+@available(iOS 13, *)
+@objc final public class CertnIDNfcKey : ObjectiveC.NSObject {
+  @objc final public let documentNumber: Swift.String
+  @objc final public let dateOfExpiry: Swift.String
+  @objc final public let dateOfBirth: Swift.String
+  @objc public init(documentNumber: Swift.String, dateOfExpiry: Swift.String, dateOfBirth: Swift.String) throws
+  @objc deinit
+}
+@available(iOS 13, *)
+@objc public protocol CertnIDNfcTravelDocumentReaderDelegate {
+  @objc func nfcTravelDocumentReader(_ nfcTravelDocumentReader: CertnIDMobileSDK.CertnIDNfcTravelDocumentReader, succeeded travelDocument: CertnIDMobileSDK.CertnIDTravelDocument)
+  @objc func nfcTravelDocumentReader(_ nfcTravelDocumentReader: CertnIDMobileSDK.CertnIDNfcTravelDocumentReader, failed error: Swift.String)
+  @objc func nfcTravelDocumentReaderCanceled(_ nfcTravelDocumentReader: CertnIDMobileSDK.CertnIDNfcTravelDocumentReader)
+}
+@available(iOS 13, *)
+@objc final public class CertnIDNfcTravelDocumentReader : ObjectiveC.NSObject {
+  @objc final public let configuration: CertnIDMobileSDK.CertnIDNfcTravelDocumentReaderConfiguration
+  weak final public var delegate: (any CertnIDMobileSDK.CertnIDNfcTravelDocumentReaderDelegate)?
+  @objc public init(configuration: CertnIDMobileSDK.CertnIDNfcTravelDocumentReaderConfiguration)
+  @objc final public func setDelegate(_ delegate: (any CertnIDMobileSDK.CertnIDNfcTravelDocumentReaderDelegate)?, queue: Dispatch.DispatchQueue? = .main)
+  @objc final public func read(nfcKey: CertnIDMobileSDK.CertnIDNfcKey, activeAuthenticationChallenge: Foundation.Data? = nil)
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @available(iOS 13, *)
+final public class CertnIDTravelDocument : ObjectiveC.NSObject {
+  @objc deinit
+}
+@available(iOS 13, *)
+extension CertnIDMobileSDK.CertnIDTravelDocument : Swift.Encodable {
+  final public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(iOS 13, *)
+extension CertnIDMobileSDK.CertnIDNfcTravelDocumentReader : DotNfc.NfcTravelDocumentReaderDelegate {
+  @objc final public func nfcTravelDocumentReader(_ nfcTravelDocumentReader: DotNfc.NfcTravelDocumentReader, succeeded travelDocument: DotNfc.TravelDocument)
+  @objc final public func nfcTravelDocumentReader(_ nfcTravelDocumentReader: DotNfc.NfcTravelDocumentReader, failed error: DotNfc.NfcTravelDocumentReader.Error)
+  @objc final public func nfcTravelDocumentReaderCanceled(_ nfcTravelDocumentReader: DotNfc.NfcTravelDocumentReader)
+}
+extension CertnIDMobileSDK.CertnIDValidationMode : Swift.Equatable {}
+extension CertnIDMobileSDK.CertnIDValidationMode : Swift.Hashable {}
+extension CertnIDMobileSDK.CertnIDValidationMode : Swift.RawRepresentable {}
+extension CertnIDMobileSDK.CertnIDMrzValidation : Swift.Equatable {}
+extension CertnIDMobileSDK.CertnIDMrzValidation : Swift.Hashable {}
+extension CertnIDMobileSDK.CertnIDMrzValidation : Swift.RawRepresentable {}
+extension CertnIDMobileSDK.CertnIDCameraFacing : Swift.Equatable {}
+extension CertnIDMobileSDK.CertnIDCameraFacing : Swift.Hashable {}
+extension CertnIDMobileSDK.CertnIDCameraFacing : Swift.RawRepresentable {}
+extension CertnIDMobileSDK.CertnIDCameraPreviewScaleType : Swift.Equatable {}
+extension CertnIDMobileSDK.CertnIDCameraPreviewScaleType : Swift.Hashable {}
+extension CertnIDMobileSDK.CertnIDCameraPreviewScaleType : Swift.RawRepresentable {}
+extension CertnIDMobileSDK.CertnIDPlaceholderType : Swift.Equatable {}
+extension CertnIDMobileSDK.CertnIDPlaceholderType : Swift.Hashable {}
+extension CertnIDMobileSDK.CertnIDPlaceholderType : Swift.RawRepresentable {}
+extension CertnIDMobileSDK.CertnIDTravelDocumentType : Swift.Equatable {}
+extension CertnIDMobileSDK.CertnIDTravelDocumentType : Swift.Hashable {}
+extension CertnIDMobileSDK.CertnIDTravelDocumentType : Swift.RawRepresentable {}
+extension CertnIDMobileSDK.CertnIDLibrary : Swift.Equatable {}
+extension CertnIDMobileSDK.CertnIDLibrary : Swift.Hashable {}

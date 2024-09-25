@@ -674,3 +674,7 @@ For detailed documentation and support, visit the [TrustmaticMobileSDK Documenta
 ## License
 
 CertnIDMobileSDK is available under a commercial license. For more information, please refer to the official website or contact the sales team.
+
+## Version history
+
+- 0.0.4: 25.09.2024 Initial version
