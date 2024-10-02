@@ -1,0 +1,290 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DotDocumentCommons
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+@_exported import DotDocumentCommons
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@objc(DOTTravelDocumentType) public enum TravelDocumentType : Swift.Int, Swift.CaseIterable, Swift.CustomStringConvertible {
+  case td1
+  case td2
+  case td3
+  public var numberOfLines: Swift.Int {
+    get
+  }
+  public var lineLength: Swift.Int {
+    get
+  }
+  public var scale: Swift.Double {
+    get
+  }
+  public var widthToHeightRatio: Swift.Double {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [DotDocumentCommons.TravelDocumentType]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [DotDocumentCommons.TravelDocumentType] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTTravelDocumentTypeWrapper) final public class TravelDocumentTypeWrapper : ObjectiveC.NSObject {
+  @objc final public let travelDocumentType: DotDocumentCommons.TravelDocumentType
+  @objc public init(travelDocumentType: DotDocumentCommons.TravelDocumentType)
+  @objc deinit
+}
+public enum _TravelDocumentTypeDescriptor : Swift.Int, Swift.CaseIterable, Swift.CustomStringConvertible {
+  case td1
+  case td2
+  case td3
+  case universal
+  public var scale: Swift.Double {
+    get
+  }
+  public var widthToHeightRatio: Swift.Double {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [DotDocumentCommons._TravelDocumentTypeDescriptor]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [DotDocumentCommons._TravelDocumentTypeDescriptor] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+final public class _TravelDocumentTypeResolver {
+  public enum _ResolveError : Swift.Error {
+    case tdTypeNotMatching
+    public static func == (a: DotDocumentCommons._TravelDocumentTypeResolver._ResolveError, b: DotDocumentCommons._TravelDocumentTypeResolver._ResolveError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public struct _Result {
+    public let tdType: DotDocumentCommons.TravelDocumentType
+    public let lines: [Swift.String]
+  }
+  public init()
+  final public func resolve(mrz: Swift.String) throws -> DotDocumentCommons._TravelDocumentTypeResolver._Result
+  final public func resolve(mrzLines: [Swift.String]) throws -> DotDocumentCommons._TravelDocumentTypeResolver._Result
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTTd2MachineReadableZone) final public class Td2MachineReadableZone : ObjectiveC.NSObject {
+  @objc final public let documentCode: DotDocumentCommons.MrzElement
+  @objc final public let issuingStateOrOrganization: DotDocumentCommons.MrzElement
+  @objc final public let name: DotDocumentCommons.MrzNameElement
+  @objc final public let documentNumber: DotDocumentCommons.MrzElementWithCheckDigit
+  @objc final public let nationality: DotDocumentCommons.MrzElement
+  @objc final public let dateOfBirth: DotDocumentCommons.MrzDateElementWithCheckDigit
+  @objc final public let sex: DotDocumentCommons.MrzElement
+  @objc final public let dateOfExpiry: DotDocumentCommons.MrzDateElementWithCheckDigit
+  @objc final public let optionalData: DotDocumentCommons.MrzElement?
+  @objc final public let compositeCheckDigit: DotDocumentCommons.MrzCheckDigit
+  @objc public init(documentCode: DotDocumentCommons.MrzElement, issuingStateOrOrganization: DotDocumentCommons.MrzElement, name: DotDocumentCommons.MrzNameElement, documentNumber: DotDocumentCommons.MrzElementWithCheckDigit, nationality: DotDocumentCommons.MrzElement, dateOfBirth: DotDocumentCommons.MrzDateElementWithCheckDigit, sex: DotDocumentCommons.MrzElement, dateOfExpiry: DotDocumentCommons.MrzDateElementWithCheckDigit, optionalData: DotDocumentCommons.MrzElement?, compositeCheckDigit: DotDocumentCommons.MrzCheckDigit)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+extension DotDocumentCommons.Td2MachineReadableZone {
+  final public var hasAllChecksumsValid: Swift.Bool {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTMrzCheckDigit) public class MrzCheckDigit : ObjectiveC.NSObject {
+  @objc final public let value: Swift.String
+  @objc final public let isValid: Swift.Bool
+  @objc public init(value: Swift.String, isValid: Swift.Bool)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+public struct _MrzResolver {
+  public static func resolveChecksum(for value: Swift.String) throws -> Swift.Int
+  public static func resolveValidDocumentNumber(_ documentNumber: Swift.String) -> Swift.String
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTMrzStringPosition) final public class MrzStringPosition : ObjectiveC.NSObject {
+  @objc final public let lineIndex: Swift.Int
+  @objc final public let startIndex: Swift.Int
+  @objc final public let endIndex: Swift.Int
+  @objc public init(lineIndex: Swift.Int, startIndex: Swift.Int, endIndex: Swift.Int)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class _MrzParser {
+  convenience public init()
+  final public func parse(lines: [Swift.String], travelDocumentType: DotDocumentCommons.TravelDocumentType) throws -> DotDocumentCommons.MachineReadableZone
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTTd1MachineReadableZone) final public class Td1MachineReadableZone : ObjectiveC.NSObject {
+  @objc final public let documentCode: DotDocumentCommons.MrzElement
+  @objc final public let issuingStateOrOrganization: DotDocumentCommons.MrzElement
+  @objc final public let documentNumber: DotDocumentCommons.MrzElementWithCheckDigit
+  @objc final public let dateOfBirth: DotDocumentCommons.MrzDateElementWithCheckDigit
+  @objc final public let sex: DotDocumentCommons.MrzElement
+  @objc final public let dateOfExpiry: DotDocumentCommons.MrzDateElementWithCheckDigit
+  @objc final public let nationality: DotDocumentCommons.MrzElement
+  @objc final public let name: DotDocumentCommons.MrzNameElement
+  @objc final public let optionalData: [DotDocumentCommons.MrzElement]
+  @objc final public let compositeCheckDigit: DotDocumentCommons.MrzCheckDigit
+  @objc public init(documentCode: DotDocumentCommons.MrzElement, issuingStateOrOrganization: DotDocumentCommons.MrzElement, documentNumber: DotDocumentCommons.MrzElementWithCheckDigit, dateOfBirth: DotDocumentCommons.MrzDateElementWithCheckDigit, sex: DotDocumentCommons.MrzElement, dateOfExpiry: DotDocumentCommons.MrzDateElementWithCheckDigit, nationality: DotDocumentCommons.MrzElement, name: DotDocumentCommons.MrzNameElement, optionalData: [DotDocumentCommons.MrzElement], compositeCheckDigit: DotDocumentCommons.MrzCheckDigit)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+extension DotDocumentCommons.Td1MachineReadableZone {
+  final public var hasAllChecksumsValid: Swift.Bool {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTMachineReadableZone) final public class MachineReadableZone : ObjectiveC.NSObject {
+  @objc final public let lines: [Swift.String]
+  @objc final public let td1: DotDocumentCommons.Td1MachineReadableZone?
+  @objc final public let td2: DotDocumentCommons.Td2MachineReadableZone?
+  @objc final public let td3: DotDocumentCommons.Td3MachineReadableZone?
+  @objc convenience public init(lines: [Swift.String], td1: DotDocumentCommons.Td1MachineReadableZone)
+  @objc convenience public init(lines: [Swift.String], td2: DotDocumentCommons.Td2MachineReadableZone)
+  @objc convenience public init(lines: [Swift.String], td3: DotDocumentCommons.Td3MachineReadableZone)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@objc(DOTMrzDate) final public class MrzDate : ObjectiveC.NSObject {
+  @objc final public let year: Swift.Int
+  @objc final public let month: Swift.Int
+  @objc final public let day: Swift.Int
+  @objc public init(year: Swift.Int, month: Swift.Int, day: Swift.Int)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTMrzElement) public class MrzElement : ObjectiveC.NSObject {
+  @objc final public let value: Swift.String
+  @objc final public let positions: [DotDocumentCommons.MrzStringPosition]
+  @objc public init(value: Swift.String, positions: [DotDocumentCommons.MrzStringPosition])
+  @objc convenience public init(value: Swift.String, position: DotDocumentCommons.MrzStringPosition)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@objc(DOTMrzElementWithCheckDigit) public class MrzElementWithCheckDigit : DotDocumentCommons.MrzElement {
+  @objc final public let checkDigit: DotDocumentCommons.MrzCheckDigit
+  @objc public init(value: Swift.String, positions: [DotDocumentCommons.MrzStringPosition], checkDigit: DotDocumentCommons.MrzCheckDigit)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@objc(DOTMrzDateElementWithCheckDigit) final public class MrzDateElementWithCheckDigit : DotDocumentCommons.MrzElementWithCheckDigit {
+  @objc final public let date: DotDocumentCommons.MrzDate
+  @objc public init(value: Swift.String, positions: [DotDocumentCommons.MrzStringPosition], checkDigit: DotDocumentCommons.MrzCheckDigit, date: DotDocumentCommons.MrzDate)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTMrzNameElement) final public class MrzNameElement : ObjectiveC.NSObject {
+  @objc final public let primaryIdentifier: DotDocumentCommons.MrzElement?
+  @objc final public let secondaryIdentifier: DotDocumentCommons.MrzElement?
+  @objc public init(primaryIdentifier: DotDocumentCommons.MrzElement?, secondaryIdentifier: DotDocumentCommons.MrzElement?)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(DOTTd3MachineReadableZone) final public class Td3MachineReadableZone : ObjectiveC.NSObject {
+  @objc final public let documentCode: DotDocumentCommons.MrzElement
+  @objc final public let issuingStateOrOrganization: DotDocumentCommons.MrzElement
+  @objc final public let name: DotDocumentCommons.MrzNameElement
+  @objc final public let passportNumber: DotDocumentCommons.MrzElementWithCheckDigit
+  @objc final public let nationality: DotDocumentCommons.MrzElement
+  @objc final public let dateOfBirth: DotDocumentCommons.MrzDateElementWithCheckDigit
+  @objc final public let sex: DotDocumentCommons.MrzElement
+  @objc final public let dateOfExpiry: DotDocumentCommons.MrzDateElementWithCheckDigit
+  @objc final public let personalNumberOrOtherOptionalData: DotDocumentCommons.MrzElementWithCheckDigit
+  @objc final public let compositeCheckDigit: DotDocumentCommons.MrzCheckDigit
+  @objc public init(documentCode: DotDocumentCommons.MrzElement, issuingStateOrOrganization: DotDocumentCommons.MrzElement, name: DotDocumentCommons.MrzNameElement, passportNumber: DotDocumentCommons.MrzElementWithCheckDigit, nationality: DotDocumentCommons.MrzElement, dateOfBirth: DotDocumentCommons.MrzDateElementWithCheckDigit, sex: DotDocumentCommons.MrzElement, dateOfExpiry: DotDocumentCommons.MrzDateElementWithCheckDigit, personalNumberOrOtherOptionalData: DotDocumentCommons.MrzElementWithCheckDigit, compositeCheckDigit: DotDocumentCommons.MrzCheckDigit)
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+extension DotDocumentCommons.Td3MachineReadableZone {
+  final public var hasAllChecksumsValid: Swift.Bool {
+    get
+  }
+}
+extension DotDocumentCommons.TravelDocumentType : Swift.Equatable {}
+extension DotDocumentCommons.TravelDocumentType : Swift.Hashable {}
+extension DotDocumentCommons.TravelDocumentType : Swift.RawRepresentable {}
+extension DotDocumentCommons._TravelDocumentTypeDescriptor : Swift.Equatable {}
+extension DotDocumentCommons._TravelDocumentTypeDescriptor : Swift.Hashable {}
+extension DotDocumentCommons._TravelDocumentTypeDescriptor : Swift.RawRepresentable {}
+extension DotDocumentCommons._TravelDocumentTypeResolver._ResolveError : Swift.Equatable {}
+extension DotDocumentCommons._TravelDocumentTypeResolver._ResolveError : Swift.Hashable {}

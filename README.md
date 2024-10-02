@@ -665,7 +665,16 @@ extension NfcViewController: CertnIDNfcTravelDocumentReaderDelegate {
 
 ### CertnIDTravelDocument
 
-`CertnIDTravelDocument` is an Encodable object which you can encode and send the data to server for processing. It has no public available parameters.
+`CertnIDTravelDocument` is an Encodable object which you can encode and send the data to server for processing. It has following available parameters:
+
+```swift
+public let ldsVersion: String
+public let accessControlProtocolUsed: CertnIDAccessControlProtocol?
+public let authenticationStatus: CertnIDAuthenticationStatus
+public let faceImageBase: String?
+public let machineReadableZone: CertnIDMachineReadableZone
+public let dataGroups: [CertnIDDataGroup]?
+```
 
 ## Support and Documentation
 
@@ -677,4 +686,7 @@ CertnIDMobileSDK is available under a commercial license. For more information, 
 
 ## Version history
 
-- 0.0.4: 25.09.2024 Initial version
+- 0.0.5: 02.10.2024
+* New NFC data structure
+- 0.0.4: 25.09.2024 
+* Initial version
