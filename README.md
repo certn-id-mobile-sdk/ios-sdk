@@ -686,7 +686,12 @@ CertnIDMobileSDK is available under a commercial license. For more information, 
 
 ## Version history
 
+- 0.0.6: 03.10.2024
+* Removed null values from DataGroup array.
+* Changed AuthenticationStatus to SCREAMING_SNAKE_CASE
+
 - 0.0.5: 02.10.2024
 * New NFC data structure
+
 - 0.0.4: 25.09.2024 
 * Initial version

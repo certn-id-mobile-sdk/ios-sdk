@@ -1,0 +1,6 @@
+framework module CertnIDMobileSDK {
+  umbrella header "CertnIDMobileSDK.h"
+  export *
+
+  module * { export * }
+}
