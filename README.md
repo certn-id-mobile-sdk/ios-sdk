@@ -86,6 +86,28 @@ String resources can be overridden in your application and alternative strings f
 1. Add your own `Localizable.strings` file to your project using standard iOS localization mechanism. To change a specific text override corresponding key in this `Localizable.strings` file.
 2. Set the localization bundle to the bundle of your application (preferably during the application launch in your `AppDelegate`).
 
+Use this setup if you want to use standard iOS localization mechanism, which means your iOS application uses system defined locale.
+
+```swift
+import CertnIDMobileSDK
+
+CertnIDMobileSdk.bundle = .main
+
+```
+### Custom Localization
+
+You can override standard iOS localization mechanism by providing your own translation dictionary and setting the `CertnIDMobileSdk.useLocalizationDictionary` flag to `true`. Use this setup if you do not want to use standard iOS localization mechanism, which means your iOS application ignores system defined locale and uses its own custom locale.
+
+```swift
+import CertnIDMobileSDK
+
+guard let localizableUrl = Bundle.main.url(forResource: "Localizable", withExtension: "strings", subdirectory: nil, localization: "en"),
+      let dictionary = NSDictionary(contentsOf: localizableUrl) as? [String: String]
+else { return }
+CertnIDMobileSdk.useLocalizationDictionary = true
+CertnIDMobileSdk.localizationDictionary = dictionary
+```
+
 ### Localizable.strings
 
 ```swift
@@ -685,6 +707,9 @@ For detailed documentation and support, visit the [TrustmaticMobileSDK Documenta
 CertnIDMobileSDK is available under a commercial license. For more information, please refer to the official website or contact the sales team.
 
 ## Version history
+
+- 0.0.7: 08.10.2024
+* Localization support
 
 - 0.0.6: 03.10.2024
 * Removed null values from DataGroup array.
